@@ -32,17 +32,38 @@
         >
             <v-list>
                 <v-list-item
-                    v-for="(item, i) in accountItems"
-                    :key="i"
-                    :to="item.to"
+                    v-if="!$auth.loggedIn"
+                    @click="$auth.login()"
+                >
+                    <v-list-item-action>
+                        <v-icon>{{ 'mdi-account' }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>logowanie/rejestracja</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    v-if="$auth.loggedIn"
+                    to="ustawienia"
                     router
                     exact
                 >
                     <v-list-item-action>
-                        <v-icon>{{ item.icon }}</v-icon>
+                        <v-icon>{{ 'mdi-account-cog' }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title v-text="item.title"/>
+                        <v-list-item-title>profil</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    v-if="$auth.loggedIn"
+                    @click="$auth.logout()"
+                >
+                    <v-list-item-action>
+                        <v-icon>{{ 'mdi-exit-run' }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>wyloguj</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -95,14 +116,6 @@
                         icon: 'mdi-help',
                         title: 'Pomoc',
                         to: '/pomoc'
-                    }
-                ],
-                accountItems: [
-                    {
-                        icon: 'mdi-account', title: 'Logowanie', to: '/logowanie'
-                    },
-                    {
-                        icon: 'mdi-account-plus', title: 'Rejestracja', to: '/rejestracja'
                     }
                 ],
                 miniVariant: false,
