@@ -93,6 +93,12 @@ module.exports = {
         ** You can extend webpack config here
         */
         extend (config, ctx) {
+            config.node = {
+                fs: 'empty'
+            }
         }
+    },
+    env: {
+        AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
     }
 };

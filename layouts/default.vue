@@ -44,7 +44,7 @@
                 </v-list-item>
                 <v-list-item
                     v-if="$auth.loggedIn"
-                    to="ustawienia"
+                    to="/ustawienia"
                     router
                     exact
                 >
@@ -57,7 +57,7 @@
                 </v-list-item>
                 <v-list-item
                     v-if="$auth.loggedIn"
-                    @click="$auth.logout()"
+                    to="/wylogowanie"
                 >
                     <v-list-item-action>
                         <v-icon>{{ 'mdi-exit-run' }}</v-icon>
