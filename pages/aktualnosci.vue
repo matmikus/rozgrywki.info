@@ -1,7 +1,7 @@
 <template>
     <v-layout>
     <v-flex class="text-center">
-      rejestracja
+      aktualności
     </v-flex>
   </v-layout>
 </template>

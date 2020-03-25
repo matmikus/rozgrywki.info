@@ -1,7 +1,7 @@
 <template>
     <v-layout>
         <v-flex class="text-center">
-            rozgrywki
+            kontakt
         </v-flex>
     </v-layout>
 </template>

@@ -14,8 +14,10 @@
                     Fajnie, że tu jesteś!
                 </v-card-title>
                 <v-card-text>
-                    <p>rozgrywki.info to całkowicie darmowa aplikacja przeglądarkowa do prowadzenia rozgrywek
-                        sportowych i publikowania wyników w najprostszy możliwy sposób. Kibice i sportowcy otrzymują szansę śledzenia na bieżąco wyników i stanu zawodów.</p>
+                    <p>rozgrywki.info to całkowicie darmowa aplikacja przeglądarkowa do prowadzenia
+                        rozgrywek sportowych i publikowania wyników w najprostszy możliwy sposób.
+                        Kibice i sportowcy otrzymują szansę śledzenia na bieżąco wyników i stanu
+                        zawodów.</p>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
