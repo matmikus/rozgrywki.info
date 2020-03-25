@@ -1,13 +1,32 @@
 <template>
     <v-layout>
-        <v-flex class="text-center">
-            witaj na swoim profilu {{ $auth.user ? $auth.user.name : '' }}
+        <universal-loader v-if="!loaded" />
+        <v-flex v-if="loaded" class="text-center">
+            witaj na swoim profilu {{ name }}, masz id {{ id }}
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+    import helpers from '../client/helpers';
+    import UniversalLoader from '../components/UniversalLoader';
+
     export default {
-        middleware: ['auth']
+        middleware: ['auth'],
+        data () {
+            return {
+                loaded: false,
+                id: '',
+                name: ''
+            }
+        },
+        mounted () {
+            this.id = helpers.getIdFromAuth0UserSub(this.$auth.user.sub);
+            this.name = this.$auth.user ? this.$auth.user.name : '';
+            this.loaded = true;
+        },
+        components: {
+            UniversalLoader
+        }
     }
 </script>

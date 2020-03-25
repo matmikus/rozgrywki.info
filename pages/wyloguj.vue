@@ -1,12 +1,14 @@
 <template>
     <v-layout>
         <v-flex class="text-center">
-            Trwa wylogowanie...
+            <universal-loader />
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+    import UniversalLoader from '../components/UniversalLoader';
+
     export default {
         mounted () {
             this.$auth.logout();
@@ -15,6 +17,9 @@
             const fakeButton = document.createElement('a');
             fakeButton.href = `https://${process.env.AUTH0_DOMAIN}/v2/logout?returnTo=${window.location.origin}`;
             fakeButton.click();
+        },
+        components: {
+            UniversalLoader
         }
     }
 </script>
