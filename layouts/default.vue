@@ -39,7 +39,42 @@
                         <v-icon>{{ 'mdi-account' }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>logowanie/rejestracja</v-list-item-title>
+                        <v-list-item-title>Logowanie</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    v-if="!$auth.loggedIn"
+                    @click="$auth.login()"
+                >
+                    <v-list-item-action>
+                        <v-icon>{{ 'mdi-account-plus' }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Nowe konto</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    v-if="$auth.loggedIn"
+                    to="/ustawienia"
+                    router
+                    exact
+                >
+                    <v-list-item-action>
+                        <v-icon>{{ 'mdi-view-list' }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Moje rozgrywki</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item
+                    v-if="$auth.loggedIn"
+                    to="/wyloguj"
+                >
+                    <v-list-item-action>
+                        <v-icon>{{ 'mdi-star' }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Obserwowane</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item
@@ -52,18 +87,18 @@
                         <v-icon>{{ 'mdi-account-cog' }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>profil</v-list-item-title>
+                        <v-list-item-title>Ustawienia</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item
                     v-if="$auth.loggedIn"
-                    to="/wylogowanie"
+                    to="/wyloguj"
                 >
                     <v-list-item-action>
                         <v-icon>{{ 'mdi-exit-run' }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>wyloguj</v-list-item-title>
+                        <v-list-item-title>Wyloguj</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -113,9 +148,19 @@
                         to: '/rozgrywki'
                     },
                     {
+                        icon: 'mdi-text-subject',
+                        title: 'Aktualności',
+                        to: '/aktualnosci'
+                    },
+                    {
                         icon: 'mdi-help',
                         title: 'Pomoc',
                         to: '/pomoc'
+                    },
+                    {
+                        icon: 'mdi-email',
+                        title: 'Kontakt',
+                        to: '/kontakt'
                     }
                 ],
                 miniVariant: false,
