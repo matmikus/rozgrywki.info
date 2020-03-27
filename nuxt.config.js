@@ -12,6 +12,7 @@ module.exports = {
         meta: [
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
             {
                 hid: 'description',
                 name: 'description',
@@ -48,7 +49,8 @@ module.exports = {
         // axios is required by @nuxtjs/auth
         '@nuxtjs/axios',
         // https://auth.nuxtjs.org
-        '@nuxtjs/auth'
+        '@nuxtjs/auth',
+        '@nuxtjs/apollo'
     ],
     auth: {
         redirect: {
@@ -61,6 +63,13 @@ module.exports = {
             auth0: {
                 domain: process.env.AUTH0_DOMAIN,
                 client_id: process.env.AUTH0_CLIENT_ID
+            }
+        }
+    },
+    apollo: {
+        clientConfigs: {
+            default: {
+                httpEndpoint: process.env.GRAPHQL_ENDPOINT
             }
         }
     },
@@ -100,5 +109,8 @@ module.exports = {
     },
     env: {
         AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
-    }
+    },
+    serverMiddleware: [
+        { path: '/api', handler: '~/api/index.js' }
+    ]
 };

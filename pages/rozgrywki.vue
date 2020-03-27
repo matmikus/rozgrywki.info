@@ -1,33 +1,43 @@
 <template>
     <v-layout>
-        <v-flex class="text-center">
-            rozgrywki
+        <universal-loader v-if="!loaded" />
+        <v-flex v-if="loaded" class="text-center">
+            <v-data-table
+                :headers="headers"
+                :items="competitions"
+                :items-per-page="5"
+                class="text-left"
+            ></v-data-table>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
-    import { ApolloClient, HttpLink, InMemoryCache, gql } from "apollo-boost";
+    import UniversalLoader from '../components/UniversalLoader';
+    import { gql } from "apollo-boost";
 
     export default {
-        mounted () {
-            // GRAPHQL ENDPOINT TEST
-            const GET_COMPETITIONS = gql`query { competitions { name, id } }`;
-
-            const httpLink = new HttpLink({
-                uri: "https://rozgrywki-graphql-postgres-dev.herokuapp.com/v1/graphql"
-            });
-
-            const client = new ApolloClient({
-                link: httpLink,
-                cache: new InMemoryCache()
-            });
-
-            console.time('czas trwania');
-            client.query({
-                query: GET_COMPETITIONS
-            })
-            .then(result => {console.log(result); console.timeEnd('czas trwania');;});
+        watch: {
+            competitions: function () {
+                if (this.competitions !== undefined) {
+                    this.loaded = true;
+                }
+            }
+        },
+        data: function () {
+            return {
+                loaded: false,
+                headers: [
+                    { text: 'ID', value: 'id' },
+                    { text: 'Nazwa rozgrywek', value: 'name' }
+                ]
+            }
+        },
+        apollo: {
+            competitions: gql`query { competitions { name, id } }`,
+        },
+        components: {
+            UniversalLoader
         }
     }
 </script>
