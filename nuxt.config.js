@@ -52,6 +52,9 @@ module.exports = {
         '@nuxtjs/auth',
         '@nuxtjs/apollo'
     ],
+    axios: {
+        retry: { retries: 3 }
+    },
     auth: {
         redirect: {
             login: '/',

@@ -1,10 +1,14 @@
 const { Router } = require('express');
-const cors = require('cors');
 const express = require('express');
 const app = express();
 
-app.get('/competitions', cors(), function (req, res, next) {
-    res.json({ competitions: [{ name: 'test1', id: 1 }, { name: 'test2', id: 2 }, { name: 'test3', id: 3 }] });
+app.get('/competitions', function (req, res, next) {
+    res.json({
+        competitions: [{ name: 'test1', id: 1 }, { name: 'test2', id: 2 }, {
+            name: 'test3',
+            id: 3
+        }]
+    });
 });
 
 app.get('/competitions/:id', function (req, res, next) {

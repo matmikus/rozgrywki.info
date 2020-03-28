@@ -30,16 +30,18 @@
                     { text: 'ID', value: 'id' },
                     { text: 'Nazwa rozgrywek', value: 'name' }
                 ],
-                competitions: []
+                competitions: undefined
             }
         },
         components: {
             UniversalLoader
         },
-        mounted () {
-            this.$axios
+        created () {
+            if (!this.competitions) {
+                this.$axios
                 .$get('/api/competitions')
-                .then(response => (this.competitions = response.competitions));
+                .then(response => { this.competitions = response.competitions });
+            }
         }
     }
 </script>
