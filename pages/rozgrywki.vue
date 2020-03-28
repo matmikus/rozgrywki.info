@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <universal-loader v-if="!loaded" />
+        <universal-loader v-if="!loaded"/>
         <v-flex v-if="loaded" class="text-center">
             <v-data-table
                 :headers="headers"
@@ -14,7 +14,6 @@
 
 <script>
     import UniversalLoader from '../components/UniversalLoader';
-    import { gql } from "apollo-boost";
 
     export default {
         watch: {
@@ -24,20 +23,23 @@
                 }
             }
         },
-        data: function () {
+        data () {
             return {
                 loaded: false,
                 headers: [
                     { text: 'ID', value: 'id' },
                     { text: 'Nazwa rozgrywek', value: 'name' }
-                ]
+                ],
+                competitions: []
             }
-        },
-        apollo: {
-            competitions: gql`query { competitions { name, id } }`,
         },
         components: {
             UniversalLoader
+        },
+        mounted () {
+            this.$axios
+                .$get('/api/competitions')
+                .then(response => (this.competitions = response.competitions));
         }
     }
 </script>
