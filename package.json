@@ -25,9 +25,9 @@
     "express-jwt": "^5.3.1",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
-    "heroku-ssl-redirect": "0.0.4",
     "jwks-rsa": "^1.7.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "redirect-ssl": "^1.4.1"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",

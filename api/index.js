@@ -12,18 +12,20 @@ app.get('/competitions', function (req, res, next) {
     });
 });
 
-// const checkJwt = jwt({
-//     secret: jwksRsa.expressJwtSecret({
-//         cache: true,
-//         rateLimit: true,
-//         jwksRequestsPerMinute: 5,
-//         jwksUri: `https://<AUTH0_DOMAIN>/.well-known/jwks.json`
-//     }),
-//     // Validate the audience and the issuer.
-//     audience: '<API_IDENTIFIER>',
-//     issuer: `https://<AUTH0_DOMAIN>/`,
-//     algorithms: ['RS256']
-// });
+const checkJwt = jwt({
+    secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: `https://<AUTH0_DOMAIN>/.well-known/jwks.json`
+    }),
+    // Validate the audience and the issuer.
+    audience: '<API_IDENTIFIER>',
+    issuer: `https://<AUTH0_DOMAIN>/`,
+    algorithms: ['RS256']
+});
+
+app.use(checkJwt);
 
 app.get('/competitions/:id', function (req, res, next) {
     const id = parseInt(req.params.id)

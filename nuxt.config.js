@@ -114,6 +114,7 @@ module.exports = {
         AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
     },
     serverMiddleware: [
+        'redirect-ssl',
         { path: '/api', handler: '~/api/index.js' }
     ]
 };
