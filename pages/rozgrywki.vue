@@ -30,7 +30,8 @@
                     { text: 'ID', value: 'id' },
                     { text: 'Nazwa rozgrywek', value: 'name' }
                 ],
-                competitions: undefined
+                competitions: undefined,
+                testData: undefined
             }
         },
         components: {
@@ -41,6 +42,13 @@
                 this.$axios
                 .$get('/api/competitions')
                 .then(response => { this.competitions = response.competitions });
+            }
+
+            if (!this.competitions) {
+                this.$axios
+                .$get('/api/competitions/1')
+                .then(() => {console.log('zaladowano z autoryzowanego api')})
+                .catch(() => {console.log('blad ladowania z api')});
             }
         }
     }
