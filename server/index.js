@@ -1,5 +1,5 @@
 const express = require('express')
-const secure = require('express-force-https');
+const sslRedirect = require('heroku-ssl-redirect');
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
@@ -22,7 +22,7 @@ async function start () {
     }
     
     // Force change req to https
-    app.use(secure);
+    app.use(sslRedirect());
     // Give nuxt middleware to express
     app.use(nuxt.render)
     
