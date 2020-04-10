@@ -46,14 +46,12 @@ module.exports = {
     ** Nuxt.js modules
     */
     modules: [
-        // axios is required by @nuxtjs/auth
         '@nuxtjs/axios',
-        // https://auth.nuxtjs.org
         '@nuxtjs/auth',
         '@nuxtjs/apollo'
     ],
     axios: {
-        // retry: { retries: 3 }
+        retry: { retries: 3 }
     },
     auth: {
         redirect: {
@@ -76,7 +74,8 @@ module.exports = {
     apollo: {
         clientConfigs: {
             default: {
-                httpEndpoint: process.env.GRAPHQL_ENDPOINT
+                httpEndpoint: process.env.GRAPHQL_ENDPOINT,
+                // wsEndpoint: 'ws://localhost:4000', // TODO
             }
         }
     },
@@ -119,6 +118,7 @@ module.exports = {
     },
     serverMiddleware: [
         'redirect-ssl',
-        { path: '/api', handler: '~/api/index.js' }
+        { path: '/api', handler: '~/api/public.js' },
+        { path: '/protected-api', handler: '~/api/protected.js' }
     ]
 };
