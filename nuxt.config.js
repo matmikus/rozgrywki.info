@@ -53,7 +53,7 @@ module.exports = {
         '@nuxtjs/apollo'
     ],
     axios: {
-        retry: { retries: 3 }
+        // retry: { retries: 3 }
     },
     auth: {
         redirect: {
@@ -65,9 +65,13 @@ module.exports = {
             local: false,
             auth0: {
                 domain: process.env.AUTH0_DOMAIN,
-                client_id: process.env.AUTH0_CLIENT_ID
-            }
-        }
+                client_id: process.env.AUTH0_CLIENT_ID,
+                audience: process.env.AUTH0_AUDIANCE
+            },
+            tokenRequired: true,
+            tokenType: 'Bearer'
+        },
+        
     },
     apollo: {
         clientConfigs: {

@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
-const jwt = require('express-jwt');
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const jwt = require('express-jwt')
+const jsonwebtoken = require('jsonwebtoken')
 const jwksRsa = require('jwks-rsa');
+
 
 app.get('/competitions', function (req, res, next) {
     res.json({
@@ -14,14 +18,10 @@ app.get('/competitions', function (req, res, next) {
 
 const checkJwt = jwt({
     secret: jwksRsa.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
         jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
     }),
-    // Validate the audience and the issuer.
     audience: process.env.AUTH0_AUDIANCE,
-    issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+    // issuer: `https://${process.env.AUTH0_DOMAIN}`,
     algorithms: ['RS256']
 });
 
