@@ -1,0 +1,12 @@
+query ($route: String) {
+      competitions(where: {routeName: {_eq: $route}}) {
+            id
+            name
+            routeName
+            description
+            dateRange
+            type
+            updatedAt
+            user
+      }
+}

@@ -1,0 +1,12 @@
+query {
+    competitions {
+        id
+        name
+        routeName
+        description
+        dateRange
+        type
+        updatedAt
+        user
+    }
+}

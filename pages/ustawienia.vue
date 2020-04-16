@@ -10,6 +10,7 @@
 <script>
     import helpers from '../client/helpers';
     import UniversalLoader from '../components/UniversalLoader';
+    import userSettings from '../api/graphql-queries/fetchUserSettings.gql';
 
     export default {
         middleware: ['auth'],
@@ -27,6 +28,19 @@
         },
         components: {
             UniversalLoader
+        },
+        apollo: {
+            settings: {
+                prefetch: true,
+                query: userSettings
+            }
+        },
+        watch: {
+            userSettings: function () {
+                if (this.userSettings !== undefined) {
+                    console.log(this.userSettings)
+                }
+            }
         }
     }
 </script>

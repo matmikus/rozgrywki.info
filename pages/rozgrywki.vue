@@ -7,18 +7,28 @@
                 :items="competitions"
                 :items-per-page="5"
                 class="text-left"
-            ></v-data-table>
+                @click:row="handleClick"
+            >
+            </v-data-table>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
     import UniversalLoader from '../components/UniversalLoader';
+    import competitions from '../api/graphql-queries/fetchCompetitions.gql';
 
     export default {
+        apollo: {
+            competitions: {
+                prefetch: true,
+                query: competitions
+            }
+        },
         watch: {
             competitions: function () {
                 if (this.competitions !== undefined) {
+                    this.makeCompetitionsURLs(this.competitions);
                     this.loaded = true;
                 }
             }
@@ -27,28 +37,24 @@
             return {
                 loaded: false,
                 headers: [
-                    { text: 'ID', value: 'id' },
-                    { text: 'Nazwa rozgrywek', value: 'name' }
-                ],
-                competitions: undefined,
-                testData: undefined
+                    { text: 'Nazwa rozgrywek', value: 'name' },
+                    { text: 'Link', value: 'link' }
+                ]
             }
         },
         components: {
             UniversalLoader
         },
-        created () {
-            if (!this.competitions) {
-                this.$axios
-                .$get('/api/competitions')
-                .then(response => { this.competitions = response.competitions });
-            }
-
-            if (!this.competitions) {
-                this.$axios
-                .$get('/api/competitions/1')
-                .then(() => {console.log('zaladowano z autoryzowanego api')})
-                .catch(() => {console.log('blad ladowania z api')});
+        methods: {
+            makeCompetitionsURLs (competitions) {
+                competitions.forEach(el => {
+                    el.link = `www.rozgrywki.info/${el.routeName}`;
+                });
+            },
+            handleClick (item) {
+                this.$router.push({
+                    path: item.routeName
+                });
             }
         }
     }

@@ -76,6 +76,9 @@ module.exports = {
             default: {
                 httpEndpoint: process.env.GRAPHQL_ENDPOINT,
                 // wsEndpoint: 'ws://localhost:4000', // TODO
+                httpLinkOptions: {
+                    credentials: 'same-origin'
+                }
             }
         }
     },

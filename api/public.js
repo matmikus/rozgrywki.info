@@ -15,4 +15,8 @@ app.get('/competitions/:id', function (req, res) {
     res.send(`rozgrywki o id ${id}`);
 });
 
+app.get('/test', function (req, res) {
+    res.send('hello from public endpoint');
+});
+
 module.exports = app;
