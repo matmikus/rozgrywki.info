@@ -65,22 +65,20 @@ module.exports = {
                 domain: process.env.AUTH0_DOMAIN,
                 client_id: process.env.AUTH0_CLIENT_ID,
                 audience: process.env.AUTH0_AUDIANCE
-            },
-            tokenRequired: true,
-            tokenType: 'Bearer'
-        },
-        
+            }
+        }
     },
     apollo: {
         clientConfigs: {
             default: {
                 httpEndpoint: process.env.GRAPHQL_ENDPOINT,
-                // wsEndpoint: 'ws://localhost:4000', // TODO
                 httpLinkOptions: {
                     credentials: 'same-origin'
-                }
+                },
+                tokenName: 'auth._token.auth0'
             }
-        }
+        },
+        authenticationType: ''
     },
     /*
     ** vuetify module configuration

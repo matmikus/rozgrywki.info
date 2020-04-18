@@ -30,7 +30,7 @@
             UniversalLoader
         },
         apollo: {
-            settings: {
+            userSettings: {
                 prefetch: true,
                 query: userSettings
             }
@@ -38,7 +38,7 @@
         watch: {
             userSettings: function () {
                 if (this.userSettings !== undefined) {
-                    console.log(this.userSettings)
+                    console.log(this.userSettings[0])
                 }
             }
         }
