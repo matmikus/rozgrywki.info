@@ -2,20 +2,21 @@
     <v-layout>
         <universal-loader v-if="!loaded"/>
         <v-flex v-if="loaded" class="text-center">
-            nazwa: {{ competitions[0].name }}
+            nazwa: {{ competition.name }}
         </v-flex>
     </v-layout>
 </template>
 
 <script>
     import UniversalLoader from '../../components/UniversalLoader';
-    import competition from '../../api/graphql-queries/fetchCompetition.gql';
+    import fetchCompetition from '../../api/graphql-queries/fetchCompetition.gql';
+    import { isResultEmpty, getResultObject } from '../../client/graphqlHelpers';
 
     export default {
         apollo: {
-            competitions: {
+            fetchedCompetition: {
                 prefetch: true,
-                query: competition,
+                query: fetchCompetition,
                 variables () {
                     return {
                         route: this.$route.params.competition
@@ -24,13 +25,14 @@
             }
         },
         watch: {
-            competitions: function () {
-                if (this.competitions !== undefined) {
-                    if (this.competitions.length === 0) {
+            fetchedCompetition: function () {
+                if (this.fetchedCompetition !== undefined) {
+                    if (isResultEmpty((this.fetchedCompetition))) {
                         this.$router.push({
                             path: '404'
                         });
                     } else {
+                        this.competition = getResultObject(this.fetchedCompetition);
                         this.loaded = true;
                     }
                 }
@@ -38,14 +40,12 @@
         },
         data () {
             return {
-                loaded: false
+                loaded: false,
+                competition: {}
             }
         },
         components: {
             UniversalLoader
-        },
-        mounted () {
-            console.log(this.$route.params.competition)
         }
     }
 </script>

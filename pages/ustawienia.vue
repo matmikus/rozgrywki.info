@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <universal-loader v-if="!loaded" />
+        <universal-loader v-if="!loaded"/>
         <v-flex v-if="loaded" class="text-center">
             witaj na swoim profilu {{ name }}, masz id {{ id }}
         </v-flex>
@@ -10,7 +10,7 @@
 <script>
     import helpers from '../client/helpers';
     import UniversalLoader from '../components/UniversalLoader';
-    import userSettings from '../api/graphql-queries/fetchUserSettings.gql';
+    import fetchUserSettings from '../api/graphql-queries/fetchUserSettings.gql';
 
     export default {
         middleware: ['auth'],
@@ -18,27 +18,33 @@
             return {
                 loaded: false,
                 id: '',
-                name: ''
+                name: '',
+                userSettings: {}
             }
         },
         mounted () {
             this.id = helpers.getIdFromAuth0UserSub(this.$auth.user.sub);
             this.name = this.$auth.user ? this.$auth.user.name : '';
-            this.loaded = true;
         },
         components: {
             UniversalLoader
         },
         apollo: {
-            userSettings: {
+            fetchedUserSettings: {
                 prefetch: true,
-                query: userSettings
+                query: fetchUserSettings
             }
         },
         watch: {
-            userSettings: function () {
-                if (this.userSettings !== undefined) {
-                    console.log(this.userSettings[0])
+            fetchedUserSettings: function () {
+                if (this.fetchedUserSettings !== undefined) {
+                    if (this.fetchedUserSettings.length === 1) {
+                        for (let setting in this.fetchedUserSettings[0].settings) {
+                            this.userSettings[setting] = this.fetchedUserSettings[0].settings[setting];
+                        }
+                    }
+
+                    this.loaded = true;
                 }
             }
         }
