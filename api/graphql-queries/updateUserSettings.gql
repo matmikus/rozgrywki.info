@@ -1,0 +1,8 @@
+mutation update_userSettings($userId: String, $settings: json) {
+    update_userSettings(
+        where: {userId: {_eq: $userId}},
+        _set: {settings: $settings}
+    ) {
+        affected_rows
+    }
+}

@@ -7,11 +7,25 @@ query ($route: String) {
             dateRange
             type
             updatedAt
-            user
+            userId
             cup {
                 id
                 isDoubleElimination
                 size
+              	games {
+                    number
+                    aCompetitor {
+                        name
+                    }
+                    bCompetitor {
+                        name
+                    }
+                    aResult
+                    bResult
+                    date
+                    time
+                    updatedAt
+                }
             }
             group {
                 id
@@ -21,6 +35,20 @@ query ($route: String) {
                 loserPoints
                 drawPoints
                 isDrawEnable
+              	games {
+                    number
+                    aCompetitor {
+                        name
+                    }
+                    bCompetitor {
+                        name
+                    }
+                    aResult
+                    bResult
+                    date
+                    time
+                    updatedAt
+                }
             }
       }
 }

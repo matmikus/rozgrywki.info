@@ -7,6 +7,16 @@ query {
         dateRange
         type
         updatedAt
-        user
+        userId
+        lastCupUpdate: cup {
+            lastGameUpdate: games(limit: 1, order_by: {updatedAt: desc}) {
+                updatedAt
+            }
+        }
+        lastGroupUpdate: group {
+            lastGameUpdate: games(limit: 1, order_by: {updatedAt: desc}) {
+                updatedAt
+            }
+        }
     }
 }
