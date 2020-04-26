@@ -1,6 +1,5 @@
 query {
     fetchedUserSettings: userSettings {
-        userId
         settings
     }
 }

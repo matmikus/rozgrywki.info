@@ -8,9 +8,9 @@
 </template>
 
 <script>
-    import helpers from '../client/helpers';
     import UniversalLoader from '../components/UniversalLoader';
     import fetchUserSettings from '../api/graphql-queries/fetchUserSettings.gql';
+    import { getResultObject } from '../client/graphqlHelpers';
 
     export default {
         middleware: ['auth'],
@@ -23,7 +23,7 @@
             }
         },
         mounted () {
-            this.id = helpers.getIdFromAuth0UserSub(this.$auth.user.sub);
+            this.id = this.$auth.user.sub;
             this.name = this.$auth.user ? this.$auth.user.name : '';
         },
         components: {
@@ -37,15 +37,9 @@
         },
         watch: {
             fetchedUserSettings: function () {
-                if (this.fetchedUserSettings !== undefined) {
-                    if (this.fetchedUserSettings.length === 1) {
-                        for (let setting in this.fetchedUserSettings[0].settings) {
-                            this.userSettings[setting] = this.fetchedUserSettings[0].settings[setting];
-                        }
-                    }
+                this.userSettings = getResultObject(this.fetchedUserSettings, 'settings');
 
-                    this.loaded = true;
-                }
+                this.loaded = true;
             }
         }
     }

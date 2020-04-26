@@ -10,7 +10,7 @@
 <script>
     import UniversalLoader from '../../components/UniversalLoader';
     import fetchCompetition from '../../api/graphql-queries/fetchCompetition.gql';
-    import { isResultEmpty, getResultObject } from '../../client/graphqlHelpers';
+    import { hasResults, getResultObject } from '../../client/graphqlHelpers';
 
     export default {
         apollo: {
@@ -26,15 +26,14 @@
         },
         watch: {
             fetchedCompetition: function () {
-                if (this.fetchedCompetition !== undefined) {
-                    if (isResultEmpty((this.fetchedCompetition))) {
-                        this.$router.push({
-                            path: '404'
-                        });
-                    } else {
-                        this.competition = getResultObject(this.fetchedCompetition);
-                        this.loaded = true;
-                    }
+                if (hasResults((this.fetchedCompetition))) {
+                    this.competition = getResultObject(this.fetchedCompetition);
+
+                    this.loaded = true;
+                } else {
+                    this.$router.push({
+                        path: '404'
+                    });
                 }
             }
         },

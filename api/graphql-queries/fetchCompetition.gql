@@ -8,5 +8,19 @@ query ($route: String) {
             type
             updatedAt
             user
+            cup {
+                id
+                isDoubleElimination
+                size
+            }
+            group {
+                id
+                size
+                isDouble
+                winnerPoints
+                loserPoints
+                drawPoints
+                isDrawEnable
+            }
       }
 }
