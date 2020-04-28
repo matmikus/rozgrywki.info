@@ -1,0 +1,10 @@
+mutation ($name: String) {
+    insert_competitors(objects: [{
+        name: $name
+    }]) {
+        affected_rows
+        returning {
+            id
+        }
+    }
+}

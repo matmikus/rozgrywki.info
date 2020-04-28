@@ -1,7 +1,13 @@
-mutation($userId: String, $settings: json) {
+mutation(
+    $userId: String,
+    $settings: json
+) {
     insert_userSettings(
         objects: [
-            { userId: $userId , settings: $settings }
+            {
+                userId: $userId ,
+                settings: $settings
+            }
         ]
     ) {
         affected_rows

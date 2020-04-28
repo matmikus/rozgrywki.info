@@ -1,0 +1,13 @@
+mutation (
+    $competitionId: Int,
+    $isDoubleElimination: Boolean,
+    $size: smallint
+) {
+    insert_cups(objects: [{
+        competition: $competitionId,
+        isDoubleElimination: $isDoubleElimination,
+        size: $size
+    }]) {
+        affected_rows
+    }
+}

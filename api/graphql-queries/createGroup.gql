@@ -1,0 +1,21 @@
+mutation (
+    $competitionId: Int,
+    $isDouble: Boolean,
+    $size: smallint,
+    $winnerPoints: smallint,
+    $loserPoints: smallint,
+    $drawPoints: smallint,
+    $isDrawEnable: Boolean
+) {
+    insert_groups(objects: [{
+        competition: $competitionId,
+        isDouble: $isDouble,
+        size: $size,
+        winnerPoints: $winnerPoints,
+        loserPoints: $loserPoints,
+        drawPoints: $drawPoints,
+        isDrawEnable: $isDrawEnable
+    }]) {
+        affected_rows
+    }
+}

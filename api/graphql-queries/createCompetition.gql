@@ -1,0 +1,29 @@
+mutation
+(
+    $userId: String,
+    $name: String,
+    $dateRange: daterange,
+    $visible: Boolean,
+    $description: String,
+    $routeName: String,
+    $type: String
+)
+{
+    insert_competitions(
+        objects:
+            [
+                {
+                    name: $name,
+                    userId: $userId,
+                    dateRange: $dateRange,
+                    visible: $visible,
+                    description: $description,
+                    routeName: $routeName,
+                    type: $type
+                }
+            ]
+        )
+    {
+        affected_rows
+    }
+}

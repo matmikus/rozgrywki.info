@@ -1,0 +1,18 @@
+mutation (
+    $id: Int,
+    $name: String,
+    $dateRange: daterange,
+    $visible: Boolean,
+    $description: String,
+    $routeName: String
+) {
+    update_competitions(_set: {
+        name: $name,
+        dateRange: $dateRange,
+        visible: $visible,
+        description: $description,
+        routeName: $routeName
+    }, where: {id: {_eq: $id}}) {
+        affected_rows
+    }
+}

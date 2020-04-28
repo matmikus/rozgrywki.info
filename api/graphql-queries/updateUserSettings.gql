@@ -1,8 +1,10 @@
-mutation update_userSettings($userId: String, $settings: json) {
-    update_userSettings(
-        where: {userId: {_eq: $userId}},
-        _set: {settings: $settings}
-    ) {
+mutation update_userSettings(
+    $userId: String,
+    $settings: json
+) {
+    update_userSettings(_set: {
+        settings: $settings
+    }, where: {userId: {_eq: $userId}) {
         affected_rows
     }
 }
