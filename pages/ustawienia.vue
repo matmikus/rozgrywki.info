@@ -9,7 +9,7 @@
 
 <script>
     import UniversalLoader from '../components/UniversalLoader';
-    import fetchUserSettings from '../api/graphql-queries/fetchUserSettings.gql';
+    import fetchUserSettings from '../api/graphql-queries/fetchUserSettings.graphql';
     import { getResultObject } from '../client/graphqlHelpers';
 
     export default {

@@ -16,7 +16,7 @@
 
 <script>
     import UniversalLoader from '../components/UniversalLoader';
-    import competitions from '../api/graphql-queries/fetchCompetitions.gql';
+    import competitions from '../api/graphql-queries/fetchCompetitions.graphql';
 
     export default {
         apollo: {
@@ -55,7 +55,7 @@
                 this.$router.push({
                     path: item.routeName
                 });
-            }
+            },
         }
     }
 </script>

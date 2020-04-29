@@ -9,7 +9,7 @@
 
 <script>
     import UniversalLoader from '../../components/UniversalLoader';
-    import fetchCompetition from '../../api/graphql-queries/fetchCompetition.gql';
+    import fetchCompetition from '../../api/graphql-queries/fetchCompetition.graphql';
     import { hasResults, getResultObject } from '../../client/graphqlHelpers';
 
     export default {
