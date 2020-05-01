@@ -7,8 +7,8 @@
     </v-layout>
 </template>
 
-<script>
-    import UniversalLoader from '../components/UniversalLoader';
+<script lang="ts">
+    import UniversalLoader from '../components/UniversalLoader.vue';
     import fetchUserSettings from '../api/graphql-queries/fetchUserSettings.graphql';
     import { getResultObject } from '../client/graphqlHelpers';
 

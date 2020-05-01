@@ -6,8 +6,8 @@
     </v-layout>
 </template>
 
-<script>
-    import UniversalLoader from '../components/UniversalLoader';
+<script lang="ts">
+    import UniversalLoader from '../components/UniversalLoader.vue';
 
     export default {
         mounted () {

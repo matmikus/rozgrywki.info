@@ -1,7 +1,7 @@
 // obejście problemu odrzucanych zapytań do hasury po wylogowaniu i ustawieniu się tokena na false
-// do zapytań załączamy własne ciasteczko authToken, do którego kopiujemy token lub czyścimy
+// do zapytań wykorzystujemy własne ciasteczko authToken, do którego kopiujemy token lub czyścimy
 
-export default function (context) {
+export default function (context: { $auth: { $state: { loggedIn: boolean }, getToken: any }, res: { cookie: any, clearCookie: any } }) {
     if (process.server) {
         if (context.$auth.$state.loggedIn) {
             context.res.cookie('authToken', context.$auth.getToken('auth0'));
@@ -17,4 +17,4 @@ export default function (context) {
             document.cookie = 'authToken=';
         }
     }
-}
+};

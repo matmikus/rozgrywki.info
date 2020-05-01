@@ -42,6 +42,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^24.1.0",
     "nodemon": "^1.18.9",
+    "nuxt-property-decorator": "^2.7.2",
     "ts-jest": "^25.0.0",
     "vue-jest": "^4.0.0-0"
   }

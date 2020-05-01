@@ -14,8 +14,8 @@
     </v-layout>
 </template>
 
-<script>
-    import UniversalLoader from '../components/UniversalLoader';
+<script lang="ts">
+    import UniversalLoader from '../components/UniversalLoader.vue';
     import competitions from '../api/graphql-queries/fetchCompetitions.graphql';
 
     export default {
@@ -26,7 +26,7 @@
             }
         },
         watch: {
-            competitions: function () {
+            competitions: function (): void {
                 if (this.competitions !== undefined) {
                     this.makeCompetitionsURLs(this.competitions);
                     this.loaded = true;
@@ -46,12 +46,12 @@
             UniversalLoader
         },
         methods: {
-            makeCompetitionsURLs (competitions) {
-                competitions.forEach(el => {
+            makeCompetitionsURLs (competitions: { link: string, routeName: string }[]): void {
+                competitions.forEach((el: { link: string, routeName: string }) => {
                     el.link = `www.rozgrywki.info/${el.routeName}`;
                 });
             },
-            handleClick (item) {
+            handleClick (item: { routeName: string }): void {
                 this.$router.push({
                     path: item.routeName
                 });

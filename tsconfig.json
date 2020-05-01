@@ -12,6 +12,7 @@
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
+    "noImplicitThis": false,
     "noEmit": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
@@ -25,7 +26,12 @@
     },
     "types": [
       "@types/node",
-      "@nuxt/types"
+      "@nuxt/types",
+      "@nuxt/vue-app"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
     ]
   },
   "exclude": [
