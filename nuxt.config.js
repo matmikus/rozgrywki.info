@@ -75,7 +75,7 @@ module.exports = {
                 httpLinkOptions: {
                     credentials: 'same-origin'
                 },
-                tokenName: 'auth._token.auth0'
+                tokenName: 'authToken'
             }
         },
         authenticationType: ''
@@ -121,5 +121,8 @@ module.exports = {
         'redirect-ssl',
         { path: '/api', handler: '~/api/public.js' },
         { path: '/protected-api', handler: '~/api/protected.js' }
-    ]
+    ],
+    router: {
+        middleware: 'authorizationGraphQL'
+    }
 };
