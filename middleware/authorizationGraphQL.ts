@@ -5,9 +5,8 @@ export default function (context: { $auth: { $state: { loggedIn: boolean }, getT
     if (process.server) {
         if (context.$auth.$state.loggedIn) {
             context.res.cookie('authToken', context.$auth.getToken('auth0'));
-        } else {
-            // context.res.clearCookie('authToken', {path:'/'});
-            context.res.cookie('authToken', '', { maxAge: 0 });
+        } else if (typeof context.res.clearCookie === 'function') {
+            context.res.clearCookie('authToken', {path:'/'});
         }
     }
     
