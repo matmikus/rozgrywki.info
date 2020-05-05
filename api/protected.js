@@ -1,5 +1,3 @@
-export {}; //obejście błędu typescripta ze scope
-
 const express = require('express');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -15,7 +13,7 @@ const checkJwt = jwt({
 
 app.use(checkJwt);
 
-app.get('/test', function (req: any, res: any) {
+app.get('/test', function (req, res) {
     res.send('hello from protected endpoint');
 });
 

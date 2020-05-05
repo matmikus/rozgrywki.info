@@ -27,8 +27,7 @@
     "types": [
       "@types/node",
       "@nuxt/types",
-      "@nuxt/vue-app",
-      "jest"
+      "@nuxt/vue-app"
     ],
     "typeRoots": [
       "node_modules/@types",

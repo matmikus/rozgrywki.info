@@ -64,8 +64,7 @@ module.exports = {
             auth0: {
                 domain: process.env.AUTH0_DOMAIN,
                 client_id: process.env.AUTH0_CLIENT_ID,
-                audience: process.env.AUTH0_AUDIANCE,
-                useRefreshTokens: true
+                audience: process.env.AUTH0_AUDIANCE
             }
         }
     },
@@ -120,8 +119,8 @@ module.exports = {
     },
     serverMiddleware: [
         'redirect-ssl',
-        { path: '/api', handler: '~/api/public.ts' },
-        { path: '/protected-api', handler: '~/api/protected.ts' }
+        { path: '/api', handler: '~/api/public.js' },
+        { path: '/protected-api', handler: '~/api/protected.js' }
     ],
     router: {
         middleware: 'authorizationGraphQL'

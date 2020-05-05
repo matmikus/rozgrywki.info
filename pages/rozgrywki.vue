@@ -26,7 +26,7 @@
             }
         },
         watch: {
-            competitions: function () {
+            competitions: function (): void {
                 if (this.competitions !== undefined) {
                     this.makeCompetitionsURLs(this.competitions);
                     this.loaded = true;
@@ -46,12 +46,12 @@
             UniversalLoader
         },
         methods: {
-            makeCompetitionsURLs (competitions: { link: string, routeName: string }[]) {
+            makeCompetitionsURLs (competitions: { link: string, routeName: string }[]): void {
                 competitions.forEach((el: { link: string, routeName: string }) => {
                     el.link = `www.rozgrywki.info/${el.routeName}`;
                 });
             },
-            handleClick (item: { routeName: string }) {
+            handleClick (item: { routeName: string }): void {
                 this.$router.push({
                     path: item.routeName
                 });
