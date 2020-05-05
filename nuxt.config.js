@@ -120,8 +120,8 @@ module.exports = {
     },
     serverMiddleware: [
         'redirect-ssl',
-        { path: '/api', handler: '~/api/public.js' },
-        { path: '/protected-api', handler: '~/api/protected.js' }
+        { path: '/api', handler: '~/api/public.ts' },
+        { path: '/protected-api', handler: '~/api/protected.ts' }
     ],
     router: {
         middleware: 'authorizationGraphQL'
