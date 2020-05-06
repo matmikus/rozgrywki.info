@@ -3,9 +3,11 @@
 
 export default function (context: { $auth: { $state: { loggedIn: boolean }, getToken: any }, res: { cookie: any, clearCookie: any } }) {
     if (process.server) {
+        // TODO context.res nie ma metod cookie i clearCookie na heroku i sie wydupia apka
+        console.log(context.res)
         if (context.$auth.$state.loggedIn) {
             context.res.cookie('authToken', context.$auth.getToken('auth0'));
-        } else if (typeof context.res.clearCookie === 'function') {
+        } else {
             context.res.clearCookie('authToken', {path:'/'});
         }
     }
