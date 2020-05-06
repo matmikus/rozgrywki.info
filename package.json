@@ -5,7 +5,7 @@
   "author": "Mateusz Mikołajczak",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon server/index.ts --watch server",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
