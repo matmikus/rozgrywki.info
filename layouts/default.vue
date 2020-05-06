@@ -171,7 +171,7 @@
                 right: true,
                 rightDrawer: false,
                 title: 'rozgrywki🏐info'
-            }
+            };
         }
-    }
+    };
 </script>

@@ -8,9 +8,9 @@
 </template>
 
 <script>
-    import UniversalLoader from '../../components/UniversalLoader';
+    import UniversalLoader from '../../components/UniversalLoader.vue';
     import fetchCompetition from '../../api/graphql-queries/fetchCompetition.graphql';
-    import { hasResults, getResultObject } from '../../client/graphqlHelpers';
+    import { hasResults, getResultObject } from '../../client/graphqlHelpers.ts';
 
     export default {
         apollo: {
@@ -20,12 +20,12 @@
                 variables () {
                     return {
                         route: this.$route.params.competition
-                    }
+                    };
                 }
             }
         },
         watch: {
-            fetchedCompetition: function () {
+            fetchedCompetition () {
                 if (hasResults((this.fetchedCompetition))) {
                     this.competition = getResultObject(this.fetchedCompetition);
 
@@ -41,10 +41,10 @@
             return {
                 loaded: false,
                 competition: {}
-            }
+            };
         },
         components: {
             UniversalLoader
         }
-    }
+    };
 </script>

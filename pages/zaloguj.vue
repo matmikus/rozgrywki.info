@@ -13,5 +13,5 @@
         components: {
             UniversalLoader
         }
-    }
+    };
 </script>

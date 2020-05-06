@@ -26,7 +26,7 @@
             }
         },
         watch: {
-            competitions: function () {
+            competitions () {
                 if (this.competitions !== undefined) {
                     this.makeCompetitionsURLs(this.competitions);
                     this.loaded = true;
@@ -40,14 +40,14 @@
                     { text: 'Nazwa rozgrywek', value: 'name' },
                     { text: 'Link', value: 'link' }
                 ]
-            }
+            };
         },
         components: {
             UniversalLoader
         },
         methods: {
-            makeCompetitionsURLs (competitions: { link: string, routeName: string }[]) {
-                competitions.forEach((el: { link: string, routeName: string }) => {
+            makeCompetitionsURLs (competitionsArr: { link: string, routeName: string }[]) {
+                competitionsArr.forEach((el: { link: string, routeName: string }) => {
                     el.link = `www.rozgrywki.info/${el.routeName}`;
                 });
             },
@@ -55,7 +55,7 @@
                 this.$router.push({
                     path: item.routeName
                 });
-            },
+            }
         }
-    }
+    };
 </script>

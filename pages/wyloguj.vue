@@ -21,5 +21,5 @@
         components: {
             UniversalLoader
         }
-    }
+    };
 </script>
