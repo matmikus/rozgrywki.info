@@ -12,7 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
     "heroku-postbuild": "npm run build",
-    "ldev": "npm run lint && npm run dev"
+    "all": "npm run lint && npm run test && npm run dev"
   },
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.0-rc19",
@@ -42,6 +42,7 @@
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.1.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
