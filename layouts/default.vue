@@ -175,3 +175,9 @@
         }
     };
 </script>
+
+<style>
+    html {
+        overflow: auto;
+    }
+</style>
