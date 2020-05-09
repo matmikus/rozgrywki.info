@@ -1,47 +1,40 @@
 <template>
     <v-layout>
-        <universal-loader v-if="!loaded"/>
-        <v-flex v-if="loaded" class="text-center">
-            witaj na swoim profilu {{ name }}, masz id {{ id }}
+        <v-flex>
+            <v-simple-table>
+                <tbody>
+                    <tr>
+                        <td>Login</td>
+                        <td>{{ login }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nazwa użytkownika</td>
+                        <td>{{ name }}</td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td>{{ mail }}</td>
+                    </tr>
+                    <tr>
+                        <td>ID</td>
+                        <td>{{ id }}</td>
+                    </tr>
+                </tbody>
+            </v-simple-table>
         </v-flex>
     </v-layout>
 </template>
 
 <script lang="ts">
-    import UniversalLoader from '../components/UniversalLoader.vue';
-    import fetchUserSettings from '../api/graphql-queries/fetchUserSettings.graphql';
-    // @ts-ignore
-    import { getResultObject } from '../client/graphqlHelpers.ts';
-
     export default {
         middleware: ['auth'],
         data () {
             return {
-                loaded: false,
-                id: '',
-                name: '',
-                userSettings: {}
+                login: this.$auth.user.nickname,
+                name: this.$auth.user.name,
+                mail: this.$auth.user.email,
+                id: this.$auth.user.sub
             };
-        },
-        mounted () {
-            this.id = this.$auth.user.sub;
-            this.name = this.$auth.user ? this.$auth.user.name : '';
-        },
-        components: {
-            UniversalLoader
-        },
-        apollo: {
-            fetchedUserSettings: {
-                prefetch: true,
-                query: fetchUserSettings
-            }
-        },
-        watch: {
-            fetchedUserSettings () {
-                this.userSettings = getResultObject(this.fetchedUserSettings, 'settings');
-
-                this.loaded = true;
-            }
         }
     };
 </script>

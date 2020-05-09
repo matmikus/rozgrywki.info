@@ -2,7 +2,7 @@
     <v-layout>
         <universal-loader v-if="!loaded"/>
         <v-flex v-if="loaded" class="text-left">
-            <h1 class="competition-header">{{ competition.name }}</h1>
+            <h2 class="competition-header">{{ competition.name }}</h2>
             <v-simple-table>
                 <tbody>
                 <tr>
@@ -96,7 +96,7 @@
                     this.loaded = true;
                 } else {
                     this.$router.push({
-                        path: '404'
+                        path: '/404'
                     });
                 }
             }

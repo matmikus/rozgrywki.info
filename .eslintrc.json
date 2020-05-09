@@ -31,11 +31,11 @@
         "max-len": ["off"]
     },
     "overrides": [
-      {
-        "files": ["*.vue"],
-        "rules": {
-          "indent": "off"
+        {
+            "files": ["*.vue"],
+            "rules": {
+                "indent": "off"
+            }
         }
-      }
     ]
 }

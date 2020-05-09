@@ -95,7 +95,7 @@
             },
             onEditClick (item: any) {
                 this.$router.push({
-                    path: `edycja/${item.id}`
+                    path: `edycja/${item.routeName}`
                 });
             }
         },
