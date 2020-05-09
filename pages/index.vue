@@ -24,9 +24,9 @@
                     <v-btn
                         color="primary"
                         nuxt
-                        to="/inspire"
+                        to="/rozgrywki"
                     >
-                        Start
+                        Rozgrywki
                     </v-btn>
                 </v-card-actions>
             </v-card>

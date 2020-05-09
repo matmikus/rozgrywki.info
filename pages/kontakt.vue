@@ -1,7 +1,7 @@
 <template>
     <v-layout>
         <v-flex class="text-center">
-            kontakt
+            Dane kontaktowe
         </v-flex>
     </v-layout>
 </template>

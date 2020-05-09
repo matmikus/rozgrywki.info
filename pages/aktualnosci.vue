@@ -1,7 +1,7 @@
 <template>
     <v-layout>
         <v-flex class="text-center">
-            aktualności
+            Brak aktualności
         </v-flex>
     </v-layout>
 </template>

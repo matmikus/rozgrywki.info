@@ -7,7 +7,19 @@
                 <tbody>
                 <tr>
                     <td>Link</td>
-                    <td>{{ competition.link }}</td>
+                    <td class="link-container">
+                        {{ competition.link }}
+                        <span>
+                            <v-btn small color="#464646" class="copyButton" @click="copyLink">
+                                <v-icon small>mdi-content-copy</v-icon>
+                                <span class="copyButtonText">skopiuj</span>
+                            </v-btn>
+                            <v-btn disabled small color="#464646" class="shareButton">
+                                <v-icon small>mdi-share-variant</v-icon>
+                                <span class="copyButtonText">udostępnij</span>
+                            </v-btn>
+                        </span>
+                    </td>
                 </tr>
                 <tr>
                     <td>Opis</td>
@@ -38,6 +50,7 @@
             <v-data-table
                 :headers="gamesHeaders"
                 :items="games"
+                :sort-by="gamesSort"
                 :items-per-page="100"
                 class="text-left"
             >
@@ -99,7 +112,8 @@
                     { text: 'Zespół', value: 'bCompetitor.name' },
                     { text: 'Wynik', value: 'resultText' },
                     { text: 'Data', value: 'date' }
-                ]
+                ],
+                gamesSort: ['number']
             };
         },
         components: {
@@ -107,6 +121,17 @@
         },
         mounted () {
             this.loaded = false;
+        },
+        methods: {
+            copyLink () {
+                const el = document.createElement('textarea');
+                el.value = this.competition.link;
+                document.body.appendChild(el);
+                el.select();
+                el.setSelectionRange(0, 99999);// For mobile devices
+                document.execCommand('copy');
+                document.body.removeChild(el);
+            }
         }
     };
 </script>
@@ -119,5 +144,25 @@
 
     .v-data-table {
         margin: 22px 0;
+    }
+
+    .copyButton {
+        margin-left: 16px;
+        color: #A7A7A7;
+    }
+
+    .shareButton {
+        margin-left: 8px;
+        color: #A7A7A7;
+    }
+
+    .copyButtonText {
+        margin-left: 8px;
+    }
+
+    td.link-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 </style>
