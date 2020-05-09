@@ -18,8 +18,13 @@
 <script lang="ts">
     import UniversalLoader from '../components/UniversalLoader.vue';
     import competitions from '../api/graphql-queries/fetchCompetitions.graphql';
-    // @ts-ignore
-    import { parseCompetitionURL, parseCompetitionDateRange, parseCompetitionUpdatedDate } from '../client/competitionDataParseHelpers.ts';
+    import {
+        parseCompetitionURL,
+        parseCompetitionDateRange,
+        parseCompetitionUpdatedDate,
+        getCompetitionLastUpdateFromCompetitionData
+        // @ts-ignore
+    } from '../client/competitionDataParseHelpers.ts';
 
     export default {
         apollo: {
@@ -55,7 +60,7 @@
                 competitionsArr.forEach((el: any) => {
                     el.link = parseCompetitionURL(el.routeName);
                     el.dateRange = parseCompetitionDateRange(el.start, el.end);
-                    el.updatedAt = parseCompetitionUpdatedDate(el.updatedAt);
+                    el.updatedAt = parseCompetitionUpdatedDate(getCompetitionLastUpdateFromCompetitionData(el));
                 });
             },
             handleClick (item: { routeName: string }) {

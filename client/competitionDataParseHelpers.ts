@@ -50,3 +50,17 @@ export function getGamesFromCompetitionData (competitionData: any): any[] {
         return game;
     });
 }
+
+export function getCompetitionLastUpdateFromCompetitionData (competitionData: any): any {
+    let updates = [competitionData.updatedAt];
+
+    if (competitionData.lastCupUpdate != null && competitionData.lastCupUpdate.lastGameUpdate != null && competitionData.lastCupUpdate.lastGameUpdate[0].updatedAt != null) {
+        updates.push(competitionData.lastCupUpdate.lastGameUpdate[0].updatedAt);
+    }
+
+    if (competitionData.lastGroupUpdate != null && competitionData.lastGroupUpdate.lastGameUpdate != null && competitionData.lastGroupUpdate.lastGameUpdate[0].updatedAt != null) {
+        updates.push(competitionData.lastGroupUpdate.lastGameUpdate[0].updatedAt);
+    }
+
+    return updates.reduce((a, b) => (dayjs(a).isAfter(dayjs(b)) ? a : b));
+}
