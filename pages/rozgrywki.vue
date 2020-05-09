@@ -8,6 +8,7 @@
                 :items-per-page="5"
                 class="text-left"
                 @click:row="handleClick"
+                id="competitions-list-data-table"
             >
             </v-data-table>
         </v-flex>
@@ -18,7 +19,7 @@
     import UniversalLoader from '../components/UniversalLoader.vue';
     import competitions from '../api/graphql-queries/fetchCompetitions.graphql';
     // @ts-ignore
-    import { parseCompetitionURL, parseCompetitionDateRange, parseCompetitionUpdatedDatetime } from '../client/competitionDataParseHelpers.ts';
+    import { parseCompetitionURL, parseCompetitionDateRange, parseCompetitionUpdatedDate } from '../client/competitionDataParseHelpers.ts';
 
     export default {
         apollo: {
@@ -54,7 +55,7 @@
                 competitionsArr.forEach((el: any) => {
                     el.link = parseCompetitionURL(el.routeName);
                     el.dateRange = parseCompetitionDateRange(el.start, el.end);
-                    el.updatedAt = parseCompetitionUpdatedDatetime(el.updatedAt);
+                    el.updatedAt = parseCompetitionUpdatedDate(el.updatedAt);
                 });
             },
             handleClick (item: { routeName: string }) {
@@ -62,12 +63,15 @@
                     path: item.routeName
                 });
             }
+        },
+        mounted () {
+            this.loaded = false;
         }
     };
 </script>
 
 <style>
-    tbody tr {
+    #competitions-list-data-table tbody tr {
         cursor: pointer
     }
 </style>
