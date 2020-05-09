@@ -17,6 +17,8 @@
 <script lang="ts">
     import UniversalLoader from '../components/UniversalLoader.vue';
     import competitions from '../api/graphql-queries/fetchCompetitions.graphql';
+    // @ts-ignore
+    import { parseCompetitionURL, parseCompetitionDateRange, parseCompetitionUpdatedDatetime } from '../client/competitionDataParseHelpers.ts';
 
     export default {
         apollo: {
@@ -28,7 +30,7 @@
         watch: {
             competitions () {
                 if (this.competitions !== undefined) {
-                    this.makeCompetitionsURLs(this.competitions);
+                    this.parseCompetitionsData(this.competitions);
                     this.loaded = true;
                 }
             }
@@ -38,7 +40,9 @@
                 loaded: false,
                 headers: [
                     { text: 'Nazwa rozgrywek', value: 'name' },
-                    { text: 'Link', value: 'link' }
+                    { text: 'Link', value: 'link' },
+                    { text: 'Data', value: 'dateRange' },
+                    { text: 'Aktualizacja', value: 'updatedAt' }
                 ]
             };
         },
@@ -46,9 +50,11 @@
             UniversalLoader
         },
         methods: {
-            makeCompetitionsURLs (competitionsArr: { link: string, routeName: string }[]) {
-                competitionsArr.forEach((el: { link: string, routeName: string }) => {
-                    el.link = `www.rozgrywki.info/${el.routeName}`;
+            parseCompetitionsData (competitionsArr: any[]) {
+                competitionsArr.forEach((el: any) => {
+                    el.link = parseCompetitionURL(el.routeName);
+                    el.dateRange = parseCompetitionDateRange(el.start, el.end);
+                    el.updatedAt = parseCompetitionUpdatedDatetime(el.updatedAt);
                 });
             },
             handleClick (item: { routeName: string }) {
@@ -59,3 +65,9 @@
         }
     };
 </script>
+
+<style>
+    tbody tr {
+        cursor: pointer
+    }
+</style>

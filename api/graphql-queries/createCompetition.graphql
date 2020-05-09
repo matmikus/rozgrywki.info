@@ -2,7 +2,8 @@ mutation
 (
     $userId: String,
     $name: String,
-    $dateRange: daterange,
+    $start: start,
+    $end: end,
     $visible: Boolean,
     $description: String,
     $routeName: String,
@@ -15,7 +16,8 @@ mutation
                 {
                     name: $name,
                     userId: $userId,
-                    dateRange: $dateRange,
+                    start: $start,
+                    end: $end,
                     visible: $visible,
                     description: $description,
                     routeName: $routeName,

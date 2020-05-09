@@ -13,7 +13,7 @@
     "test": "jest",
     "heroku-postbuild": "npm run build",
     "stryker": "stryker run",
-    "all": "npm run lint && npm run test && npm run dev"
+    "all": "npm run lint && npm run test && npm run stryker && npm run dev"
   },
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.0-rc19",
@@ -21,6 +21,7 @@
     "@nuxtjs/axios": "^5.9.5",
     "cookie": "^0.4.1",
     "cross-env": "^5.2.0",
+    "dayjs": "^1.8.26",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",

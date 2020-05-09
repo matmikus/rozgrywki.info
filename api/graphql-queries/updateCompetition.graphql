@@ -1,14 +1,16 @@
 mutation (
     $id: Int,
     $name: String,
-    $dateRange: daterange,
+    $start: start,
+    $end: end,
     $visible: Boolean,
     $description: String,
     $routeName: String
 ) {
     update_competitions(_set: {
         name: $name,
-        dateRange: $dateRange,
+        start: $start,
+        end: $end,
         visible: $visible,
         description: $description,
         routeName: $routeName
