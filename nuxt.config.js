@@ -113,7 +113,8 @@ module.exports = {
             config.node = {
                 fs: 'empty'
             };
-        }
+        },
+        watch: ['nuxt.config.js']
     },
     env: {
         AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
