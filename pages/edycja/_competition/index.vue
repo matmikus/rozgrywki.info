@@ -38,7 +38,7 @@
                         <v-select
                             :items="competitionTypeFormItems"
                             label="Typ rozgrywek"
-                            v-model="competition.type"
+                            v-model="competitionType"
                             item-value='value'
                             item-text='label'
                             color="white"
@@ -48,7 +48,7 @@
                         <v-select
                             :items="competitorsCountItems"
                             label="Ilość zespołów"
-                            v-model="competition.size"
+                            v-model="competitionSize"
                             item-value='value'
                             item-text='label'
                             color="white"
@@ -57,6 +57,20 @@
                 </tr>
                 </tbody>
             </v-simple-table>
+            <template v-if="competitionSize != null">
+                <h3 class="form-header">Zespoły</h3>
+                <v-simple-table class="competition-form">
+                    <tbody>
+                    <tr v-for="(competitor, index) in competitors">
+                        <td valign="top">
+                            <v-text-field v-bind:label="`Zespół ${index + 1}`"
+                                      v-model="competitor.name"
+                                      color="white"></v-text-field>
+                        </td>
+                    </tr>
+                    </tbody>
+                </v-simple-table>
+            </template>
             <v-btn class="form-save-button">zapisz</v-btn>
         </v-flex>
     </v-layout>
@@ -90,9 +104,10 @@
                     routeName: '',
                     start: '',
                     end: '',
-                    type: null,
-                    size: null,
                 },
+                competitionType: null,
+                competitionSize: null,
+                competitors: [],
                 competitionTypeFormItems: [{
                     value: 'group',
                     label: 'każdy z każdym'
@@ -108,7 +123,8 @@
                 if (hasResults((this.fetchedCompetition))) {
                     this.competition = getResultObject(this.fetchedCompetition);
                     this.games = getGamesFromCompetitionData(this.competition);
-                    this.competition.size = this.competition[this.competition.type] ? this.competition[this.competition.type].size : null;
+                    this.competitionType = this.competition.type;
+                    this.competitionSize = this.competition[this.competition.type] ? this.competition[this.competition.type].size : null;
 
                     this.loaded = true;
                 } else if (this.competitionRoute) {
@@ -118,6 +134,10 @@
                 } else {
                     this.loaded = true;
                 }
+            },
+            competitionSize () {
+                this.competitors = [];
+                for (let i = 0; i < this.competitionSize; ++i) this.competitors.push({ name: '' });
             }
         },
         mounted () {
