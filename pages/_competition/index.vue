@@ -62,14 +62,14 @@
 <script>
     import UniversalLoader from '../../components/UniversalLoader.vue';
     import fetchCompetition from '../../api/graphql-queries/fetchCompetition.graphql';
-    import { hasResults, getResultObject } from '../../client/graphqlHelpers.ts';
+    import { hasResults, getResultObject } from '../../client/graphqlHelpers';
     import {
         parseCompetitionURL,
         parseCompetitionUpdatedDatetime,
         getCompetitionTypeNameFromType,
         getCompetitorsCountFromCompetitionData,
         getGamesFromCompetitionData
-    } from '../../client/competitionDataParseHelpers.ts';
+    } from '../../client/competitionDataParseHelpers';
 
     export default {
         apollo: {

@@ -65,8 +65,8 @@
 <script lang="ts">
     import UniversalLoader from '../../../components/UniversalLoader.vue';
     import fetchCompetition from '../../../api/graphql-queries/fetchCompetition.graphql';
-    import { hasResults, getResultObject } from '../../../client/graphqlHelpers.ts';
-    import { getGamesFromCompetitionData } from '../../../client/competitionDataParseHelpers.ts';
+    import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
+    import { getGamesFromCompetitionData } from '../../../client/competitionDataParseHelpers';
 
     export default {
         apollo: {
@@ -91,7 +91,7 @@
                     start: '',
                     end: '',
                     type: null,
-                    size: null
+                    size: null,
                 },
                 competitionTypeFormItems: [{
                     value: 'group',
@@ -108,7 +108,7 @@
                 if (hasResults((this.fetchedCompetition))) {
                     this.competition = getResultObject(this.fetchedCompetition);
                     this.games = getGamesFromCompetitionData(this.competition);
-                    this.competition.size = this.competition[this.competition.type].size;
+                    this.competition.size = this.competition[this.competition.type] ? this.competition[this.competition.type].size : null;
 
                     this.loaded = true;
                 } else if (this.competitionRoute) {

@@ -28,7 +28,9 @@
         "space-before-function-paren": ["error", "always"],
         "comma-dangle": ["error", "never"],
         "no-param-reassign": ["error", { "props": false }],
-        "max-len": ["off"]
+        "max-len": ["off"],
+        "import/extensions": "off",
+        "import/no-unresolved": "off"
     },
     "overrides": [
         {

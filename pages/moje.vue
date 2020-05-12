@@ -42,8 +42,7 @@
         parseCompetitionDateRange,
         parseCompetitionUpdatedDate,
         getCompetitionLastUpdateFromCompetitionData
-        // @ts-ignore
-    } from '../client/competitionDataParseHelpers.ts';
+    } from '../client/competitionDataParseHelpers';
 
     export default {
         apollo: {
