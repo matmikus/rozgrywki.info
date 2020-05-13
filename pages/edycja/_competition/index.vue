@@ -11,26 +11,38 @@
                         <v-text-field label="Nazwa"
                                       v-model="competition.name"
                                       color="white"></v-text-field>
-                        <v-text-field label="Ścieżka"
+                        <v-text-field label="Ścieżka do strony rozgrywek"
                                       v-model="competition.routeName"
+                                      :rules="[routeNameValidator]"
+                                      prefix="www.rozgrywki.info/"
                                       color="white"></v-text-field>
                     </td>
                     <td>
                         <v-textarea label="Opis"
                                     v-model="competition.description"
+                                    rows="4"
                                     color="white"></v-textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <v-text-field label="Dzień rozpoczęcia"
-                                      v-model="competition.start"
-                                      color="white"></v-text-field>
+                        <div>Dzień rozpoczęcia</div>
+                        <v-date-picker v-model="competition.start"
+                                       color="#aaa"
+                                       locale="pl"
+                                       no-title
+                                       show-current="false"
+                                       style="margin-top: 4px; margin-bottom: 16px; text-align: unset!important"></v-date-picker>
                     </td>
                     <td>
-                        <v-text-field label="Dzień zakończenia"
-                                      v-model="competition.end"
-                                      color="white"></v-text-field>
+                        <div>Dzień zakończenia</div>
+                        <v-date-picker v-model="competition.end"
+                                       color="#aaa"
+                                       locale="pl"
+                                       no-title
+                                       label="Dzień zakończenia"
+                                       show-current="false"
+                                       style="margin-top: 4px; margin-bottom: 16px"></v-date-picker>
                     </td>
                 </tr>
                 <tr>
@@ -49,29 +61,101 @@
                             :items="competitorsCountItems"
                             label="Ilość zespołów"
                             v-model="competitionSize"
-                            item-value='value'
-                            item-text='label'
                             color="white"
                         ></v-select>
                     </td>
                 </tr>
                 </tbody>
             </v-simple-table>
-            <template v-if="competitionSize != null">
-                <h3 class="form-header">Zespoły</h3>
-                <v-simple-table class="competition-form">
+            <template v-if="competitionType != null">
+                <h3 class="form-header">{{ competitionTypeName }}</h3>
+                <v-simple-table class="competition-form" v-if="competitionType === 'group'">
                     <tbody>
-                    <tr v-for="(competitor, index) in competitors">
+                    <tr>
+                        <td>
+                            <v-checkbox
+                                v-model="competitionIsDoubleGame"
+                                label="Runda rewanżowa"
+                                color="white"
+                            ></v-checkbox>
+                        </td>
+                        <td>
+                            <v-checkbox
+                                v-model="gameDrawEnable"
+                                label="Możliwy remis"
+                                color="white"
+                            ></v-checkbox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <v-select
+                                :items="gamePointsItems"
+                                label="Punkty za wygraną"
+                                v-model="gameWinnerPoints"
+                                color="white"
+                            ></v-select>
+                            <v-select
+                                :items="gamePointsItems"
+                                label="Punkty za przegraną"
+                                v-model="gameLoserPoints"
+                                color="white"
+                            ></v-select>
+                        </td>
                         <td valign="top">
-                            <v-text-field v-bind:label="`Zespół ${index + 1}`"
-                                      v-model="competitor.name"
-                                      color="white"></v-text-field>
+                            <v-select
+                                :disabled="!gameDrawEnable"
+                                :items="gamePointsItems"
+                                label="Punkty za remis"
+                                v-model="gameDrawPoints"
+                                color="white"
+                            ></v-select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </v-simple-table>
+                <v-simple-table class="competition-form" v-else-if="competitionType === 'cup'">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <v-checkbox
+                                v-model="competitionIsDoubleGame"
+                                label="Dwumecz"
+                                color="white"
+                            ></v-checkbox>
                         </td>
                     </tr>
                     </tbody>
                 </v-simple-table>
             </template>
-            <v-btn class="form-save-button">zapisz</v-btn>
+            <template v-if="competitionSize != null">
+                <h3 class="form-header">Zespoły</h3>
+                <v-simple-table class="competition-form">
+                    <tbody>
+                    <tr v-for="(competitor, index) in competitors" v-bind:key="index">
+                        <td valign="top">
+                            <v-text-field v-bind:label="`Zespół ${index + 1}`"
+                                          v-model="competitor.name"
+                                          color="white"></v-text-field>
+                        </td>
+                    </tr>
+                    </tbody>
+                </v-simple-table>
+            </template>
+            <h3 class="form-header">Podgląd rozgrywek</h3>
+            <v-simple-table class="competition-form">
+                <tbody>
+                <tr>
+                    <td>
+                        Brak podglądu - niekompletne dane rozgrywek
+                    </td>
+                </tr>
+                </tbody>
+            </v-simple-table>
+            <v-btn class="form-save-button">
+                <v-icon left>mdi-content-save</v-icon>
+                zapisz rozgrywki
+            </v-btn>
         </v-flex>
     </v-layout>
 </template>
@@ -80,7 +164,10 @@
     import UniversalLoader from '../../../components/UniversalLoader.vue';
     import fetchCompetition from '../../../api/graphql-queries/fetchCompetition.graphql';
     import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
-    import { getGamesFromCompetitionData } from '../../../client/competitionDataParseHelpers';
+    import {
+        getGamesFromCompetitionData,
+        getCompetitionTypeNameFromType
+    } from '../../../client/competitionDataParseHelpers';
 
     export default {
         apollo: {
@@ -103,7 +190,7 @@
                     description: '',
                     routeName: '',
                     start: '',
-                    end: '',
+                    end: ''
                 },
                 competitionType: null,
                 competitionSize: null,
@@ -112,7 +199,13 @@
                     value: 'group',
                     label: 'każdy z każdym'
                 }, { value: 'cup', label: 'pucharowe' }],
-                competitorsCountItems: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+                competitorsCountItems: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+                gamePointsItems: [0, 1, 2, 3],
+                competitionIsDoubleGame: false,
+                gameDrawEnable: false,
+                gameWinnerPoints: null,
+                gameLoserPoints: null,
+                gameDrawPoints: null
             };
         },
         components: {
@@ -142,14 +235,25 @@
         },
         mounted () {
             this.loaded = false;
+        },
+        computed: {
+            competitionTypeName () {
+                return getCompetitionTypeNameFromType(this.competitionType);
+            }
+        },
+        methods: {
+            routeNameValidator (value: any) {
+                return /^[0-9a-z-]+$/i.test(value);
+            }
         }
     };
 </script>
 
 <style>
     .form-header {
-        margin: 8px 8px 16px 8px;
+        margin: 24px 8px 16px 8px;
         text-align: center;
+        text-transform: capitalize;
     }
 
     .competition-form td {
@@ -157,6 +261,14 @@
     }
 
     .form-save-button {
-        margin: 16px;
+        margin: 32px;
+    }
+
+    .v-application--is-ltr .v-data-table th {
+        text-align: center !important;
+    }
+
+    .v-date-picker-table--date td {
+        padding: unset !important;
     }
 </style>

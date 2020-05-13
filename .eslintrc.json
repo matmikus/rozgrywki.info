@@ -30,7 +30,8 @@
         "no-param-reassign": ["error", { "props": false }],
         "max-len": ["off"],
         "import/extensions": "off",
-        "import/no-unresolved": "off"
+        "import/no-unresolved": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
     },
     "overrides": [
         {
