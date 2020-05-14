@@ -142,16 +142,15 @@
                     </tbody>
                 </v-simple-table>
             </template>
-            <h3 class="form-header">Podgląd rozgrywek</h3>
-            <v-simple-table class="competition-form">
-                <tbody>
-                <tr>
-                    <td>
-                        Brak podglądu - niekompletne dane rozgrywek
-                    </td>
-                </tr>
-                </tbody>
-            </v-simple-table>
+            <template v-if="competitionSize != null">
+                <h3 class="form-header">Podgląd rozgrywek</h3>
+                <!--<v-simple-table class="competition-form">-->
+                    <!--<tbody>-->
+                    <!--    tutaj komponent ktory bierze liste meczy i pokazuje je ładnie w v-simple-table   -->
+                    <!--    do propsa damy groupGamesPreview     -->
+                    <!--</tbody>-->
+                <!--</v-simple-table>-->
+            </template>
             <v-btn class="form-save-button">
                 <v-icon left>mdi-content-save</v-icon>
                 zapisz rozgrywki
@@ -230,16 +229,24 @@
                 }
             },
             competitionSize () {
-                this.competitors = [];
+                let competitorsArr = [];
+
+                for (let i = 0; i < this.competitionSize; ++i) {
+                    competitorsArr.push({ name: '' });
+                }
+
+                this.competitors = competitorsArr;
             }
         },
         mounted () {
             this.loaded = false;
-            console.log(createRoundRobinPairsForTeams([]))
         },
         computed: {
             competitionTypeName () {
                 return getCompetitionTypeNameFromType(this.competitionType);
+            },
+            groupGamesPreview () {
+                return createRoundRobinPairsForTeams(this.competitors, this.competitionIsDoubleGame);
             }
         },
         methods: {
