@@ -168,6 +168,7 @@
         getGamesFromCompetitionData,
         getCompetitionTypeNameFromType
     } from '../../../client/competitionDataParseHelpers';
+    import { createRoundRobinPairsForTeams } from '../../../client/competitionCreationHelpers';
 
     export default {
         apollo: {
@@ -230,11 +231,11 @@
             },
             competitionSize () {
                 this.competitors = [];
-                for (let i = 0; i < this.competitionSize; ++i) this.competitors.push({ name: '' });
             }
         },
         mounted () {
             this.loaded = false;
+            console.log(createRoundRobinPairsForTeams([]))
         },
         computed: {
             competitionTypeName () {
@@ -246,7 +247,8 @@
                 return /^[0-9a-z-]+$/i.test(value);
             }
         }
-    };
+    }
+    ;
 </script>
 
 <style>
