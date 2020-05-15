@@ -141,15 +141,27 @@
                     </tr>
                     </tbody>
                 </v-simple-table>
-            </template>
-            <template v-if="competitionSize != null">
                 <h3 class="form-header">Podgląd rozgrywek</h3>
-                <!--<v-simple-table class="competition-form">-->
-                    <!--<tbody>-->
-                    <!--    tutaj komponent ktory bierze liste meczy i pokazuje je ładnie w v-simple-table   -->
-                    <!--    do propsa damy groupGamesPreview     -->
-                    <!--</tbody>-->
-                <!--</v-simple-table>-->
+                <v-data-table v-if="groupGamesPreview.length > 0"
+                    :headers="[{
+                    text: 'Mecz',
+                    value: 'gameNumber'
+                }, {
+                    text: 'Zespół',
+                    value: 'teamA.name'
+                }, {
+                    text: 'Zespół',
+                    value: 'teamB.name'
+                }, {
+                    text: 'Wynik',
+                    value: null
+                }, {
+                    text: 'Data',
+                    value: null
+                }]"
+                    :items="groupGamesPreview"
+                >
+                </v-data-table>
             </template>
             <v-btn class="form-save-button">
                 <v-icon left>mdi-content-save</v-icon>
@@ -194,7 +206,6 @@
                 },
                 competitionType: null,
                 competitionSize: null,
-                competitors: [],
                 competitionTypeFormItems: [{
                     value: 'group',
                     label: 'każdy z każdym'
@@ -205,7 +216,8 @@
                 gameDrawEnable: false,
                 gameWinnerPoints: null,
                 gameLoserPoints: null,
-                gameDrawPoints: null
+                gameDrawPoints: null,
+                competitors: []
             };
         },
         components: {
@@ -236,6 +248,12 @@
                 }
 
                 this.competitors = competitorsArr;
+            },
+            competitors (newVal: any, oldVal: any) {
+                if (newVal.length === 0) {
+                    console.log('wyzerowalo sie, poprawiam')
+                    this.competitors = oldVal;
+                }
             }
         },
         mounted () {
@@ -252,6 +270,9 @@
         methods: {
             routeNameValidator (value: any) {
                 return /^[0-9a-z-]+$/i.test(value);
+            },
+            generateGroupGamesPreview () {
+                this.groupGamesPreview = createRoundRobinPairsForTeams(this.competitors, this.competitionIsDoubleGame);
             }
         }
     }

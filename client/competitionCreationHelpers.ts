@@ -1,4 +1,5 @@
-export function createRoundRobinPairsForTeams (teamsArr: any[], isDouble: boolean = false): { teamA: string | undefined, teamB: string | undefined }[] {
+export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boolean = false): { teamA: string | undefined, teamB: string | undefined, gameNumber: number | undefined }[] {
+    let teamsArr = [...competitors];
     if (teamsArr.length % 2 !== 0) {
         teamsArr.push(null);
     }
@@ -6,6 +7,7 @@ export function createRoundRobinPairsForTeams (teamsArr: any[], isDouble: boolea
     const teamsCount = teamsArr.length;
     let steps = teamsCount - 1;
     let aArr = [], bArr = [], pairs = [];
+    let gameCounter = 1;
 
     for (let i = 0; i < teamsCount / 2; i++) {
         aArr.push(teamsArr.pop());
@@ -18,7 +20,7 @@ export function createRoundRobinPairsForTeams (teamsArr: any[], isDouble: boolea
                 continue;
             }
 
-            pairs.push({ teamA: aArr[j], teamB: bArr[j] });
+            pairs.push({ teamA: aArr[j], teamB: bArr[j], gameNumber: gameCounter++ });
         }
 
         bArr.push(aArr.pop());
@@ -29,7 +31,7 @@ export function createRoundRobinPairsForTeams (teamsArr: any[], isDouble: boolea
         let doubleArr = [];
 
         for (let i = 0; i < pairs.length; i++) {
-            doubleArr.push({ teamA: pairs[i].teamB, teamB: pairs[i].teamA });
+            doubleArr.push({ teamA: pairs[i].teamB, teamB: pairs[i].teamA, gameNumber: gameCounter++ });
         }
 
         pairs = pairs.concat(doubleArr);
