@@ -182,6 +182,12 @@
                     :items="cupGamesPreview"
                 >
                 </v-data-table>
+                <template v-if="cupGamesPreview.length > 0">
+                    <h3 class="form-header">Podgląd drabinki</h3>
+                    <v-card>
+                            <div v-html="cupHtmlVisualization"></div>
+                    </v-card>
+                </template>
             </template>
             <v-btn class="form-save-button">
                 <v-icon left>mdi-content-save</v-icon>
@@ -199,7 +205,7 @@
         getGamesFromCompetitionData,
         getCompetitionTypeNameFromType
     } from '../../../client/competitionDataParseHelpers';
-    import { createRoundRobinPairsForTeams, createCupPairsForTeams } from '../../../client/competitionCreationHelpers';
+    import { createRoundRobinPairsForTeams, createCupPairsForTeams, createHtmlCupVisualization } from '../../../client/competitionCreationHelpers';
 
     export default {
         apollo: {
@@ -290,6 +296,13 @@
                 }
 
                 return createCupPairsForTeams(this.competitors);
+            },
+            cupHtmlVisualization () {
+                if (this.competitionType !== 'cup') {
+                    return ``;
+                }
+
+                return createHtmlCupVisualization(this.cupGamesPreview);
             }
         },
         methods: {

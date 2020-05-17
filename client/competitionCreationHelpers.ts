@@ -90,3 +90,42 @@ export function createCupPairsForTeams (competitors: any[]): { teamA: { name: st
 
     return pairs;
 }
+
+export function createHtmlCupVisualization (games: any[]): any {
+    const cupSize = games.length + 1;
+    let rowsAndCells = ``;
+    let gamesCounter = 0;
+    const img = `<img src="/v-img.png" style="width: 50%; height: 40px" />`;
+
+    for (let i = cupSize, colspan = 1; i >= 1; i /= 2, colspan *= 2) {
+        if (colspan !== 1) {
+            rowsAndCells += `<tr>`;
+
+            for (let j = 0; j < i; j += 2) {
+                if (i === 1) {
+                    rowsAndCells += `<td colspan="${colspan}">${img}</td>`;
+                } else {
+                    rowsAndCells += `<td colspan="${colspan}">${img}</td><td colspan="${colspan}">${img}</td>`;
+                }
+            }
+
+            rowsAndCells += `</tr>`;
+        }
+
+        rowsAndCells += `<tr>`;
+
+        for (let j = 0; j < i; j += 2) {
+            if (i === 1) {
+                rowsAndCells += `<td colspan="${colspan}">?</td>`;
+            } else {
+                rowsAndCells += `<td colspan="${colspan}">${games[gamesCounter].teamA.name}</td><td colspan="${colspan}">${games[gamesCounter].teamB.name}</td>`;
+
+                ++gamesCounter;
+            }
+        }
+
+        rowsAndCells += `</tr>`;
+    }
+
+    return `<table style="width: 100%; table-layout: fixed">${rowsAndCells}</table>`;
+}
