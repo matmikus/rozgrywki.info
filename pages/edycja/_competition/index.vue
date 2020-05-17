@@ -184,7 +184,7 @@
                 </v-data-table>
                 <template v-if="cupGamesPreview.length > 0">
                     <h3 class="form-header">Podgląd drabinki</h3>
-                    <v-card>
+                    <v-card class="cup-visualization-preview">
                             <div v-html="cupHtmlVisualization"></div>
                     </v-card>
                 </template>
@@ -334,5 +334,9 @@
 
     .v-date-picker-table--date td {
         padding: unset !important;
+    }
+
+    .cup-visualization-preview {
+        padding: 16px 0;
     }
 </style>

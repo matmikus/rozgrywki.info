@@ -95,7 +95,15 @@ export function createHtmlCupVisualization (games: any[]): any {
     const cupSize = games.length + 1;
     let rowsAndCells = ``;
     let gamesCounter = 0;
-    const img = `<img src="/v-img.png" style="width: 50%; height: 40px" />`;
+
+    const getImg = function () {
+        return `
+            <svg width="50%" height="55" viewBox="0 0 1080 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0.353553" y1="0.646447" x2="540.3535" y2="54.6464" stroke="#EEEEEE"/>
+            <line x1="530.6464" y1="54.6464" x2="1070.646" y2="0.646449" stroke="#EEEEEE"/>
+            </svg>
+            `;
+    };
 
     for (let i = cupSize, colspan = 1; i >= 1; i /= 2, colspan *= 2) {
         if (colspan !== 1) {
@@ -103,9 +111,9 @@ export function createHtmlCupVisualization (games: any[]): any {
 
             for (let j = 0; j < i; j += 2) {
                 if (i === 1) {
-                    rowsAndCells += `<td colspan="${colspan}">${img}</td>`;
+                    rowsAndCells += `<td colspan="${colspan}">${getImg()}</td>`;
                 } else {
-                    rowsAndCells += `<td colspan="${colspan}">${img}</td><td colspan="${colspan}">${img}</td>`;
+                    rowsAndCells += `<td colspan="${colspan}">${getImg()}</td><td colspan="${colspan}">${getImg()}</td>`;
                 }
             }
 
