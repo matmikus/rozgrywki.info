@@ -162,6 +162,26 @@
                     :items="groupGamesPreview"
                 >
                 </v-data-table>
+                <v-data-table v-if="cupGamesPreview.length > 0"
+                    :headers="[{
+                    text: 'Mecz',
+                    value: 'gameNumber'
+                }, {
+                    text: 'Zespół',
+                    value: 'teamA.name'
+                }, {
+                    text: 'Zespół',
+                    value: 'teamB.name'
+                }, {
+                    text: 'Wynik',
+                    value: null
+                }, {
+                    text: 'Data',
+                    value: null
+                }]"
+                    :items="cupGamesPreview"
+                >
+                </v-data-table>
             </template>
             <v-btn class="form-save-button">
                 <v-icon left>mdi-content-save</v-icon>
@@ -179,7 +199,7 @@
         getGamesFromCompetitionData,
         getCompetitionTypeNameFromType
     } from '../../../client/competitionDataParseHelpers';
-    import { createRoundRobinPairsForTeams } from '../../../client/competitionCreationHelpers';
+    import { createRoundRobinPairsForTeams, createCupPairsForTeams } from '../../../client/competitionCreationHelpers';
 
     export default {
         apollo: {
@@ -241,19 +261,13 @@
                 }
             },
             competitionSize () {
-                let competitorsArr = [];
+                const competitorsArr = [];
 
                 for (let i = 0; i < this.competitionSize; ++i) {
                     competitorsArr.push({ name: '' });
                 }
 
                 this.competitors = competitorsArr;
-            },
-            competitors (newVal: any, oldVal: any) {
-                if (newVal.length === 0) {
-                    console.log('wyzerowalo sie, poprawiam')
-                    this.competitors = oldVal;
-                }
             }
         },
         mounted () {
@@ -264,19 +278,26 @@
                 return getCompetitionTypeNameFromType(this.competitionType);
             },
             groupGamesPreview () {
+                if (this.competitionType !== 'group') {
+                    return [];
+                }
+
                 return createRoundRobinPairsForTeams(this.competitors, this.competitionIsDoubleGame);
+            },
+            cupGamesPreview () {
+                if (this.competitionType !== 'cup') {
+                    return [];
+                }
+
+                return createCupPairsForTeams(this.competitors);
             }
         },
         methods: {
             routeNameValidator (value: any) {
                 return /^[0-9a-z-]+$/i.test(value);
-            },
-            generateGroupGamesPreview () {
-                this.groupGamesPreview = createRoundRobinPairsForTeams(this.competitors, this.competitionIsDoubleGame);
             }
         }
-    }
-    ;
+    };
 </script>
 
 <style>
