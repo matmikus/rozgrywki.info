@@ -295,14 +295,14 @@
                     return [];
                 }
 
-                return createCupPairsForTeams(this.competitors);
+                return createCupPairsForTeams(this.competitors, this.competitionIsDoubleGame);
             },
             cupHtmlVisualization () {
                 if (this.competitionType !== 'cup') {
                     return ``;
                 }
 
-                return createHtmlCupVisualization(this.cupGamesPreview);
+                return createHtmlCupVisualization(this.cupGamesPreview, this.competitionIsDoubleGame);
             }
         },
         methods: {
