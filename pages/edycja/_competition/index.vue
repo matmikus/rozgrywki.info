@@ -142,50 +142,32 @@
                     </tbody>
                 </v-simple-table>
                 <h3 class="form-header">Podgląd rozgrywek</h3>
-                <v-data-table v-if="groupGamesPreview.length > 0"
-                    :headers="[{
-                    text: 'Mecz',
-                    value: 'gameNumber'
-                }, {
-                    text: 'Zespół',
-                    value: 'teamA.name'
-                }, {
-                    text: 'Zespół',
-                    value: 'teamB.name'
-                }, {
-                    text: 'Wynik',
-                    value: null
-                }, {
-                    text: 'Data',
-                    value: null
-                }]"
-                    :items="groupGamesPreview"
+                <v-data-table v-if="groupGamesPreview.length > 0 || cupGamesPreview.length > 0"
+                              :headers="previewHeaders"
+                              :items="groupGamesPreview.length > 0 ? groupGamesPreview : cupGamesPreview"
                 >
+                    <template v-slot:item="row">
+                        <tr>
+                            <td>{{row.item.gameNumber}}</td>
+                            <td>{{row.item.teamA.name}}</td>
+                            <td>{{row.item.teamB.name}}</td>
+                            <td></td>
+                            <td>
+                                <v-text-field v-model="row.item.date"
+                                              color="white"></v-text-field>
+                            </td>
+                        </tr>
+                    </template>
                 </v-data-table>
-                <v-data-table v-if="cupGamesPreview.length > 0"
-                    :headers="[{
-                    text: 'Mecz',
-                    value: 'gameNumber'
-                }, {
-                    text: 'Zespół',
-                    value: 'teamA.name'
-                }, {
-                    text: 'Zespół',
-                    value: 'teamB.name'
-                }, {
-                    text: 'Wynik',
-                    value: null
-                }, {
-                    text: 'Data',
-                    value: null
-                }]"
-                    :items="cupGamesPreview"
-                >
-                </v-data-table>
+                <!--<v-data-table v-if="cupGamesPreview.length > 0"-->
+                              <!--:headers="previewHeaders"-->
+                              <!--:items="cupGamesPreview"-->
+                <!--&gt;-->
+                <!--</v-data-table>-->
                 <template v-if="cupGamesPreview.length > 0">
                     <h3 class="form-header">Podgląd drabinki</h3>
                     <v-card class="cup-visualization-preview">
-                            <div v-html="cupHtmlVisualization"></div>
+                        <div v-html="cupHtmlVisualization"></div>
                     </v-card>
                 </template>
             </template>
@@ -205,7 +187,11 @@
         getGamesFromCompetitionData,
         getCompetitionTypeNameFromType
     } from '../../../client/competitionDataParseHelpers';
-    import { createRoundRobinPairsForTeams, createCupPairsForTeams, createHtmlCupVisualization } from '../../../client/competitionCreationHelpers';
+    import {
+        createRoundRobinPairsForTeams,
+        createCupPairsForTeams,
+        createHtmlCupVisualization
+    } from '../../../client/competitionCreationHelpers';
 
     export default {
         apollo: {
@@ -243,7 +229,23 @@
                 gameWinnerPoints: null,
                 gameLoserPoints: null,
                 gameDrawPoints: null,
-                competitors: []
+                competitors: [],
+                previewHeaders: [{
+                    text: 'Mecz',
+                    value: 'gameNumber'
+                }, {
+                    text: 'Zespół',
+                    value: 'teamA.name'
+                }, {
+                    text: 'Zespół',
+                    value: 'teamB.name'
+                }, {
+                    text: 'Wynik',
+                    value: null
+                }, {
+                    text: 'Data',
+                    value: null
+                }]
             };
         },
         components: {

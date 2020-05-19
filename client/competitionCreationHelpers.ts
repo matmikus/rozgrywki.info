@@ -1,4 +1,4 @@
-export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boolean = false): { teamA: { name: string }, teamB: { name: string }, gameNumber: number | undefined }[] {
+export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boolean = false): { teamA: { name: string }, teamB: { name: string }, gameNumber: number | undefined, date: string | undefined }[] {
     let teamsArr = [...competitors];
     if (teamsArr.length % 2 !== 0) {
         teamsArr.push(null);
@@ -20,7 +20,7 @@ export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boo
                 continue;
             }
 
-            pairs.push({ teamA: aArr[j], teamB: bArr[j], gameNumber: gameCounter++ });
+            pairs.push({ teamA: aArr[j], teamB: bArr[j], gameNumber: gameCounter++, date: '' });
         }
 
         bArr.push(aArr.pop());
@@ -34,7 +34,8 @@ export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boo
             doubleArr.push({
                 teamA: pairs[i].teamB,
                 teamB: pairs[i].teamA,
-                gameNumber: gameCounter++
+                gameNumber: gameCounter++,
+                date: ''
             });
         }
 
@@ -44,7 +45,7 @@ export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boo
     return pairs;
 }
 
-export function createCupPairsForTeams (competitors: any[], isDouble: boolean = false): { teamA: { name: string }, teamB: { name: string }, gameNumber: number | undefined }[] {
+export function createCupPairsForTeams (competitors: any[], isDouble: boolean = false): { teamA: { name: string }, teamB: { name: string }, gameNumber: number | undefined, date: string | undefined }[] {
     let pairs = [];
     const teamsArr = [...competitors];
     const teamsCount = teamsArr.length;
@@ -66,16 +67,16 @@ export function createCupPairsForTeams (competitors: any[], isDouble: boolean = 
     }
 
     for (let i = 0; i < fullGamesCount; ++i) {
-        pairs.push({ gameNumber: i + 1, teamA: { name: '?' }, teamB: { name: '?' } })
+        pairs.push({ gameNumber: i + 1, teamA: { name: '?' }, teamB: { name: '?' }, date: '' })
     }
 
     if (isDouble) {
         for (let i = 0; i < cupSize; ++i) {
-            pairs[i].teamA = teamsArr[(i * 2)] !== null ? teamsArr[i] : { name: '-' };
-            pairs[i].teamB = teamsArr[(i * 2) + 1] !== null ? teamsArr[i + 1] : { name: '-' };
+            pairs[i].teamA = teamsArr[i] !== null ? teamsArr[i] : { name: '-' };
+            pairs[i].teamB = teamsArr[i + 1] !== null ? teamsArr[i + 1] : { name: '-' };
 
-            pairs[i + 1].teamB = teamsArr[(i * 2)] !== null ? teamsArr[i] : { name: '-' };
-            pairs[i + 1].teamA = teamsArr[(i * 2) + 1] !== null ? teamsArr[i + 1] : { name: '-' };
+            pairs[i + 1].teamB =  teamsArr[i] !== null ? teamsArr[i] : { name: '-' };
+            pairs[i + 1].teamA = teamsArr[i + 1] !== null ? teamsArr[i + 1] : { name: '-' };
 
             if (teamsArr[(i * 2)] === null) {
                 if (i % 2 === 0) {
