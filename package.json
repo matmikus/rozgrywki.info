@@ -30,6 +30,7 @@
     "jwks-rsa": "^1.7.0",
     "nuxt": "^2.12.2",
     "redirect-ssl": "^1.4.1",
+    "vuejs-datepicker": "^1.6.2",
     "vuetify": "^2.2.27"
   },
   "devDependencies": {

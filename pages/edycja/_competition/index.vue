@@ -25,24 +25,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="date-form">
                         <div>Dzień rozpoczęcia</div>
-                        <v-date-picker v-model="competition.start"
-                                       color="#aaa"
-                                       locale="pl"
-                                       no-title
-                                       show-current="false"
-                                       style="margin-top: 4px; margin-bottom: 16px; text-align: unset!important"></v-date-picker>
+                        <datepicker v-model="competition.start" class="form-date-picker" :format="customDatepickerFormatter" :language="pl" placeholder="wybierz"></datepicker>
                     </td>
-                    <td>
+                    <td class="date-form">
                         <div>Dzień zakończenia</div>
-                        <v-date-picker v-model="competition.end"
-                                       color="#aaa"
-                                       locale="pl"
-                                       no-title
-                                       label="Dzień zakończenia"
-                                       show-current="false"
-                                       style="margin-top: 4px; margin-bottom: 16px"></v-date-picker>
+                        <datepicker v-model="competition.end" class="form-date-picker" :format="customDatepickerFormatter" :language="pl" placeholder="wybierz"></datepicker>
                     </td>
                 </tr>
                 <tr>
@@ -152,18 +141,12 @@
                             <td>{{row.item.teamA.name}}</td>
                             <td>{{row.item.teamB.name}}</td>
                             <td></td>
-                            <td>
-                                <v-text-field v-model="row.item.date"
-                                              color="white"></v-text-field>
+                            <td style="display: flex; align-items: center; justify-content: center">
+                                <datepicker class="form-date-picker" :format="customDatepickerFormatter" :language="pl" placeholder="wybierz"></datepicker>
                             </td>
                         </tr>
                     </template>
                 </v-data-table>
-                <!--<v-data-table v-if="cupGamesPreview.length > 0"-->
-                              <!--:headers="previewHeaders"-->
-                              <!--:items="cupGamesPreview"-->
-                <!--&gt;-->
-                <!--</v-data-table>-->
                 <template v-if="cupGamesPreview.length > 0">
                     <h3 class="form-header">Podgląd drabinki</h3>
                     <v-card class="cup-visualization-preview">
@@ -171,7 +154,7 @@
                     </v-card>
                 </template>
             </template>
-            <v-btn class="form-save-button">
+            <v-btn class="form-save-button" @click="onSaveClicked">
                 <v-icon left>mdi-content-save</v-icon>
                 zapisz rozgrywki
             </v-btn>
@@ -192,6 +175,9 @@
         createCupPairsForTeams,
         createHtmlCupVisualization
     } from '../../../client/competitionCreationHelpers';
+    import Datepicker from 'vuejs-datepicker';
+    import { pl } from 'vuejs-datepicker/dist/locale';
+    import dayjs from 'dayjs';
 
     export default {
         apollo: {
@@ -245,11 +231,13 @@
                 }, {
                     text: 'Data',
                     value: null
-                }]
+                }],
+                pl: pl
             };
         },
         components: {
-            UniversalLoader
+            UniversalLoader,
+            Datepicker
         },
         watch: {
             fetchedCompetition () {
@@ -310,6 +298,26 @@
         methods: {
             routeNameValidator (value: any) {
                 return /^[0-9a-z-]+$/i.test(value);
+            },
+            customDatepickerFormatter (date: any) {
+                return dayjs(date).format('YYYY-MM-DD');
+            },
+            onSaveClicked () {
+                this.loaded = false;
+
+                if (this.validateForm) {
+                    this.saveCompetition();
+                } else {
+                    // TODO show errors
+                }
+            },
+            validateForm () {
+                // TODO validate
+
+                return false;
+            },
+            saveCompetition () {
+                // TODO grapqhl query
             }
         }
     };
@@ -338,7 +346,35 @@
         padding: unset !important;
     }
 
+    .v-data-table__wrapper {
+        overflow: visible;
+    }
+
     .cup-visualization-preview {
         padding: 16px 0;
+    }
+
+    .form-date-picker {
+        color: #fff;
+        border-bottom: 1px solid darkgray;
+        width: 100px;
+    }
+
+    .form-date-picker input {
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .vdp-datepicker__calendar {
+        background: #808080 !important;
+        color: #fff;
+    }
+
+    .date-form {
+        text-align: left;
+        color: rgba(255, 255, 255, 0.7);
+        padding-bottom: 20px !important;
     }
 </style>
