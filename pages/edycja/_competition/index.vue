@@ -26,12 +26,34 @@
                 </tr>
                 <tr>
                     <td class="date-form">
-                        <div>Dzień rozpoczęcia</div>
-                        <datepicker v-model="competition.start" class="form-date-picker" :format="customDatepickerFormatter" :language="pl" placeholder="wybierz"></datepicker>
+                        <VueCtkDateTimePicker v-model="competition.start"
+                                              :dark="true"
+                                              :only-date="true"
+                                              :formatted="'YYYY-MM-DD'"
+                                              :label="'Dzień rozpoczęcia'"
+                                              :no-header="true"
+                                              :auto-close="true"
+                                              :no-button="true"
+                                              :first-day-of-week="1"
+                                              :noClearButton="true"
+                                              :locale="'pl'"
+                                              :no-shortcuts="true"
+                        />
                     </td>
                     <td class="date-form">
-                        <div>Dzień zakończenia</div>
-                        <datepicker v-model="competition.end" class="form-date-picker" :format="customDatepickerFormatter" :language="pl" placeholder="wybierz"></datepicker>
+                        <VueCtkDateTimePicker v-model="competition.end"
+                                              :dark="true"
+                                              :only-date="true"
+                                              :formatted="'YYYY-MM-DD'"
+                                              :label="'Dzień zakończenia'"
+                                              :no-header="true"
+                                              :auto-close="true"
+                                              :no-button="true"
+                                              :first-day-of-week="1"
+                                              :noClearButton="true"
+                                              :locale="'pl'"
+                                              :no-shortcuts="true"
+                        />
                     </td>
                 </tr>
                 <tr>
@@ -141,8 +163,22 @@
                             <td>{{row.item.teamA.name}}</td>
                             <td>{{row.item.teamB.name}}</td>
                             <td></td>
-                            <td style="display: flex; align-items: center; justify-content: center">
-                                <datepicker class="form-date-picker" :format="customDatepickerFormatter" :language="pl" placeholder="wybierz"></datepicker>
+                            <td style="display: flex; align-items: center; justify-content: center; padding-bottom: 12px">
+                                <VueCtkDateTimePicker v-model="row.item.date" style="width: 90px"
+                                                      v-if="row.item.teamA.name !== '-' && row.item.teamB.name !== '-'"
+                                                      :dark="true"
+                                                      :only-date="true"
+                                                      :formatted="'YYYY-MM-DD'"
+                                                      :no-header="true"
+                                                      :no-label="true"
+                                                      :label="'Wybierz'"
+                                                      :auto-close="true"
+                                                      :no-button="true"
+                                                      :first-day-of-week="1"
+                                                      :noClearButton="true"
+                                                      :locale="'pl'"
+                                                      :no-shortcuts="true"
+                                />
                             </td>
                         </tr>
                     </template>
@@ -162,7 +198,9 @@
     </v-layout>
 </template>
 
-<script lang="ts">
+<script lang="ts" scoped>
+    import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+
     import UniversalLoader from '../../../components/UniversalLoader.vue';
     import fetchCompetition from '../../../api/graphql-queries/fetchCompetition.graphql';
     import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
@@ -175,8 +213,6 @@
         createCupPairsForTeams,
         createHtmlCupVisualization
     } from '../../../client/competitionCreationHelpers';
-    import Datepicker from 'vuejs-datepicker';
-    import { pl } from 'vuejs-datepicker/dist/locale';
     import dayjs from 'dayjs';
 
     export default {
@@ -231,13 +267,12 @@
                 }, {
                     text: 'Data',
                     value: null
-                }],
-                pl: pl
+                }]
             };
         },
         components: {
             UniversalLoader,
-            Datepicker
+            VueCtkDateTimePicker
         },
         watch: {
             fetchedCompetition () {
@@ -299,9 +334,6 @@
             routeNameValidator (value: any) {
                 return /^[0-9a-z-]+$/i.test(value);
             },
-            customDatepickerFormatter (date: any) {
-                return dayjs(date).format('YYYY-MM-DD');
-            },
             onSaveClicked () {
                 this.loaded = false;
 
@@ -323,7 +355,9 @@
     };
 </script>
 
-<style>
+<style lang="scss">
+    @import "~/node_modules/vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
+
     .form-header {
         margin: 24px 8px 16px 8px;
         text-align: center;
@@ -354,22 +388,23 @@
         padding: 16px 0;
     }
 
-    .form-date-picker {
-        color: #fff;
-        border-bottom: 1px solid darkgray;
-        width: 100px;
+    .field-input {
+        border: solid hsla(0, 0%, 100%, .7) !important;
+        border-width: 0 0 1px 0 !important;
+        background: none !important;
+        border-radius: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        height: unset !important;
+        padding-top: 20px !important;
+        padding-bottom: 4px !important;
+        color: #fff !important;
+        font-size: 16px !important;
     }
 
-    .form-date-picker input {
-        width: 100%;
-        text-align: center;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    .vdp-datepicker__calendar {
-        background: #808080 !important;
-        color: #fff;
+    .field-label {
+        left: 0 !important;
+        color: hsla(0, 0%, 100%, .7) !important;
     }
 
     .date-form {
