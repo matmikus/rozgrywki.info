@@ -17,9 +17,11 @@ query ($route: String) {
                     number
                     aCompetitor {
                         name
+                        id
                     }
                     bCompetitor {
                         name
+                        id
                     }
                     aResult
                     bResult
@@ -40,9 +42,11 @@ query ($route: String) {
                     number
                     aCompetitor {
                         name
+                        id
                     }
                     bCompetitor {
                         name
+                        id
                     }
                     aResult
                     bResult

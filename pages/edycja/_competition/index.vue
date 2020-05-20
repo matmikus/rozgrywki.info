@@ -38,6 +38,7 @@
                                               :noClearButton="true"
                                               :locale="'pl'"
                                               :no-shortcuts="true"
+                                              :id="'VueCtkDateTimePicker-competition-start'"
                         />
                     </td>
                     <td class="date-form">
@@ -53,6 +54,7 @@
                                               :noClearButton="true"
                                               :locale="'pl'"
                                               :no-shortcuts="true"
+                                              :id="'VueCtkDateTimePicker-competition-end'"
                         />
                     </td>
                 </tr>
@@ -65,6 +67,7 @@
                             item-value='value'
                             item-text='label'
                             color="white"
+                            v-bind:disabled="disabled"
                         ></v-select>
                     </td>
                     <td>
@@ -73,6 +76,7 @@
                             label="Ilość zespołów"
                             v-model="competitionSize"
                             color="white"
+                            v-bind:disabled="disabled"
                         ></v-select>
                     </td>
                 </tr>
@@ -88,6 +92,7 @@
                                 v-model="competitionIsDoubleGame"
                                 label="Runda rewanżowa"
                                 color="white"
+                                v-bind:disabled="disabled"
                             ></v-checkbox>
                         </td>
                         <td>
@@ -133,6 +138,7 @@
                                 v-model="competitionIsDoubleGame"
                                 label="Dwumecz"
                                 color="white"
+                                v-bind:disabled="disabled"
                             ></v-checkbox>
                         </td>
                     </tr>
@@ -147,7 +153,8 @@
                         <td valign="top">
                             <v-text-field v-bind:label="`Zespół ${index + 1}`"
                                           v-model="competitor.name"
-                                          color="white"></v-text-field>
+                                          color="white"
+                                          v-bind:disabled="disabled"></v-text-field>
                         </td>
                     </tr>
                     </tbody>
@@ -178,6 +185,7 @@
                                                       :noClearButton="true"
                                                       :locale="'pl'"
                                                       :no-shortcuts="true"
+                                                      :id="`VueCtkDateTimePicker-game-${row.item.gameNumber}`"
                                 />
                             </td>
                         </tr>
@@ -213,7 +221,6 @@
         createCupPairsForTeams,
         createHtmlCupVisualization
     } from '../../../client/competitionCreationHelpers';
-    import dayjs from 'dayjs';
 
     export default {
         apollo: {
@@ -229,6 +236,7 @@
         },
         data () {
             return {
+                disabled: true,
                 loaded: this.$route.params.competition === undefined,
                 competitionRoute: this.$route.params.competition,
                 competition: {
@@ -279,8 +287,32 @@
                 if (hasResults((this.fetchedCompetition))) {
                     this.competition = getResultObject(this.fetchedCompetition);
                     this.games = getGamesFromCompetitionData(this.competition);
+                    this.disabled = this.games.length > 0;
                     this.competitionType = this.competition.type;
                     this.competitionSize = this.competition[this.competition.type] ? this.competition[this.competition.type].size : null;
+                    if (this.competition.group !== null) {
+                        this.competitionIsDoubleGame = this.competition.group.isDouble;
+                        this.gameDrawEnable = this.competition.group.isDrawEnable;
+                        this.gameWinnerPoints = this.competition.group.winnerPoints;
+                        this.gameLoserPoints = this.competition.group.loserPoints;
+                        this.gameDrawPoints = this.competition.group.drawPoints;
+                    } else if (this.competition.cup !== null) {
+                        this.competitionIsDoubleGame = this.competition.cup.isDoubleGame;
+                    }
+
+                    this.competitors = this.games
+                        .reduce((competitors: { id: string, name: string }[], game: { aCompetitor: { id: string, name: string }, bCompetitor: { id: string, name: string } }) => {
+                            if (game.aCompetitor !== null && competitors.find((el: { id: string, name: string }) => el.id === game.aCompetitor.id) === undefined) {
+                                competitors.push(game.aCompetitor);
+                            }
+
+                            if (game.bCompetitor !== null && competitors.find((el: { id: string, name: string }) => el.id === game.bCompetitor.id) === undefined) {
+                                competitors.push(game.bCompetitor);
+                            }
+
+                            return competitors;
+                        }, [])
+                        .sort((a: { id: any, name: string }, b: { id: any, name: string }) => a.id - b.id);
 
                     this.loaded = true;
                 } else if (this.competitionRoute) {
@@ -292,6 +324,10 @@
                 }
             },
             competitionSize () {
+                if (this.disabled) {
+                    return;
+                }
+
                 const competitorsArr = [];
 
                 for (let i = 0; i < this.competitionSize; ++i) {
@@ -324,7 +360,7 @@
             },
             cupHtmlVisualization () {
                 if (this.competitionType !== 'cup') {
-                    return ``;
+                    return '';
                 }
 
                 return createHtmlCupVisualization(this.cupGamesPreview, this.competitionIsDoubleGame);
