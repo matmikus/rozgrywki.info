@@ -14,10 +14,38 @@
                                 <v-icon small>mdi-content-copy</v-icon>
                                 <span class="copyButtonText">skopiuj</span>
                             </v-btn>
-                            <v-btn disabled small color="#464646" class="shareButton">
-                                <v-icon small>mdi-share-variant</v-icon>
-                                <span class="copyButtonText">udostępnij</span>
-                            </v-btn>
+                            <ShareNetwork network="facebook"
+                                          v-bind:url="competition.link"
+                                          v-bind:title="competition.name"
+                                          v-bind:description="competition.description"
+                                          hashtags="rozgrywki.info">
+                                <v-btn small color="#464646" class="shareButton">
+                                    <v-icon>mdi-facebook</v-icon>
+                                </v-btn>
+                            </ShareNetwork>
+                            <ShareNetwork network="email"
+                                          v-bind:url="competition.link"
+                                          v-bind:title="competition.name"
+                                          v-bind:description="competition.description">
+                                <v-btn small color="#464646" class="shareButton">
+                                    <v-icon>mdi-at</v-icon>
+                                </v-btn>
+                            </ShareNetwork>
+                            <ShareNetwork network="whatsapp"
+                                          v-bind:url="competition.link"
+                                          v-bind:title="competition.name"
+                                          v-bind:description="competition.description">
+                                <v-btn small color="#464646" class="shareButton">
+                                    <v-icon>mdi-whatsapp</v-icon>
+                                </v-btn>
+                            </ShareNetwork>
+                            <ShareNetwork network="twitter"
+                                          v-bind:url="competition.link"
+                                          v-bind:title="competition.name">
+                                <v-btn small color="#464646" class="shareButton">
+                                    <v-icon>mdi-twitter</v-icon>
+                                </v-btn>
+                            </ShareNetwork>
                         </span>
                     </td>
                 </tr>
@@ -218,6 +246,10 @@
     .shareButton {
         margin-left: 8px;
         color: #A7A7A7;
+    }
+
+    .copyButton:hover, .shareButton:hover {
+        color: #fff;
     }
 
     .copyButtonText {

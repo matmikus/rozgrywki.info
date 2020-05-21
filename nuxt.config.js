@@ -48,7 +48,8 @@ module.exports = {
     modules: [
         '@nuxtjs/axios',
         '@nuxtjs/auth',
-        '@nuxtjs/apollo'
+        '@nuxtjs/apollo',
+        'vue-social-sharing/nuxt'
     ],
     axios: {
         retry: { retries: 3 }

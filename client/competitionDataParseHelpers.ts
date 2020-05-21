@@ -140,6 +140,5 @@ export function getGroupStandings (competitionData: any): any {
         previousCompetitorPoints = competitor.points;
     }
 
-    console.log(competitors)
     return competitors;
 }
