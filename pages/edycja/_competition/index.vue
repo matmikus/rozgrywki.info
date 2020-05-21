@@ -170,14 +170,14 @@
                     >
                         <template v-slot:item="row">
                             <tr>
-                                <td>{{row.item.gameNumber}}</td>
-                                <td>{{row.item.teamA.name}}</td>
-                                <td>{{row.item.teamB.name}}</td>
+                                <td>{{row.item.number}}</td>
+                                <td>{{row.item.aCompetitor.name}}</td>
+                                <td>{{row.item.bCompetitor.name}}</td>
                                 <td></td>
                                 <td style="display: flex; align-items: center; justify-content: center; padding-bottom: 12px">
                                     <VueCtkDateTimePicker v-model="row.item.date"
                                                           style="width: 90px"
-                                                          v-if="row.item.teamA.name !== '-' && row.item.teamB.name !== '-'"
+                                                          v-if="row.item.aCompetitor.name !== '-' && row.item.bCompetitor.name !== '-'"
                                                           :dark="true"
                                                           :only-date="true"
                                                           :formatted="'YYYY-MM-DD'"
@@ -190,7 +190,7 @@
                                                           :noClearButton="true"
                                                           :locale="'pl'"
                                                           :no-shortcuts="true"
-                                                          :id="`VueCtkDateTimePicker-game-${row.item.gameNumber}`"
+                                                          :id="`VueCtkDateTimePicker-game-${row.item.number}`"
                                     />
                                 </td>
                             </tr>
@@ -239,7 +239,8 @@
     import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
     import {
         getGamesFromCompetitionData,
-        getCompetitionTypeNameFromType
+        getCompetitionTypeNameFromType,
+        getCompetitorsFromGames
     } from '../../../client/competitionDataParseHelpers';
     import {
         createRoundRobinPairsForTeams,
@@ -289,13 +290,13 @@
                 competitors: [],
                 previewHeaders: [{
                     text: 'Mecz',
-                    value: 'gameNumber'
+                    value: 'number'
                 }, {
                     text: 'Zespół',
-                    value: 'teamA.name'
+                    value: 'aCompetitor.name'
                 }, {
                     text: 'Zespół',
-                    value: 'teamB.name'
+                    value: 'bCompetitor.name'
                 }, {
                     text: 'Wynik',
                     value: null
@@ -327,19 +328,7 @@
                         this.competitionIsDoubleGame = this.competition.cup.isDoubleGame;
                     }
 
-                    this.competitors = this.games
-                        .reduce((competitors: { id: string, name: string }[], game: { aCompetitor: { id: string, name: string }, bCompetitor: { id: string, name: string } }) => {
-                            if (game.aCompetitor !== null && competitors.find((el: { id: string, name: string }) => el.id === game.aCompetitor.id) === undefined) {
-                                competitors.push(game.aCompetitor);
-                            }
-
-                            if (game.bCompetitor !== null && competitors.find((el: { id: string, name: string }) => el.id === game.bCompetitor.id) === undefined) {
-                                competitors.push(game.bCompetitor);
-                            }
-
-                            return competitors;
-                        }, [])
-                        .sort((a: { id: any, name: string }, b: { id: any, name: string }) => a.id - b.id);
+                    this.competitors = getCompetitorsFromGames(this.games);
 
                     this.loaded = true;
                 } else if (this.competitionRoute) {

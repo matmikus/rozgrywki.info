@@ -47,14 +47,30 @@
                 </tr>
                 </tbody>
             </v-simple-table>
+            <h3 class="form-header">Mecze</h3>
             <v-data-table
                 :headers="gamesHeaders"
                 :items="games"
                 :sort-by="gamesSort"
-                :items-per-page="100"
                 class="text-left"
             >
             </v-data-table>
+            <template v-if="competition.type === 'cup'">
+                <h3 class="form-header">Drabinka Pucharowa</h3>
+                <v-card class="cup-visualization-preview">
+                    <div v-html="cupHtmlVisualization"></div>
+                </v-card>
+            </template>
+            <template v-if="competition.type === 'group'">
+                <h3 class="form-header">Tabela</h3>
+                <v-data-table
+                    :headers="standingsHeaders"
+                    :items="groupStandings"
+                    :sort-by="standingsSort"
+                    class="text-left"
+                >
+                </v-data-table>
+            </template>
         </v-flex>
     </v-layout>
 </template>
@@ -68,8 +84,10 @@
         parseCompetitionUpdatedDatetime,
         getCompetitionTypeNameFromType,
         getCompetitorsCountFromCompetitionData,
-        getGamesFromCompetitionData
+        getGamesFromCompetitionData,
+        getGroupStandings
     } from '../../client/competitionDataParseHelpers';
+    import { createHtmlCupVisualization } from '../../client/competitionCreationHelpers';
 
     export default {
         apollo: {
@@ -93,6 +111,16 @@
                     this.competition.competitorsCount = getCompetitorsCountFromCompetitionData(this.competition);
                     this.games = getGamesFromCompetitionData(this.competition);
 
+                    if (this.competition.group !== null) {
+                        this.competition.typeName += this.competition.group.isDouble ? ' (z rundą rewanżową)' : ' (bez rundy rewanżowej)';
+
+                        this.groupStandings = getGroupStandings(this.competition);
+                    } else if (this.competition.cup !== null) {
+                        this.competition.typeName += this.competition.cup.isDouble ? ' (mecz i rewanż)' : ' (jeden mecz)';
+
+                        this.cupHtmlVisualization = createHtmlCupVisualization(this.games, this.competition.cup.isDouble);
+                    }
+
                     this.loaded = true;
                 } else {
                     this.$router.push({
@@ -107,13 +135,49 @@
                 competition: {},
                 games: [],
                 gamesHeaders: [
-                    { text: 'Mecz nr', value: 'number' },
-                    { text: 'Zespół', value: 'aCompetitor.name' },
-                    { text: 'Zespół', value: 'bCompetitor.name' },
-                    { text: 'Wynik', value: 'resultText' },
-                    { text: 'Data', value: 'date' }
+                    {
+                        text: 'Mecz nr',
+                        value: 'number'
+                    },
+                    {
+                        text: 'Zespół',
+                        value: 'aCompetitor.name'
+                    },
+                    {
+                        text: 'Zespół',
+                        value: 'bCompetitor.name'
+                    },
+                    {
+                        text: 'Wynik',
+                        value: 'resultText'
+                    },
+                    {
+                        text: 'Data',
+                        value: 'date'
+                    }
                 ],
-                gamesSort: ['number']
+                gamesSort: ['number'],
+                cupHtmlVisualization: '',
+                standingsHeaders: [
+                    {
+                        text: 'Pozycja',
+                        value: 'rank'
+                    },
+                    {
+                        text: 'Zespół',
+                        value: 'name'
+                    },
+                    {
+                        text: 'Mecze',
+                        value: 'games'
+                    },
+                    {
+                        text: 'Punkty',
+                        value: 'points'
+                    }
+                ],
+                standingsSort: ['rank'],
+                groupStandings: []
             };
         },
         components: {
@@ -164,5 +228,17 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+    }
+
+    .form-header {
+        margin: 24px 8px 16px 8px;
+        text-align: center;
+        text-transform: capitalize;
+    }
+
+    .cup-visualization-preview {
+        padding: 16px 0;
+        text-align: center;
+        margin: 22px 0;
     }
 </style>
