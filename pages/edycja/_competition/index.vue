@@ -2,206 +2,215 @@
     <v-layout>
         <universal-loader v-if="!loaded"/>
         <v-flex v-if="loaded" class="text-center">
-            <h3 class="form-header" v-if="competitionRoute">Edycja rozgrywek</h3>
-            <h3 class="form-header" v-else>Nowe rozgrywki</h3>
-            <v-simple-table class="competition-form">
-                <tbody>
-                <tr>
-                    <td valign="top">
-                        <v-text-field label="Nazwa"
-                                      v-model="competition.name"
-                                      color="white"></v-text-field>
-                        <v-text-field label="Ścieżka do strony rozgrywek"
-                                      v-model="competition.routeName"
-                                      :rules="[routeNameValidator]"
-                                      prefix="www.rozgrywki.info/"
-                                      color="white"></v-text-field>
-                    </td>
-                    <td>
-                        <v-textarea label="Opis"
-                                    v-model="competition.description"
-                                    rows="4"
-                                    color="white"></v-textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="date-form">
-                        <VueCtkDateTimePicker v-model="competition.start"
-                                              :dark="true"
-                                              :only-date="true"
-                                              :formatted="'YYYY-MM-DD'"
-                                              :label="'Dzień rozpoczęcia'"
-                                              :no-header="true"
-                                              :auto-close="true"
-                                              :no-button="true"
-                                              :first-day-of-week="1"
-                                              :noClearButton="true"
-                                              :locale="'pl'"
-                                              :no-shortcuts="true"
-                                              :id="'VueCtkDateTimePicker-competition-start'"
-                        />
-                    </td>
-                    <td class="date-form">
-                        <VueCtkDateTimePicker v-model="competition.end"
-                                              :dark="true"
-                                              :only-date="true"
-                                              :formatted="'YYYY-MM-DD'"
-                                              :label="'Dzień zakończenia'"
-                                              :no-header="true"
-                                              :auto-close="true"
-                                              :no-button="true"
-                                              :first-day-of-week="1"
-                                              :noClearButton="true"
-                                              :locale="'pl'"
-                                              :no-shortcuts="true"
-                                              :id="'VueCtkDateTimePicker-competition-end'"
-                        />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <v-select
-                            :items="competitionTypeFormItems"
-                            label="Typ rozgrywek"
-                            v-model="competitionType"
-                            item-value='value'
-                            item-text='label'
-                            color="white"
-                            v-bind:disabled="disabled"
-                        ></v-select>
-                    </td>
-                    <td>
-                        <v-select
-                            :items="competitorsCountItems"
-                            label="Ilość zespołów"
-                            v-model="competitionSize"
-                            color="white"
-                            v-bind:disabled="disabled"
-                        ></v-select>
-                    </td>
-                </tr>
-                </tbody>
-            </v-simple-table>
-            <template v-if="competitionType != null">
-                <h3 class="form-header">{{ competitionTypeName }}</h3>
-                <v-simple-table class="competition-form" v-if="competitionType === 'group'">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <v-checkbox
-                                v-model="competitionIsDoubleGame"
-                                label="Runda rewanżowa"
-                                color="white"
-                                v-bind:disabled="disabled"
-                            ></v-checkbox>
-                        </td>
-                        <td>
-                            <v-checkbox
-                                v-model="gameDrawEnable"
-                                label="Możliwy remis"
-                                color="white"
-                            ></v-checkbox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <v-select
-                                :items="gamePointsItems"
-                                label="Punkty za wygraną"
-                                v-model="gameWinnerPoints"
-                                color="white"
-                            ></v-select>
-                            <v-select
-                                :items="gamePointsItems"
-                                label="Punkty za przegraną"
-                                v-model="gameLoserPoints"
-                                color="white"
-                            ></v-select>
-                        </td>
-                        <td valign="top">
-                            <v-select
-                                :disabled="!gameDrawEnable"
-                                :items="gamePointsItems"
-                                label="Punkty za remis"
-                                v-model="gameDrawPoints"
-                                color="white"
-                            ></v-select>
-                        </td>
-                    </tr>
-                    </tbody>
-                </v-simple-table>
-                <v-simple-table class="competition-form" v-else-if="competitionType === 'cup'">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <v-checkbox
-                                v-model="competitionIsDoubleGame"
-                                label="Dwumecz"
-                                color="white"
-                                v-bind:disabled="disabled"
-                            ></v-checkbox>
-                        </td>
-                    </tr>
-                    </tbody>
-                </v-simple-table>
-            </template>
-            <template v-if="competitionSize != null">
-                <h3 class="form-header">Zespoły</h3>
+            <v-form ref="form">
+                <h3 class="form-header" v-if="competitionRoute">Edycja rozgrywek</h3>
+                <h3 class="form-header" v-else>Nowe rozgrywki</h3>
                 <v-simple-table class="competition-form">
                     <tbody>
-                    <tr v-for="(competitor, index) in competitors" v-bind:key="index">
+                    <tr>
                         <td valign="top">
-                            <v-text-field v-bind:label="`Zespół ${index + 1}`"
-                                          v-model="competitor.name"
-                                          color="white"
-                                          v-bind:disabled="disabled"></v-text-field>
+                            <v-text-field label="Nazwa"
+                                          v-model="competition.name"
+                                          :rules="[competitionNameValidator]"
+                                          color="white"></v-text-field>
+                            <v-text-field label="Ścieżka do strony rozgrywek"
+                                          v-model="competition.routeName"
+                                          :rules="[competitionRouteNameValidator]"
+                                          prefix="www.rozgrywki.info/"
+                                          color="white"></v-text-field>
+                        </td>
+                        <td>
+                            <v-textarea label="Opis"
+                                        v-model="competition.description"
+                                        :rules="[competitionDescriptionValidator]"
+                                        rows="4"
+                                        color="white"></v-textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="date-form">
+                            <VueCtkDateTimePicker v-model="competition.start"
+                                                  :dark="true"
+                                                  :only-date="true"
+                                                  :formatted="'YYYY-MM-DD'"
+                                                  :label="'Dzień rozpoczęcia'"
+                                                  :no-header="true"
+                                                  :auto-close="true"
+                                                  :no-button="true"
+                                                  :first-day-of-week="1"
+                                                  :noClearButton="true"
+                                                  :locale="'pl'"
+                                                  :no-shortcuts="true"
+                                                  :id="'VueCtkDateTimePicker-competition-start'"
+                            />
+                        </td>
+                        <td class="date-form">
+                            <VueCtkDateTimePicker v-model="competition.end"
+                                                  :dark="true"
+                                                  :only-date="true"
+                                                  :formatted="'YYYY-MM-DD'"
+                                                  :label="'Dzień zakończenia'"
+                                                  :no-header="true"
+                                                  :auto-close="true"
+                                                  :no-button="true"
+                                                  :first-day-of-week="1"
+                                                  :noClearButton="true"
+                                                  :locale="'pl'"
+                                                  :no-shortcuts="true"
+                                                  :id="'VueCtkDateTimePicker-competition-end'"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <v-select
+                                :items="competitionTypeFormItems"
+                                label="Typ rozgrywek"
+                                v-model="competitionType"
+                                item-value='value'
+                                item-text='label'
+                                color="white"
+                                v-bind:disabled="disabled"
+                            ></v-select>
+                        </td>
+                        <td>
+                            <v-select
+                                :items="competitorsCountItems"
+                                label="Ilość zespołów"
+                                v-model="competitionSize"
+                                color="white"
+                                v-bind:disabled="disabled"
+                            ></v-select>
                         </td>
                     </tr>
                     </tbody>
                 </v-simple-table>
-                <h3 class="form-header">Podgląd rozgrywek</h3>
-                <v-data-table v-if="groupGamesPreview.length > 0 || cupGamesPreview.length > 0"
-                              :headers="previewHeaders"
-                              :items="groupGamesPreview.length > 0 ? groupGamesPreview : cupGamesPreview"
-                >
-                    <template v-slot:item="row">
+                <template v-if="competitionType != null">
+                    <h3 class="form-header">{{ competitionTypeName }}</h3>
+                    <v-simple-table class="competition-form" v-if="competitionType === 'group'">
+                        <tbody>
                         <tr>
-                            <td>{{row.item.gameNumber}}</td>
-                            <td>{{row.item.teamA.name}}</td>
-                            <td>{{row.item.teamB.name}}</td>
-                            <td></td>
-                            <td style="display: flex; align-items: center; justify-content: center; padding-bottom: 12px">
-                                <VueCtkDateTimePicker v-model="row.item.date" style="width: 90px"
-                                                      v-if="row.item.teamA.name !== '-' && row.item.teamB.name !== '-'"
-                                                      :dark="true"
-                                                      :only-date="true"
-                                                      :formatted="'YYYY-MM-DD'"
-                                                      :no-header="true"
-                                                      :no-label="true"
-                                                      :label="'Wybierz'"
-                                                      :auto-close="true"
-                                                      :no-button="true"
-                                                      :first-day-of-week="1"
-                                                      :noClearButton="true"
-                                                      :locale="'pl'"
-                                                      :no-shortcuts="true"
-                                                      :id="`VueCtkDateTimePicker-game-${row.item.gameNumber}`"
-                                />
+                            <td>
+                                <v-checkbox
+                                    v-model="competitionIsDoubleGame"
+                                    label="Runda rewanżowa"
+                                    color="white"
+                                    v-bind:disabled="disabled"
+                                ></v-checkbox>
+                            </td>
+                            <td>
+                                <v-checkbox
+                                    v-model="gameDrawEnable"
+                                    label="Możliwy remis"
+                                    color="white"
+                                ></v-checkbox>
                             </td>
                         </tr>
-                    </template>
-                </v-data-table>
-                <template v-if="cupGamesPreview.length > 0">
-                    <h3 class="form-header">Podgląd drabinki</h3>
-                    <v-card class="cup-visualization-preview">
-                        <div v-html="cupHtmlVisualization"></div>
-                    </v-card>
+                        <tr>
+                            <td>
+                                <v-select
+                                    :items="gamePointsItems"
+                                    label="Punkty za wygraną"
+                                    v-model="gameWinnerPoints"
+                                    color="white"
+                                ></v-select>
+                                <v-select
+                                    :items="gamePointsItems"
+                                    label="Punkty za przegraną"
+                                    v-model="gameLoserPoints"
+                                    color="white"
+                                ></v-select>
+                            </td>
+                            <td valign="top">
+                                <v-select
+                                    :disabled="!gameDrawEnable"
+                                    :items="gamePointsItems"
+                                    label="Punkty za remis"
+                                    v-model="gameDrawPoints"
+                                    color="white"
+                                ></v-select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </v-simple-table>
+                    <v-simple-table class="competition-form" v-else-if="competitionType === 'cup'">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <v-checkbox
+                                    v-model="competitionIsDoubleGame"
+                                    label="Dwumecz"
+                                    color="white"
+                                    v-bind:disabled="disabled"
+                                ></v-checkbox>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </v-simple-table>
                 </template>
-            </template>
-            <v-btn class="form-save-button" @click="onSaveClicked">
-                <v-icon left>mdi-content-save</v-icon>
-                zapisz rozgrywki
-            </v-btn>
+                <template v-if="competitionSize != null">
+                    <h3 class="form-header">Zespoły</h3>
+                    <v-simple-table class="competition-form">
+                        <tbody>
+                        <tr v-for="(competitor, index) in competitors" v-bind:key="index">
+                            <td valign="top">
+                                <v-text-field v-bind:label="`Zespół ${index + 1}`"
+                                              v-model="competitor.name"
+                                              :rules="[competitorNameValidator]"
+                                              color="white"
+                                              v-bind:disabled="disabled"></v-text-field>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </v-simple-table>
+                    <h3 class="form-header">Podgląd rozgrywek</h3>
+                    <v-data-table v-if="groupGamesPreview.length > 0 || cupGamesPreview.length > 0"
+                                  :headers="previewHeaders"
+                                  :items="groupGamesPreview.length > 0 ? groupGamesPreview : cupGamesPreview"
+                    >
+                        <template v-slot:item="row">
+                            <tr>
+                                <td>{{row.item.gameNumber}}</td>
+                                <td>{{row.item.teamA.name}}</td>
+                                <td>{{row.item.teamB.name}}</td>
+                                <td></td>
+                                <td style="display: flex; align-items: center; justify-content: center; padding-bottom: 12px">
+                                    <VueCtkDateTimePicker v-model="row.item.date"
+                                                          style="width: 90px"
+                                                          v-if="row.item.teamA.name !== '-' && row.item.teamB.name !== '-'"
+                                                          :dark="true"
+                                                          :only-date="true"
+                                                          :formatted="'YYYY-MM-DD'"
+                                                          :no-header="true"
+                                                          :no-label="true"
+                                                          :label="'Wybierz'"
+                                                          :auto-close="true"
+                                                          :no-button="true"
+                                                          :first-day-of-week="1"
+                                                          :noClearButton="true"
+                                                          :locale="'pl'"
+                                                          :no-shortcuts="true"
+                                                          :id="`VueCtkDateTimePicker-game-${row.item.gameNumber}`"
+                                    />
+                                </td>
+                            </tr>
+                        </template>
+                    </v-data-table>
+                    <template v-if="cupGamesPreview.length > 0">
+                        <h3 class="form-header">Podgląd drabinki</h3>
+                        <v-card class="cup-visualization-preview">
+                            <div v-html="cupHtmlVisualization"></div>
+                        </v-card>
+                    </template>
+                </template>
+                <div class="form-save">
+                    <div v-if="hasValidationErrors" class="error--text">Formularz zawiera błędy. Popraw je i ponów próbę zapisu.</div>
+                    <v-btn class="form-save-button" @click="onSaveClicked">
+                        <v-icon left>mdi-content-save</v-icon>
+                        zapisz rozgrywki
+                    </v-btn>
+                </div>
+            </v-form>
         </v-flex>
     </v-layout>
 </template>
@@ -236,8 +245,9 @@
         },
         data () {
             return {
-                disabled: true,
+                disabled: false,
                 loaded: this.$route.params.competition === undefined,
+                hasValidationErrors: false,
                 competitionRoute: this.$route.params.competition,
                 competition: {
                     name: '',
@@ -367,22 +377,30 @@
             }
         },
         methods: {
-            routeNameValidator (value: any) {
-                return /^[0-9a-z-]+$/i.test(value);
+            competitionNameValidator (value: string) {
+                return value.length > 3 && value.length < 63 || 'Nazwa musi zawierać od 4 do 32 znaków';
+            },
+            competitionRouteNameValidator (value: string) {
+                return /^[0-9a-z-]+$/i.test(value) && value.length > 3 && value.length < 33 || 'Ścieżka może się składać tylko z liter, cyfr i myślnika, od 4 do 32 znaków';
+            },
+            competitionDescriptionValidator (value: string) {
+                return value.length < 1025 || 'Opis jest za długi';
+            },
+            competitorNameValidator (value: string) {
+                return this.competitors.filter((el: { name: string }) => el.name === value).length === 1 && value.length > 0 || 'Nazwa nie może być pusta i nie może się powtarzać';
             },
             onSaveClicked () {
-                this.loaded = false;
+                this.hasValidationErrors = false;
 
-                if (this.validateForm) {
+                if (this.validateForm()) {
+                    this.loaded = false;
                     this.saveCompetition();
                 } else {
-                    // TODO show errors
+                    this.hasValidationErrors = true;
                 }
             },
             validateForm () {
-                // TODO validate
-
-                return false;
+                return this.$refs.form.validate();
             },
             saveCompetition () {
                 // TODO grapqhl query
@@ -404,8 +422,12 @@
         padding-top: 8px;
     }
 
+    .form-save {
+        margin: 24px;
+    }
+
     .form-save-button {
-        margin: 32px;
+        margin: 8px;
     }
 
     .v-application--is-ltr .v-data-table th {
