@@ -11,8 +11,14 @@ module.exports = {
         title: process.env.npm_package_name || '',
         meta: [
             { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1'
+            },
+            {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1'
+            },
             {
                 hid: 'description',
                 name: 'description',
@@ -20,7 +26,11 @@ module.exports = {
             }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            {
+                rel: 'icon',
+                type: 'image/x-icon',
+                href: '/favicon.ico'
+            }
         ]
     },
     /*
@@ -122,8 +132,14 @@ module.exports = {
     },
     serverMiddleware: [
         'redirect-ssl',
-        { path: '/api', handler: '~/api/public.ts' },
-        { path: '/protected-api', handler: '~/api/protected.ts' }
+        {
+            path: '/api',
+            handler: '~/api/public.ts'
+        },
+        {
+            path: '/protected-api',
+            handler: '~/api/protected.ts'
+        }
     ],
     router: {
         middleware: 'authorizationGraphQL'

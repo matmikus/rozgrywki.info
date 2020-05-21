@@ -147,6 +147,8 @@
 </template>
 
 <script>
+    import pl from 'vuetify/src/locale/pl.ts';
+
     export default {
         data () {
             return {
@@ -180,6 +182,10 @@
                 rightDrawer: false,
                 title: 'rozgrywki🏐info'
             };
+        },
+        mounted () {
+            this.$vuetify.lang.locales = { pl };
+            this.$vuetify.lang.current = 'pl';
         }
     };
 </script>

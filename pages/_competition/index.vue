@@ -2,7 +2,13 @@
     <v-layout>
         <universal-loader v-if="!loaded"/>
         <v-flex v-if="loaded" class="text-left">
-            <h2 class="competition-header">{{ competition.name }}</h2>
+            <h2 class="competition-header">
+                {{ competition.name }}
+                <v-btn small color="#464646" class="favouriteButton shareButton" @click="">
+                    <v-icon small>mdi-star</v-icon>
+                    <span class="copyButtonText">obserwuj</span>
+                </v-btn>
+            </h2>
             <v-simple-table>
                 <tbody>
                 <tr>
@@ -95,6 +101,7 @@
                     :headers="standingsHeaders"
                     :items="groupStandings"
                     :sort-by="standingsSort"
+                    :hide-default-footer="true"
                     class="text-left"
                 >
                 </v-data-table>
@@ -146,7 +153,8 @@
                     } else if (this.competition.cup !== null) {
                         this.competition.typeName += this.competition.cup.isDouble ? ' (mecz i rewanż)' : ' (jeden mecz)';
 
-                        this.cupHtmlVisualization = createHtmlCupVisualization(this.games, this.competition.cup.isDouble);
+                        this.cupHtmlVisualization = createHtmlCupVisualization(this.games,
+                            this.competition.cup.isDouble);
                     }
 
                     this.loaded = true;
@@ -232,6 +240,7 @@
     .competition-header {
         margin-top: 8px;
         text-align: center;
+        position: relative;
     }
 
     .v-data-table {
@@ -272,5 +281,11 @@
         padding: 16px 0;
         text-align: center;
         margin: 22px 0;
+    }
+
+    .favouriteButton {
+        position: absolute;
+        right: 0;
+        top: calc(50% - 14px);
     }
 </style>
