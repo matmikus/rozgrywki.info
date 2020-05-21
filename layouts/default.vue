@@ -165,11 +165,6 @@
                         to: '/rozgrywki'
                     },
                     {
-                        icon: 'mdi-text-subject',
-                        title: 'Aktualności',
-                        to: '/aktualnosci'
-                    },
-                    {
                         icon: 'mdi-help',
                         title: 'Pomoc',
                         to: '/pomoc'

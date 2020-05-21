@@ -1,7 +1,7 @@
 <template>
     <v-layout>
         <v-flex class="text-center">
-            obserwowane
+            to be continued...
         </v-flex>
     </v-layout>
 </template>
