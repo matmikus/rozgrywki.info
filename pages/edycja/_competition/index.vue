@@ -2,7 +2,7 @@
     <v-layout>
         <universal-loader v-if="!loaded"/>
         <v-flex v-if="loaded" class="text-center">
-            <v-form ref="form">
+            <v-form v-if="saveSuccess === null" ref="form">
                 <h3 class="form-header" v-if="competitionRoute">Edycja rozgrywek</h3>
                 <h3 class="form-header" v-else>Nowe rozgrywki</h3>
                 <v-simple-table class="competition-form">
@@ -204,13 +204,29 @@
                     </template>
                 </template>
                 <div class="form-save">
-                    <div v-if="hasValidationErrors" class="error--text">Formularz zawiera błędy. Popraw je i ponów próbę zapisu.</div>
+                    <div v-if="hasValidationErrors" class="error--text">Formularz zawiera błędy.
+                        Popraw je i ponów próbę zapisu.
+                    </div>
                     <v-btn class="form-save-button" @click="onSaveClicked">
                         <v-icon left>mdi-content-save</v-icon>
                         zapisz rozgrywki
                     </v-btn>
                 </div>
             </v-form>
+            <div v-else-if="saveSuccess" class="save-result-message">
+                <div>Gratulacje! Pomyślnie zapisano rozgrywki. Ich adres to:</div>
+                <h2>
+                    <nuxt-link :to="`/${competition.routeName}`">{{ `www.rozgrywki.info/${competition.routeName}` }}
+                    </nuxt-link>
+                </h2>
+            </div>
+            <div v-else class="save-result-message">
+                <div>Wystąpił błąd podczas zapisywania rozgrywek. Spróbuj jeszcze raz.</div>
+                <v-btn @click="onBackToFormClicked">
+                    <v-icon left>mdi-arrow-left</v-icon>
+                    powrót do formularza
+                </v-btn>
+            </div>
         </v-flex>
     </v-layout>
 </template>
@@ -248,6 +264,7 @@
                 disabled: false,
                 loaded: this.$route.params.competition === undefined,
                 hasValidationErrors: false,
+                saveSuccess: null,
                 competitionRoute: this.$route.params.competition,
                 competition: {
                     name: '',
@@ -389,12 +406,13 @@
             competitorNameValidator (value: string) {
                 return this.competitors.filter((el: { name: string }) => el.name === value).length === 1 && value.length > 0 || 'Nazwa nie może być pusta i nie może się powtarzać';
             },
-            onSaveClicked () {
+            async onSaveClicked () {
                 this.hasValidationErrors = false;
 
                 if (this.validateForm()) {
                     this.loaded = false;
-                    this.saveCompetition();
+                    this.saveSuccess = await this.saveCompetition();
+                    this.loaded = true;
                 } else {
                     this.hasValidationErrors = true;
                 }
@@ -404,6 +422,14 @@
             },
             saveCompetition () {
                 // TODO grapqhl query
+                return new Promise((res) => {
+                    setTimeout(() => {
+                        res(true);
+                    }, 1000);
+                });
+            },
+            onBackToFormClicked () {
+                this.saveSuccess = null;
             }
         }
     };
@@ -469,5 +495,13 @@
         text-align: left;
         color: rgba(255, 255, 255, 0.7);
         padding-bottom: 20px !important;
+    }
+
+    .save-result-message {
+        margin: 16px;
+    }
+
+    .save-result-message > *:not(:first-child) {
+        margin-top: 24px;
     }
 </style>

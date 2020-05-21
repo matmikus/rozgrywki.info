@@ -1,8 +1,8 @@
 mutation (
     $id: Int,
     $name: String,
-    $start: start,
-    $end: end,
+    $start: String,
+    $end: String,
     $visible: Boolean,
     $description: String,
     $routeName: String
