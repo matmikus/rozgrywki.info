@@ -11,7 +11,7 @@ query ($route: String) {
             userId
             cup {
                 id
-                isDoubleElimination
+                isDoubleGame
                 size
               	games {
                     number
@@ -37,7 +37,7 @@ query ($route: String) {
                 winnerPoints
                 loserPoints
                 drawPoints
-                isDrawEnable
+                isDrawEnabled
               	games {
                     number
                     aCompetitor {

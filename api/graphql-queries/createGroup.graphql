@@ -5,7 +5,7 @@ mutation (
     $winnerPoints: smallint,
     $loserPoints: smallint,
     $drawPoints: smallint,
-    $isDrawEnable: Boolean
+    $isDrawEnabled: Boolean
 ) {
     insert_groups(objects: [{
         competition: $competitionId,
@@ -14,7 +14,7 @@ mutation (
         winnerPoints: $winnerPoints,
         loserPoints: $loserPoints,
         drawPoints: $drawPoints,
-        isDrawEnable: $isDrawEnable
+        isDrawEnabled: $isDrawEnabled
     }]) {
         affected_rows
     }

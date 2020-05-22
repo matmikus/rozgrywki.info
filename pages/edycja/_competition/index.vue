@@ -100,7 +100,7 @@
                             </td>
                             <td>
                                 <v-checkbox
-                                    v-model="gameDrawEnable"
+                                    v-model="gameDrawEnabled"
                                     label="Możliwy remis"
                                     color="white"
                                 ></v-checkbox>
@@ -123,7 +123,7 @@
                             </td>
                             <td valign="top">
                                 <v-select
-                                    :disabled="!gameDrawEnable"
+                                    :disabled="!gameDrawEnabled"
                                     :items="gamePointsItems"
                                     label="Punkty za remis"
                                     v-model="gameDrawPoints"
@@ -157,8 +157,8 @@
                                 <v-text-field v-bind:label="`Zespół ${index + 1}`"
                                               v-model="competitor.name"
                                               :rules="[competitorNameValidator]"
-                                              color="white"
-                                              v-bind:disabled="disabled"></v-text-field>
+                                              v-bind:disabled="disabled"
+                                              color="white"></v-text-field>
                             </td>
                         </tr>
                         </tbody>
@@ -216,7 +216,8 @@
             <div v-else-if="saveSuccess" class="save-result-message">
                 <div>Gratulacje! Pomyślnie zapisano rozgrywki. Ich adres to:</div>
                 <h2>
-                    <nuxt-link :to="`/${competition.routeName}`">{{ `www.rozgrywki.info/${competition.routeName}` }}
+                    <nuxt-link :to="`/${competition.routeName}`">{{
+                        `www.rozgrywki.info/${competition.routeName}` }}
                     </nuxt-link>
                 </h2>
             </div>
@@ -236,6 +237,12 @@
 
     import UniversalLoader from '../../../components/UniversalLoader.vue';
     import fetchCompetition from '../../../api/graphql-queries/fetchCompetition.graphql';
+    import updateCompetition from '../../../api/graphql-queries/updateCompetition.graphql';
+    import createCompetitors from '../../../api/graphql-queries/createCompetitors.graphql';
+    import createCompetition from '../../../api/graphql-queries/createCompetition.graphql';
+    import createCup from '../../../api/graphql-queries/createCup.graphql';
+    import createGroup from '../../../api/graphql-queries/createGroup.graphql';
+    import createGames from '../../../api/graphql-queries/createGames.graphql';
     import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
     import {
         getGamesFromCompetitionData,
@@ -262,6 +269,7 @@
         },
         data () {
             return {
+                existingCompetition: false,
                 disabled: false,
                 loaded: this.$route.params.competition === undefined,
                 hasValidationErrors: false,
@@ -283,7 +291,7 @@
                 competitorsCountItems: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
                 gamePointsItems: [0, 1, 2, 3],
                 competitionIsDoubleGame: false,
-                gameDrawEnable: false,
+                gameDrawEnabled: false,
                 gameWinnerPoints: null,
                 gameLoserPoints: null,
                 gameDrawPoints: null,
@@ -313,6 +321,7 @@
         watch: {
             fetchedCompetition () {
                 if (hasResults((this.fetchedCompetition))) {
+                    this.existingCompetition = true;
                     this.competition = getResultObject(this.fetchedCompetition);
                     this.games = getGamesFromCompetitionData(this.competition);
                     this.disabled = this.games.length > 0;
@@ -320,7 +329,7 @@
                     this.competitionSize = this.competition[this.competition.type] ? this.competition[this.competition.type].size : null;
                     if (this.competition.group !== null) {
                         this.competitionIsDoubleGame = this.competition.group.isDouble;
-                        this.gameDrawEnable = this.competition.group.isDrawEnable;
+                        this.gameDrawEnabled = this.competition.group.isDrawEnabled;
                         this.gameWinnerPoints = this.competition.group.winnerPoints;
                         this.gameLoserPoints = this.competition.group.loserPoints;
                         this.gameDrawPoints = this.competition.group.drawPoints;
@@ -410,15 +419,34 @@
                 return this.$refs.form.validate();
             },
             saveCompetition () {
-                // TODO grapqhl query
-                return new Promise((res) => {
-                    setTimeout(() => {
-                        res(true);
-                    }, 1000);
-                });
+                if (this.existingCompetition) {
+                    return this.updateExistingCompetitionRequest();
+                } else {
+                    return this.createNewCompetitionRequest();
+                }
             },
             onBackToFormClicked () {
                 this.saveSuccess = null;
+            },
+            async updateExistingCompetitionRequest () {
+                return await this.$apollo.mutate({
+                    mutation: updateCompetition,
+                    variables: {
+                        id: this.competition.id,
+                        name: this.competition.name,
+                        start: this.competition.start,
+                        end: this.competition.end,
+                        description: this.competition.description,
+                        routeName: this.competition.routeName,
+                        winnerPoints: this.gameWinnerPoints,
+                        loserPoints: this.gameLoserPoints,
+                        drawPoints: this.gameDrawPoints,
+                        isDrawEnabled: this.gameDrawEnabled
+                    }
+                });
+            },
+            async createNewCompetitionRequest () {
+                return false; // TODO
             }
         }
     };

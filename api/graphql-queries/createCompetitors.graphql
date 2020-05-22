@@ -1,0 +1,9 @@
+mutation insert_multiple_competitors($competitors: [competitors_insert_input!]! ) {
+    insert_competitors(objects: $competitors) {
+        returning {
+            id
+            name
+        }
+    }
+}
+

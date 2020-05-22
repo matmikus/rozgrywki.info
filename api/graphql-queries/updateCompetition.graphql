@@ -1,20 +1,42 @@
 mutation (
     $id: Int,
     $name: String,
-    $start: String,
-    $end: String,
-    $visible: Boolean,
+    $start: date,
+    $end: date,
     $description: String,
-    $routeName: String
+    $routeName: String,
+    $winnerPoints: smallint,
+    $loserPoints: smallint,
+    $drawPoints: smallint,
+    $isDrawEnabled: Boolean
 ) {
-    update_competitions(_set: {
-        name: $name,
-        start: $start,
-        end: $end,
-        visible: $visible,
-        description: $description,
-        routeName: $routeName
-    }, where: {id: {_eq: $id}}) {
+    update_competitions(
+        _set: {
+            name: $name,
+            start: $start,
+            end: $end,
+            description: $description,
+            routeName: $routeName
+        }, where: {
+            id: {
+                _eq: $id
+            }
+        }
+    ) {
+        affected_rows
+    }
+    update_groups(
+        _set: {
+            winnerPoints: $winnerPoints,
+            loserPoints: $loserPoints,
+            drawPoints: $drawPoints,
+            isDrawEnabled: $isDrawEnabled
+        }, where: {
+            competition: {
+                _eq: $id
+            }
+        }
+    ) {
         affected_rows
     }
 }

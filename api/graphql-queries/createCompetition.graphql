@@ -1,31 +1,23 @@
-mutation
-(
-    $userId: String,
+mutation (
     $name: String,
-    $start: String,
-    $end: String,
-    $visible: Boolean,
+    $start: date,
+    $end: date,
     $description: String,
     $routeName: String,
-    $type: String
-)
-{
-    insert_competitions(
-        objects:
-            [
-                {
-                    name: $name,
-                    userId: $userId,
-                    start: $start,
-                    end: $end,
-                    visible: $visible,
-                    description: $description,
-                    routeName: $routeName,
-                    type: $type
-                }
-            ]
-        )
-    {
-        affected_rows
+    $type: String,
+    $userId: String
+) {
+    insert_competitions(objects:
+        [{
+            name: $name,
+            start: $start,
+            end: $end,
+            description: $description,
+            routeName: $routeName,
+          	type: $type,
+          	userId: $userId
+        }]
+    ) {
+        returning { id }
     }
 }
