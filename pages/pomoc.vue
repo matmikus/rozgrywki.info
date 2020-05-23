@@ -3,7 +3,7 @@
         <v-flex xs12 sm8 md6>
             <v-card>
                 <v-card-text>
-                    "Nie wierz we wszystko znalezione w internecie" - Abraham Lincoln.
+                    "Nie wierz we wszystko znalezione w internecie" - Henryk Sienkiewicz.
                 </v-card-text>
             </v-card>
         </v-flex>

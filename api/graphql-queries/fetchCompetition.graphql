@@ -14,6 +14,7 @@ query ($route: String) {
                 isDoubleGame
                 size
               	games(order_by: {number: asc}) {
+                    id
                     number
                     aCompetitorId
                     bCompetitorId
@@ -41,6 +42,7 @@ query ($route: String) {
                 drawPoints
                 isDrawEnabled
               	games(order_by: {number: asc}) {
+                    id
                     number
                     aCompetitorId
                     bCompetitorId

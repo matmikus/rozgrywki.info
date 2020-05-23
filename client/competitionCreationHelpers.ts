@@ -1,4 +1,4 @@
-export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boolean = false): { aCompetitor: { name: string }, bCompetitor: { name: string }, number: number | undefined, date: string | null }[] {
+export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boolean = false): { aCompetitor: { name: string }, bCompetitor: { name: string }, number: number | undefined, date: string | null, aResult: null, bResult: null }[] {
     let teamsArr = [...competitors];
     if (teamsArr.length % 2 !== 0) {
         teamsArr.push(null);
@@ -20,7 +20,7 @@ export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boo
                 continue;
             }
 
-            pairs.push({ aCompetitor: aArr[j], bCompetitor: bArr[j], number: gameCounter++, date: null });
+            pairs.push({ aCompetitor: aArr[j], bCompetitor: bArr[j], number: gameCounter++, date: null, aResult: null, bResult: null });
         }
 
         bArr.push(aArr.pop());
@@ -35,7 +35,9 @@ export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boo
                 aCompetitor: pairs[i].bCompetitor,
                 bCompetitor: pairs[i].aCompetitor,
                 number: gameCounter++,
-                date: null
+                date: null,
+                aResult: null,
+                bResult: null
             });
         }
 
@@ -45,7 +47,7 @@ export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boo
     return pairs;
 }
 
-export function createCupPairsForTeams (competitors: any[], isDouble: boolean = false): { aCompetitor: { name: string }, bCompetitor: { name: string }, number: number | undefined, date: string | null }[] {
+export function createCupPairsForTeams (competitors: any[], isDouble: boolean = false): { aCompetitor: { name: string }, bCompetitor: { name: string }, number: number | undefined, date: string | null, aResult: null, bResult: null }[] {
     let pairs = [];
     const teamsArr = [...competitors];
     const teamsCount = teamsArr.length;
@@ -67,7 +69,7 @@ export function createCupPairsForTeams (competitors: any[], isDouble: boolean = 
     }
 
     for (let i = 0; i < fullGamesCount; ++i) {
-        pairs.push({ number: i + 1, aCompetitor: { name: '?' }, bCompetitor: { name: '?' }, date: null })
+        pairs.push({ number: i + 1, aCompetitor: { name: '?' }, bCompetitor: { name: '?' }, date: null, aResult: null, bResult: null })
     }
 
     if (isDouble) {

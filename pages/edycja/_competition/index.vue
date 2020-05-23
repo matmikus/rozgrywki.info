@@ -177,7 +177,25 @@
                                 <td>{{row.item.number}}</td>
                                 <td>{{row.item.aCompetitor.name}}</td>
                                 <td>{{row.item.bCompetitor.name}}</td>
-                                <td></td>
+                                <td>
+                                    <div class="form-result-container">
+                                        <v-text-field v-model="row.item.aResult"
+                                                      class="form-result-input form-result-input--left"
+                                                      type="number"
+                                                      min="0"
+                                                      max="999"
+                                                      :rules="[resultValidator]"
+                                                      color="white"></v-text-field>
+                                        :
+                                        <v-text-field v-model="row.item.bResult"
+                                                      class="form-result-input form-result-input--right"
+                                                      type="number"
+                                                      min="0"
+                                                      max="999"
+                                                      :rules="[resultValidator]"
+                                                      color="white"></v-text-field>
+                                    </div>
+                                </td>
                                 <td style="display: flex; align-items: center; justify-content: center; padding-bottom: 12px">
                                     <VueCtkDateTimePicker v-model="row.item.date"
                                                           style="width: 90px"
@@ -246,6 +264,7 @@
     import createCup from '../../../api/graphql-queries/createCup.graphql';
     import createGroup from '../../../api/graphql-queries/createGroup.graphql';
     import createGames from '../../../api/graphql-queries/createGames.graphql';
+    import updateGame from '../../../api/graphql-queries/updateGame.graphql';
     import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
     import {
         getGamesFromCompetitionData,
@@ -411,10 +430,23 @@
                 return value.length < 1025 || 'Opis jest za długi';
             },
             competitorNameValidator (value: string) {
+                if (this.existingCompetition) {
+                    return true;
+                }
+
                 return this.competitors.filter((el: { name: string }) => el.name === value).length === 1 && value.length > 2 && value.length < 33 || 'Nazwa musi zawierać od 3 do 32 znaków i nie może się powtarzać';
             },
             notNullValidator (value: string) {
                 return value !== null;
+            },
+            resultValidator (value: string) {
+                if (value === null) {
+                    return true;
+                }
+
+                const decValue = parseInt(value, 10);
+
+                return decValue % 1 === 0 && decValue >= 0 && decValue <= 999;
             },
             async onSaveClicked () {
                 this.hasValidationErrors = false;
@@ -437,7 +469,7 @@
                 this.saveSuccess = null;
             },
             async updateExistingCompetitionRequest () {
-                return await this.$apollo.mutate({
+                const updateCompetitionPromise = this.$apollo.mutate({
                     mutation: updateCompetition,
                     variables: {
                         id: this.competition.id,
@@ -452,6 +484,18 @@
                         isDrawEnabled: this.gameDrawEnabled
                     }
                 });
+
+                const updateGamesPromiseArr = this.games.map((game: any) => this.$apollo.mutate({
+                    mutation: updateGame,
+                    variables: {
+                        id: game.id,
+                        aResult: game.aResult,
+                        bResult: game.bResult,
+                        date: game.date
+                    }
+                }));
+
+                return await Promise.all([updateCompetitionPromise, ...updateGamesPromiseArr]);
             },
             async createNewCompetitionRequest () {
                 let competitorsWithIds: { name: string, id: number }[];
@@ -605,5 +649,29 @@
 
     .save-result-message > *:not(:first-child) {
         margin-top: 24px;
+    }
+
+    .form-result-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-result-input {
+        margin: 7px 0 0 0;
+        padding: 0;
+        max-width: 64px;
+    }
+
+    .form-result-input .v-text-field__details {
+        display: none;
+    }
+
+    .form-result-input--left input {
+        text-align: right;
+    }
+
+    .form-result-input--right input {
+        padding-left: 12px;
     }
 </style>
