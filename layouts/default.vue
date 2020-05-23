@@ -81,19 +81,6 @@
                 </v-list-item>
                 <v-list-item
                     v-if="$auth.loggedIn"
-                    to="/obserwowane"
-                    router
-                    exact
-                >
-                    <v-list-item-action>
-                        <v-icon>{{ 'mdi-star' }}</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Obserwowane</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item
-                    v-if="$auth.loggedIn"
                     to="/ustawienia"
                     router
                     exact

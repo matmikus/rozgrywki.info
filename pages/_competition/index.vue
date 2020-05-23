@@ -4,9 +4,9 @@
         <v-flex v-if="loaded" class="text-left">
             <h2 class="competition-header">
                 {{ competition.name }}
-                <v-btn small color="#464646" class="favouriteButton shareButton">
-                    <v-icon small>mdi-star</v-icon>
-                    <span class="copyButtonText">obserwuj</span>
+                <v-btn small color="#464646" class="favouriteButton shareButton" disabled>
+                    <v-icon small>mdi-bell</v-icon>
+                    <span class="copyButtonText">powiadomienia</span>
                 </v-btn>
             </h2>
             <v-simple-table>
