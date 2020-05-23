@@ -49,10 +49,18 @@ export function getGamesFromCompetitionData (competitionData: any): any[] {
 
         if (game.aCompetitor === null) {
             game.aCompetitor = { name: '?' };
+
+            if (game.aCompetitorId === 0) {
+                game.aCompetitor = { name: '-' };
+            }
         }
 
         if (game.bCompetitor === null) {
             game.bCompetitor = { name: '?' };
+
+            if (game.bCompetitorId === 0) {
+                game.bCompetitor = { name: '-' };
+            }
         }
 
         return game;

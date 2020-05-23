@@ -170,7 +170,7 @@
                     <h3 class="form-header">Podgląd rozgrywek</h3>
                     <v-data-table v-if="gamesPreview.length > 0"
                                   :headers="previewHeaders"
-                                  :items="gamesPreview"
+                                  :items="games ? games : gamesPreview"
                     >
                         <template v-slot:item="row">
                             <tr>
@@ -285,6 +285,7 @@
                     start: null,
                     end: null
                 },
+                games: null,
                 competitionType: null,
                 competitionSize: null,
                 competitionTypeFormItems: [{
@@ -313,7 +314,7 @@
                     value: null
                 }, {
                     text: 'Data',
-                    value: null
+                    value: 'date'
                 }]
             };
         },
@@ -394,7 +395,9 @@
                     return '';
                 }
 
-                return createHtmlCupVisualization(this.cupGamesPreview, this.competitionIsDoubleGame);
+                const games = this.games ? this.games : this.cupGamesPreview;
+
+                return createHtmlCupVisualization(games, this.competitionIsDoubleGame);
             }
         },
         methods: {
@@ -408,7 +411,7 @@
                 return value.length < 1025 || 'Opis jest za długi';
             },
             competitorNameValidator (value: string) {
-                return this.competitors.filter((el: { name: string }) => el.name === value).length === 1 && value.length > 0 || 'Nazwa nie może być pusta i nie może się powtarzać';
+                return this.competitors.filter((el: { name: string }) => el.name === value).length === 1 && value.length > 2 && value.length < 33 || 'Nazwa musi zawierać od 3 do 32 znaków i nie może się powtarzać';
             },
             notNullValidator (value: string) {
                 return value !== null;
@@ -480,8 +483,8 @@
                             mutation: createGames,
                             variables: {
                                 games: this.gamesPreview.map((game: { number: number, date: string, aCompetitor: { name: string }, bCompetitor: { name: string } }) => {
-                                    const aCompetitor = competitorsWithIds.find((competitor) => competitor.name === game.aCompetitor.name);
-                                    const bCompetitor = competitorsWithIds.find((competitor) => competitor.name === game.bCompetitor.name);
+                                    const aCompetitor = game.aCompetitor.name === '-' ? 0 : competitorsWithIds.find((competitor) => competitor.name === game.aCompetitor.name);
+                                    const bCompetitor = game.aCompetitor.name === '-' ? 0 : competitorsWithIds.find((competitor) => competitor.name === game.bCompetitor.name);
 
                                     return {
                                         competition: competitionId,
