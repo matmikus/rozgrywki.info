@@ -2,11 +2,15 @@ mutation (
     $id: Int,
     $aResult: smallint,
     $bResult: smallint,
+    $aCompetitorId: Int,
+    $bCompetitorId: Int,
     $date: date
 ) {
     update_games(_set: {
         aResult: $aResult,
         bResult: $bResult,
+        aCompetitorId: $aCompetitorId,
+        bCompetitorId: $bCompetitorId,
         date: $date
     }, where: {id: {_eq: $id}}) {
         affected_rows

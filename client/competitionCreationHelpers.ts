@@ -20,7 +20,14 @@ export function createRoundRobinPairsForTeams (competitors: any[], isDouble: boo
                 continue;
             }
 
-            pairs.push({ aCompetitor: aArr[j], bCompetitor: bArr[j], number: gameCounter++, date: null, aResult: null, bResult: null });
+            pairs.push({
+                aCompetitor: aArr[j],
+                bCompetitor: bArr[j],
+                number: gameCounter++,
+                date: null,
+                aResult: null,
+                bResult: null
+            });
         }
 
         bArr.push(aArr.pop());
@@ -51,11 +58,7 @@ export function createCupPairsForTeams (competitors: any[], isDouble: boolean = 
     let pairs = [];
     const teamsArr = [...competitors];
     const teamsCount = teamsArr.length;
-    let cupSize = 1;
-
-    while (cupSize < teamsCount) {
-        cupSize *= 2;
-    }
+    let cupSize = getCupSizeByCompetitorsCount(teamsCount);
 
     const fullGamesCount = isDouble ? 2 * (cupSize - 1) : cupSize - 1;
 
@@ -69,7 +72,14 @@ export function createCupPairsForTeams (competitors: any[], isDouble: boolean = 
     }
 
     for (let i = 0; i < fullGamesCount; ++i) {
-        pairs.push({ number: i + 1, aCompetitor: { name: '?' }, bCompetitor: { name: '?' }, date: null, aResult: null, bResult: null })
+        pairs.push({
+            number: i + 1,
+            aCompetitor: { name: '?' },
+            bCompetitor: { name: '?' },
+            date: null,
+            aResult: null,
+            bResult: null
+        })
     }
 
     if (isDouble) {
@@ -77,7 +87,7 @@ export function createCupPairsForTeams (competitors: any[], isDouble: boolean = 
             pairs[i].aCompetitor = teamsArr[i] !== null ? teamsArr[i] : { name: '-' };
             pairs[i].bCompetitor = teamsArr[i + 1] !== null ? teamsArr[i + 1] : { name: '-' };
 
-            pairs[i + 1].bCompetitor =  teamsArr[i] !== null ? teamsArr[i] : { name: '-' };
+            pairs[i + 1].bCompetitor = teamsArr[i] !== null ? teamsArr[i] : { name: '-' };
             pairs[i + 1].aCompetitor = teamsArr[i + 1] !== null ? teamsArr[i + 1] : { name: '-' };
 
             if (teamsArr[(i * 2)] === null) {
@@ -153,7 +163,14 @@ export function createHtmlCupVisualization (games: any[], isDouble: boolean = fa
 
         for (let j = 0; j < i; j += 2) {
             if (i === 1) {
-                rowsAndCells += `<td colspan="${colspan}">?</td>`;
+                let winner = '?';
+                const lastGame = games[games.length - 1];
+                if (lastGame.aResult !== null && lastGame.bResult !== null && lastGame.aCompetitor !== null && lastGame.bCompetitor !== null) {
+                    if (lastGame.aResult > lastGame.bResult) winner = lastGame.aCompetitor.name;
+                    if (lastGame.aResult < lastGame.bResult) winner = lastGame.bCompetitor.name;
+                }
+
+                rowsAndCells += `<td colspan="${colspan}">${winner}</td>`;
             } else {
                 rowsAndCells += `<td colspan="${colspan}">${games[gamesCounter].aCompetitor.name}</td><td colspan="${colspan}">${games[gamesCounter].bCompetitor.name}</td>`;
 
@@ -169,4 +186,14 @@ export function createHtmlCupVisualization (games: any[], isDouble: boolean = fa
     }
 
     return `<table style="width: 100%; table-layout: fixed">${rowsAndCells}</table>`;
+}
+
+export function getCupSizeByCompetitorsCount (teamsCount: number) {
+    let size = 1;
+
+    while (size < teamsCount) {
+        size *= 2;
+    }
+
+    return size;
 }

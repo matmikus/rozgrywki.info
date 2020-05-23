@@ -178,13 +178,14 @@
                                 <td>{{row.item.aCompetitor.name}}</td>
                                 <td>{{row.item.bCompetitor.name}}</td>
                                 <td>
-                                    <div class="form-result-container">
+                                    <div class="form-result-container" v-if="existingCompetition">
                                         <v-text-field v-model="row.item.aResult"
                                                       class="form-result-input form-result-input--left"
                                                       type="number"
                                                       min="0"
                                                       max="999"
                                                       :rules="[resultValidator]"
+                                                      @change="onResultChanged"
                                                       color="white"></v-text-field>
                                         :
                                         <v-text-field v-model="row.item.bResult"
@@ -193,6 +194,7 @@
                                                       min="0"
                                                       max="999"
                                                       :rules="[resultValidator]"
+                                                      @change="onResultChanged"
                                                       color="white"></v-text-field>
                                     </div>
                                 </td>
@@ -274,7 +276,8 @@
     import {
         createRoundRobinPairsForTeams,
         createCupPairsForTeams,
-        createHtmlCupVisualization
+        createHtmlCupVisualization,
+        getCupSizeByCompetitorsCount
     } from '../../../client/competitionCreationHelpers';
 
     export default {
@@ -440,7 +443,7 @@
                 return value !== null;
             },
             resultValidator (value: string) {
-                if (value === null) {
+                if (value === null || value === '') {
                     return true;
                 }
 
@@ -491,6 +494,8 @@
                         id: game.id,
                         aResult: game.aResult,
                         bResult: game.bResult,
+                        aCompetitorId: game.aCompetitor.id,
+                        bCompetitorId: game.bCompetitor.id,
                         date: game.date
                     }
                 }));
@@ -576,6 +581,37 @@
                         throw new Error();
                     });
                 }).catch(() => false);
+            },
+            onResultChanged () {
+                if (this.competitionType === 'cup') {
+                    this.games.forEach((game: any) => {
+                        if (game.aResult !== null && game.bResult !== null && game.number < getCupSizeByCompetitorsCount(this.competitionSize) - 1) {
+                            const getNextRoundGame = (gameNumber: number, cupSize: number) => {
+                                let liczbaMeczyPoprzednichRundIAktualnej = cupSize / 2;
+                                let liczbaMeczyAktualnejRundy = cupSize / 2;
+
+                                while (gameNumber > liczbaMeczyPoprzednichRundIAktualnej) {
+                                    liczbaMeczyAktualnejRundy /= 2;
+                                    liczbaMeczyPoprzednichRundIAktualnej += liczbaMeczyAktualnejRundy;
+                                }
+
+                                return Math.ceil((gameNumber - liczbaMeczyPoprzednichRundIAktualnej + liczbaMeczyAktualnejRundy) / 2) + liczbaMeczyPoprzednichRundIAktualnej;
+                            };
+
+                            const nextGameNumber = getNextRoundGame(game.number, getCupSizeByCompetitorsCount(this.competitionSize));
+                            let winner;
+                            if (game.aResult > game.bResult) winner = game.aCompetitor;
+                            if (game.aResult < game.bResult) winner = game.bCompetitor;
+                            const position = game.number % 2 === 1 ? 'a' : 'b';
+
+                            if (winner) {
+                                const nextGameIndex = this.games.findIndex((game: any) => game.number === nextGameNumber);
+                                this.games[nextGameIndex][`${position}Competitor`] = winner;
+                                this.games[nextGameIndex][`${position}CompetitorId`] = winner.id;
+                            }
+                        }
+                    });
+                }
             }
         }
     };
