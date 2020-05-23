@@ -70,6 +70,7 @@
                                 item-value='value'
                                 item-text='label'
                                 color="white"
+                                :rules="[notNullValidator]"
                                 v-bind:disabled="disabled"
                             ></v-select>
                         </td>
@@ -79,6 +80,7 @@
                                 label="Ilość zespołów"
                                 v-model="competitionSize"
                                 color="white"
+                                :rules="[notNullValidator]"
                                 v-bind:disabled="disabled"
                             ></v-select>
                         </td>
@@ -112,12 +114,14 @@
                                     :items="gamePointsItems"
                                     label="Punkty za wygraną"
                                     v-model="gameWinnerPoints"
+                                    :rules="[notNullValidator]"
                                     color="white"
                                 ></v-select>
                                 <v-select
                                     :items="gamePointsItems"
                                     label="Punkty za przegraną"
                                     v-model="gameLoserPoints"
+                                    :rules="[notNullValidator]"
                                     color="white"
                                 ></v-select>
                             </td>
@@ -164,9 +168,9 @@
                         </tbody>
                     </v-simple-table>
                     <h3 class="form-header">Podgląd rozgrywek</h3>
-                    <v-data-table v-if="groupGamesPreview.length > 0 || cupGamesPreview.length > 0"
+                    <v-data-table v-if="gamesPreview.length > 0"
                                   :headers="previewHeaders"
-                                  :items="groupGamesPreview.length > 0 ? groupGamesPreview : cupGamesPreview"
+                                  :items="gamesPreview"
                     >
                         <template v-slot:item="row">
                             <tr>
@@ -234,7 +238,6 @@
 
 <script lang="ts" scoped>
     import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-
     import UniversalLoader from '../../../components/UniversalLoader.vue';
     import fetchCompetition from '../../../api/graphql-queries/fetchCompetition.graphql';
     import updateCompetition from '../../../api/graphql-queries/updateCompetition.graphql';
@@ -279,8 +282,8 @@
                     name: '',
                     description: '',
                     routeName: '',
-                    start: '',
-                    end: ''
+                    start: null,
+                    end: null
                 },
                 competitionType: null,
                 competitionSize: null,
@@ -383,6 +386,9 @@
 
                 return createCupPairsForTeams(this.competitors, this.competitionIsDoubleGame);
             },
+            gamesPreview () {
+                return this.groupGamesPreview.length > 0 ? this.groupGamesPreview : this.cupGamesPreview;
+            },
             cupHtmlVisualization () {
                 if (this.competitionType !== 'cup') {
                     return '';
@@ -404,6 +410,9 @@
             competitorNameValidator (value: string) {
                 return this.competitors.filter((el: { name: string }) => el.name === value).length === 1 && value.length > 0 || 'Nazwa nie może być pusta i nie może się powtarzać';
             },
+            notNullValidator (value: string) {
+                return value !== null;
+            },
             async onSaveClicked () {
                 this.hasValidationErrors = false;
 
@@ -419,11 +428,7 @@
                 return this.$refs.form.validate();
             },
             saveCompetition () {
-                if (this.existingCompetition) {
-                    return this.updateExistingCompetitionRequest();
-                } else {
-                    return this.createNewCompetitionRequest();
-                }
+                return this.existingCompetition ? this.updateExistingCompetitionRequest() : this.createNewCompetitionRequest();
             },
             onBackToFormClicked () {
                 this.saveSuccess = null;
@@ -446,7 +451,84 @@
                 });
             },
             async createNewCompetitionRequest () {
-                return false; // TODO
+                let competitorsWithIds: { name: string, id: number }[];
+                let competitionId: number;
+
+                return await this.$apollo.mutate({
+                    mutation: createCompetitors,
+                    variables: {
+                        competitors: this.competitors
+                    }
+                }).then((createCompetitorsRes: any) => {
+                    competitorsWithIds = createCompetitorsRes.data.insert_competitors.returning;
+
+                    return this.$apollo.mutate({
+                        mutation: createCompetition,
+                        variables: {
+                            name: this.competition.name,
+                            start: this.competition.start,
+                            end: this.competition.end,
+                            description: this.competition.description,
+                            routeName: this.competition.routeName,
+                            type: this.competitionType,
+                            userId: this.$auth.user.sub
+                        }
+                    }).then((createCompetitionRes: any) => {
+                        competitionId = createCompetitionRes.data.insert_competitions.returning[0].id;
+
+                        return this.$apollo.mutate({
+                            mutation: createGames,
+                            variables: {
+                                games: this.gamesPreview.map((game: { number: number, date: string, aCompetitor: { name: string }, bCompetitor: { name: string } }) => {
+                                    const aCompetitor = competitorsWithIds.find((competitor) => competitor.name === game.aCompetitor.name);
+                                    const bCompetitor = competitorsWithIds.find((competitor) => competitor.name === game.bCompetitor.name);
+
+                                    return {
+                                        competition: competitionId,
+                                        number: game.number,
+                                        aCompetitorId: aCompetitor ? aCompetitor.id : null,
+                                        bCompetitorId: bCompetitor ? bCompetitor.id : null,
+                                        date: game.date
+                                    };
+                                })
+                            }
+                        }).then(() => {
+                            if (this.competitionType === 'group') {
+                                return this.$apollo.mutate({
+                                    mutation: createGroup,
+                                    variables: {
+                                        competitionId: competitionId,
+                                        isDouble: this.competitionIsDoubleGame,
+                                        size: this.competitionSize,
+                                        winnerPoints: this.gameWinnerPoints,
+                                        loserPoints: this.gameLoserPoints,
+                                        drawPoints: this.gameDrawPoints,
+                                        isDrawEnabled: this.gameDrawEnabled
+                                    }
+                                }).catch(() => {
+                                    throw new Error();
+                                });
+                            }
+
+                            if (this.competitionType === 'cup') {
+                                return this.$apollo.mutate({
+                                    mutation: createCup,
+                                    variables: {
+                                        competitionId: competitionId,
+                                        isDoubleGame: this.competitionIsDoubleGame,
+                                        size: this.competitionSize
+                                    }
+                                }).catch(() => {
+                                    throw new Error();
+                                });
+                            }
+
+                            throw new Error();
+                        });
+                    }).catch(() => {
+                        throw new Error();
+                    });
+                }).catch(() => false);
             }
         }
     };

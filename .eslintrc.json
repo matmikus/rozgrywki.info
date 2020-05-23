@@ -32,7 +32,9 @@
         "import/extensions": "off",
         "import/no-unresolved": "off",
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-        "no-mixed-operators": "off"
+        "no-mixed-operators": "off",
+        "no-return-await": "off",
+        "object-shorthand": ["error", "methods"]
     },
     "overrides": [
         {
