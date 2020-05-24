@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv')
+.config();
 const colors = require('vuetify/es5/util/colors').default;
 
 module.exports = {
@@ -87,7 +88,12 @@ module.exports = {
                 httpLinkOptions: {
                     credentials: 'same-origin'
                 },
-                tokenName: 'authToken'
+                tokenName: 'authToken',
+                defaultOptions: {
+                    $query: {
+                        fetchPolicy: 'network-only'
+                    }
+                }
             }
         },
         authenticationType: ''
