@@ -17,6 +17,7 @@
                                           v-model="competition.routeName"
                                           :rules="[competitionRouteNameValidator]"
                                           prefix="www.rozgrywki.info/"
+                                          @change="onRouteNameChanged"
                                           color="white"></v-text-field>
                         </td>
                         <td>
@@ -277,7 +278,8 @@
         createRoundRobinPairsForTeams,
         createCupPairsForTeams,
         createHtmlCupVisualization,
-        getCupSizeByCompetitorsCount
+        getCupSizeByCompetitorsCount,
+        testForbiddenWordsIn
     } from '../../../client/competitionCreationHelpers';
 
     export default {
@@ -424,20 +426,52 @@
         },
         methods: {
             competitionNameValidator (value: string) {
-                return value.length > 3 && value.length < 63 || 'Nazwa musi zawierać od 4 do 32 znaków';
+                if (value.length < 4 || value.length > 60) {
+                    return 'Nazwa musi zawierać od 4 do 60 znaków';
+                }
+
+                if (testForbiddenWordsIn(value)) {
+                    return 'Nazwa zawiera niedozwolone słowa'
+                }
+
+                return true;
             },
             competitionRouteNameValidator (value: string) {
-                return /^[0-9a-z-]+$/i.test(value) && value.length > 3 && value.length < 33 || 'Ścieżka może się składać tylko z liter, cyfr i myślnika, od 4 do 32 znaków';
+                if (!/^[0-9a-z-]+$/i.test(value) || value.length < 4 || value.length > 30) {
+                    return 'Ścieżka może się składać tylko z liter, cyfr i myślnika, od 4 do 30 znaków';
+                }
+
+                if (testForbiddenWordsIn(value)) {
+                    return 'Ścieżka zawiera niedozwolone słowa'
+                }
+
+                return true;
             },
             competitionDescriptionValidator (value: string) {
-                return value.length < 1025 || 'Opis jest za długi';
+                if (value.length > 1000) {
+                    return 'Opis musi zawierać do 1000 znaków';
+                }
+
+                if (testForbiddenWordsIn(value)) {
+                    return 'Opis zawiera niedozwolone słowa'
+                }
+
+                return true;
             },
             competitorNameValidator (value: string) {
                 if (this.existingCompetition) {
                     return true;
                 }
 
-                return this.competitors.filter((el: { name: string }) => el.name === value).length === 1 && value.length > 2 && value.length < 33 || 'Nazwa musi zawierać od 3 do 32 znaków i nie może się powtarzać';
+                if (this.competitors.filter((el: { name: string }) => el.name === value).length !== 1 || value.length < 3 || value.length > 30) {
+                    return  'Nazwa musi zawierać od 3 do 30 znaków i nie może się powtarzać';
+                }
+
+                if (testForbiddenWordsIn(value)) {
+                    return 'Nazwa zawiera niedozwolone słowa'
+                }
+
+                return true;
             },
             notNullValidator (value: string) {
                 return value !== null;
@@ -605,13 +639,20 @@
                             const position = game.number % 2 === 1 ? 'a' : 'b';
 
                             if (winner) {
-                                const nextGameIndex = this.games.findIndex((game: any) => game.number === nextGameNumber);
+                                const nextGameIndex = this.games.findIndex((gameObj: any) => gameObj.number === nextGameNumber);
                                 this.games[nextGameIndex][`${position}Competitor`] = winner;
                                 this.games[nextGameIndex][`${position}CompetitorId`] = winner.id;
                             }
                         }
                     });
                 }
+            },
+            onRouteNameChanged () {
+                if (this.competition.routeName === this.competition.routeName.toLowerCase()) {
+                    return;
+                }
+
+                this.competition.routeName = this.competition.routeName.toLowerCase();
             }
         }
     };

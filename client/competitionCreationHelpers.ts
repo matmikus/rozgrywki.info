@@ -197,3 +197,23 @@ export function getCupSizeByCompetitorsCount (teamsCount: number) {
 
     return size;
 }
+
+import { polishForbiddenWords, englishForbiddenWords } from './forbiddenWords.ts';
+
+export function testForbiddenWordsIn (text: string) {
+    const testedString = text.toLowerCase().replace(/\s|-|_|[.]/g, '');
+
+    for (const word of polishForbiddenWords) {
+        if (testedString.includes(word)) {
+            return true;
+        }
+    }
+
+    for (const word of englishForbiddenWords) {
+        if (testedString.includes(word)) {
+            return true;
+        }
+    }
+
+    return false;
+}
