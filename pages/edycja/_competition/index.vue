@@ -268,6 +268,7 @@
     import createGroup from '../../../api/graphql-queries/createGroup.graphql';
     import createGames from '../../../api/graphql-queries/createGames.graphql';
     import updateGame from '../../../api/graphql-queries/updateGame.graphql';
+    import fetchCompetitionsRouteName from '../../../api/graphql-queries/fetchCompetitionsRouteName.graphql';
     import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
     import {
         getGamesFromCompetitionData,
@@ -292,6 +293,10 @@
                         route: this.competitionRoute ? this.competitionRoute : ''
                     };
                 }
+            },
+            fetchedRouteNames: {
+                prefetch: true,
+                query: fetchCompetitionsRouteName
             }
         },
         data () {
@@ -302,6 +307,7 @@
                 hasValidationErrors: false,
                 saveSuccess: null,
                 competitionRoute: this.$route.params.competition,
+                reservedRouteNames: [],
                 competition: {
                     name: '',
                     description: '',
@@ -376,6 +382,9 @@
                     this.loaded = true;
                 }
             },
+            fetchedRouteNames () {
+                this.reservedRouteNames = this.fetchedRouteNames.map((el: any) => el.routeName);
+            },
             competitionSize () {
                 if (this.disabled) {
                     return;
@@ -431,18 +440,22 @@
                 }
 
                 if (testForbiddenWordsIn(value)) {
-                    return 'Nazwa zawiera niedozwolone słowa'
+                    return 'Nazwa zawiera niedozwolone słowa';
                 }
 
                 return true;
             },
             competitionRouteNameValidator (value: string) {
+                if (this.reservedRouteNames.includes(value)) {
+                    return 'Ścieżka jest już zajęta';
+                }
+
                 if (!/^[0-9a-z-]+$/i.test(value) || value.length < 4 || value.length > 30) {
                     return 'Ścieżka może się składać tylko z liter, cyfr i myślnika, od 4 do 30 znaków';
                 }
 
                 if (testForbiddenWordsIn(value)) {
-                    return 'Ścieżka zawiera niedozwolone słowa'
+                    return 'Ścieżka zawiera niedozwolone słowa';
                 }
 
                 return true;
@@ -453,7 +466,7 @@
                 }
 
                 if (testForbiddenWordsIn(value)) {
-                    return 'Opis zawiera niedozwolone słowa'
+                    return 'Opis zawiera niedozwolone słowa';
                 }
 
                 return true;
@@ -464,11 +477,11 @@
                 }
 
                 if (this.competitors.filter((el: { name: string }) => el.name === value).length !== 1 || value.length < 3 || value.length > 30) {
-                    return  'Nazwa musi zawierać od 3 do 30 znaków i nie może się powtarzać';
+                    return 'Nazwa musi zawierać od 3 do 30 znaków i nie może się powtarzać';
                 }
 
                 if (testForbiddenWordsIn(value)) {
-                    return 'Nazwa zawiera niedozwolone słowa'
+                    return 'Nazwa zawiera niedozwolone słowa';
                 }
 
                 return true;
@@ -503,6 +516,7 @@
                 return this.existingCompetition ? this.updateExistingCompetitionRequest() : this.createNewCompetitionRequest();
             },
             onBackToFormClicked () {
+                this.$apollo.queries.fetchedRouteNames.refetch();
                 this.saveSuccess = null;
             },
             async updateExistingCompetitionRequest () {
