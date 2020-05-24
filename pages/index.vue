@@ -11,13 +11,13 @@
                         <br>Prototyp stworzony do zbadania tematu i wyznaczenia kierunków rozwoju
                         wersji docelowej. Enjoy!</p>
                 </v-card-text>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn color="primary" nuxt to="/rozgrywki">
-                        Rozgrywki
-                    </v-btn>
-                </v-card-actions>
             </v-card>
         </v-flex>
     </v-layout>
 </template>
+
+<style scoped>
+    .headline {
+        word-break: break-word;
+    }
+</style>

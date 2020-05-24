@@ -185,7 +185,7 @@ export function createHtmlCupVisualization (games: any[], isDouble: boolean = fa
         rowsAndCells += `</tr>`;
     }
 
-    return `<table style="width: 100%; table-layout: fixed">${rowsAndCells}</table>`;
+    return `<table style="width: 100%; table-layout: fixed" cellspacing="4">${rowsAndCells}</table>`;
 }
 
 export function getCupSizeByCompetitorsCount (teamsCount: number) {

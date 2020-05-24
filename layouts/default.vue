@@ -113,7 +113,9 @@
             app
         >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
-            <v-toolbar-title v-text="title"/>
+            <nuxt-link to="/">
+                <v-toolbar-title v-text="title"/>
+            </nuxt-link>
             <v-spacer/>
             <v-btn icon @click.stop="rightDrawer = !rightDrawer">
                 <v-icon>mdi-account-circle</v-icon>
@@ -173,6 +175,7 @@
         mounted () {
             this.$vuetify.lang.locales = { pl };
             this.$vuetify.lang.current = 'pl';
+            this.$vuetify.lang.locales.pl.dataTable.itemsPerPageText = 'Pokaż:';
         }
     };
 </script>
@@ -180,5 +183,10 @@
 <style>
     html {
         overflow: auto;
+    }
+
+    .v-toolbar__content a {
+        color: #fff;
+        text-decoration: none;
     }
 </style>

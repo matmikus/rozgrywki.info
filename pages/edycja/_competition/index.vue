@@ -8,24 +8,26 @@
                 <v-simple-table class="competition-form">
                     <tbody>
                     <tr>
-                        <td valign="top">
-                            <v-text-field label="Nazwa"
-                                          v-model="competition.name"
-                                          :rules="[competitionNameValidator]"
-                                          color="white"></v-text-field>
-                            <v-text-field label="Ścieżka do strony rozgrywek"
-                                          v-model="competition.routeName"
-                                          :rules="[competitionRouteNameValidator]"
-                                          prefix="www.rozgrywki.info/"
-                                          @change="onRouteNameChanged"
-                                          color="white"></v-text-field>
-                        </td>
-                        <td>
-                            <v-textarea label="Opis"
-                                        v-model="competition.description"
-                                        :rules="[competitionDescriptionValidator]"
-                                        rows="4"
-                                        color="white"></v-textarea>
+                        <td valign="top" colspan="2">
+                            <div>
+                                <v-text-field label="Nazwa"
+                                              v-model="competition.name"
+                                              :rules="[competitionNameValidator]"
+                                              color="white"></v-text-field>
+                                <v-text-field label="Ścieżka do strony rozgrywek"
+                                              v-model="competition.routeName"
+                                              :rules="[competitionRouteNameValidator]"
+                                              prefix="www.rozgrywki.info/"
+                                              @change="onRouteNameChanged"
+                                              color="white"></v-text-field>
+                            </div>
+                            <div>
+                                <v-textarea label="Opis"
+                                            v-model="competition.description"
+                                            :rules="[competitionDescriptionValidator]"
+                                            rows="4"
+                                            color="white"></v-textarea>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -172,7 +174,7 @@
                     <v-data-table v-if="gamesPreview.length > 0"
                                   :headers="previewHeaders"
                                   :items="games ? games : gamesPreview"
-                    >
+                                  :mobile-breakpoint="0">
                         <template v-slot:item="row">
                             <tr>
                                 <td>{{row.item.number}}</td>
@@ -222,7 +224,11 @@
                         </template>
                     </v-data-table>
                     <template v-if="cupGamesPreview.length > 0">
-                        <h3 class="form-header">Podgląd drabinki</h3>
+                        <h3 class="form-header">
+                            Podgląd drabinki
+                            <v-icon class="mobile-and-vertical-only">mdi-phone-rotate-landscape
+                            </v-icon>
+                        </h3>
                         <v-card class="cup-visualization-preview">
                             <div v-html="cupHtmlVisualization"></div>
                         </v-card>
@@ -268,7 +274,8 @@
     import createGroup from '../../../api/graphql-queries/createGroup.graphql';
     import createGames from '../../../api/graphql-queries/createGames.graphql';
     import updateGame from '../../../api/graphql-queries/updateGame.graphql';
-    import fetchCompetitionsRouteName from '../../../api/graphql-queries/fetchCompetitionsRouteName.graphql';
+    import fetchCompetitionsRouteName
+        from '../../../api/graphql-queries/fetchCompetitionsRouteName.graphql';
     import { hasResults, getResultObject } from '../../../client/graphqlHelpers';
     import {
         getGamesFromCompetitionData,
@@ -332,19 +339,26 @@
                 competitors: [],
                 previewHeaders: [{
                     text: 'Mecz',
-                    value: 'number'
+                    value: 'number',
+                    align: 'center'
                 }, {
                     text: 'Zespół',
-                    value: 'aCompetitor.name'
+                    value: 'aCompetitor.name',
+                    align: 'center',
+                    sortable: false
                 }, {
                     text: 'Zespół',
-                    value: 'bCompetitor.name'
+                    value: 'bCompetitor.name',
+                    align: 'center',
+                    sortable: false
                 }, {
                     text: 'Wynik',
-                    value: null
+                    value: null,
+                    sortable: false
                 }, {
                     text: 'Data',
-                    value: 'date'
+                    value: 'date',
+                    sortable: false
                 }]
             };
         },
@@ -446,6 +460,10 @@
                 return true;
             },
             competitionRouteNameValidator (value: string) {
+                if (this.existingCompetition && this.$route.params.competition === value) {
+                    return true;
+                }
+
                 if (this.reservedRouteNames.includes(value)) {
                     return 'Ścieżka jest już zajęta';
                 }
@@ -705,6 +723,10 @@
         overflow: visible;
     }
 
+    .v-data-table {
+        overflow: auto;
+    }
+
     .cup-visualization-preview {
         padding: 16px 0;
     }
@@ -721,6 +743,11 @@
         padding-bottom: 4px !important;
         color: #fff !important;
         font-size: 16px !important;
+        text-align: center;
+    }
+
+    #VueCtkDateTimePicker-competition-start-wrapper .field-input, #VueCtkDateTimePicker-competition-end-wrapper .field-input {
+        text-align: left;
     }
 
     .field-label {
@@ -764,5 +791,21 @@
 
     .form-result-input--right input {
         padding-left: 12px;
+    }
+
+    .mobile-and-vertical-only {
+        display: none;
+    }
+
+    @media (max-width: 1000px) {
+        .cup-visualization-preview {
+            overflow: auto;
+        }
+    }
+
+    @media screen and (orientation: portrait) {
+        .mobile-and-vertical-only {
+            display: unset;
+        }
     }
 </style>

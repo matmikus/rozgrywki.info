@@ -6,8 +6,8 @@
                 :headers="headers"
                 :items="competitions"
                 :items-per-page="5"
+                :mobile-breakpoint="0"
                 class="text-left"
-                id="competitions-list-data-table"
             >
                 <template v-slot:item="row">
                     <tr>
@@ -113,5 +113,11 @@
 
     td.buttons-container > * {
         margin-left: 8px;
+    }
+
+    @media (max-width: 1000px) {
+        .v-data-table {
+            white-space: nowrap;
+        }
     }
 </style>

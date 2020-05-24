@@ -5,11 +5,11 @@
             <v-data-table
                 :headers="headers"
                 :items="competitions"
-                :items-per-page="5"
+                :items-per-page="10"
+                :mobile-breakpoint="0"
                 class="text-left"
                 @click:row="handleClick"
-                id="competitions-list-data-table"
-            >
+                id="competitions-list-data-table">
             </v-data-table>
         </v-flex>
     </v-layout>
@@ -46,8 +46,8 @@
                 headers: [
                     { text: 'Nazwa rozgrywek', value: 'name' },
                     { text: 'Link', value: 'link' },
-                    { text: 'Data', value: 'dateRange' },
-                    { text: 'Aktualizacja', value: 'updatedAt' }
+                    { text: 'Data', value: 'dateRange', align: 'center' },
+                    { text: 'Aktualizacja', value: 'updatedAt', align: 'center' }
                 ]
             };
         },
@@ -75,7 +75,11 @@
 </script>
 
 <style>
-    #competitions-list-data-table tbody tr {
-        cursor: pointer
+    #competitions-list-data-table {
+        white-space: nowrap;
+    }
+
+    #competitions-list-data-table .v-data-table__wrapper {
+        cursor: pointer !important;
     }
 </style>

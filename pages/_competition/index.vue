@@ -14,8 +14,8 @@
                 <tr>
                     <td>Link</td>
                     <td class="link-container">
-                        {{ competition.link }}
-                        <span>
+                        <span>{{ competition.link }}</span>
+                        <div>
                             <v-btn small color="#464646" class="copyButton" @click="copyLink">
                                 <v-icon small>mdi-content-copy</v-icon>
                                 <span class="copyButtonText">skopiuj</span>
@@ -52,7 +52,7 @@
                                     <v-icon>mdi-twitter</v-icon>
                                 </v-btn>
                             </ShareNetwork>
-                        </span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -86,13 +86,16 @@
                 :headers="gamesHeaders"
                 :items="games"
                 :sort-by="gamesSort"
+                :mobile-breakpoint="0"
                 class="text-left"
             >
             </v-data-table>
             <template v-if="competition.type === 'cup'">
-                <h3 class="form-header">Drabinka Pucharowa</h3>
+                <h3 class="form-header">Drabinka Pucharowa
+                    <v-icon class="mobile-and-vertical-only">mdi-phone-rotate-landscape</v-icon>
+                </h3>
                 <v-card class="cup-visualization-preview">
-                    <div v-html="cupHtmlVisualization"></div>
+                    <div v-html="cupHtmlVisualization" id="cup-visualization-table"></div>
                 </v-card>
             </template>
             <template v-if="competition.type === 'group'">
@@ -102,6 +105,7 @@
                     :items="groupStandings"
                     :sort-by="standingsSort"
                     :hide-default-footer="true"
+                    :mobile-breakpoint="0"
                     class="text-left"
                 >
                 </v-data-table>
@@ -172,23 +176,32 @@
                 gamesHeaders: [
                     {
                         text: 'Mecz nr',
-                        value: 'number'
+                        value: 'number',
+                        align: 'center'
                     },
                     {
                         text: 'Zespół',
-                        value: 'aCompetitor.name'
+                        value: 'aCompetitor.name',
+                        align: 'center',
+                        sortable: false
                     },
                     {
                         text: 'Zespół',
-                        value: 'bCompetitor.name'
+                        value: 'bCompetitor.name',
+                        align: 'center',
+                        sortable: false
                     },
                     {
                         text: 'Wynik',
-                        value: 'resultText'
+                        value: 'resultText',
+                        align: 'center',
+                        sortable: false
                     },
                     {
                         text: 'Data',
-                        value: 'date'
+                        value: 'date',
+                        align: 'center',
+                        sortable: false
                     }
                 ],
                 gamesSort: ['number'],
@@ -196,7 +209,8 @@
                 standingsHeaders: [
                     {
                         text: 'Pozycja',
-                        value: 'rank'
+                        value: 'rank',
+                        align: 'center'
                     },
                     {
                         text: 'Zespół',
@@ -204,11 +218,13 @@
                     },
                     {
                         text: 'Mecze',
-                        value: 'games'
+                        value: 'games',
+                        align: 'center'
                     },
                     {
                         text: 'Punkty',
-                        value: 'points'
+                        value: 'points',
+                        align: 'center'
                     }
                 ],
                 standingsSort: ['rank'],
@@ -240,10 +256,12 @@
         margin-top: 8px;
         text-align: center;
         position: relative;
+        padding: 0 56px;
     }
 
     .v-data-table {
         margin: 22px 0;
+        white-space: nowrap;
     }
 
     .copyButton {
@@ -286,5 +304,48 @@
         position: absolute;
         right: 0;
         top: calc(50% - 14px);
+    }
+
+    @media (max-width: 1000px) {
+        .favouriteButton {
+            top: 0;
+        }
+
+        .favouriteButton span {
+            display: none;
+        }
+
+        .competition-header {
+            font-size: 20px;
+        }
+
+        td.link-container {
+            flex-direction: column;
+            align-items: flex-start;
+            height: unset;
+            padding: 12px 16px;
+        }
+
+        .copyButton {
+            margin-left: 0;
+        }
+
+        .link-container > span {
+            margin: 4px 0 12px 0;
+        }
+
+        .cup-visualization-preview {
+            overflow: auto;
+        }
+    }
+
+    .mobile-and-vertical-only {
+        display: none;
+    }
+
+    @media screen and (orientation: portrait) {
+        .mobile-and-vertical-only {
+            display: unset;
+        }
     }
 </style>
