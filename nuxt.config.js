@@ -7,11 +7,18 @@ module.exports = {
     ** Headers of the page
     */
     head: {
-        titleTemplate: '%s - ' + process.env.npm_package_name,
+        titleTemplate: `%s - ${process.env.npm_package_name}`,
         title: process.env.npm_package_name || '',
         meta: [
             { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1'
+            },
+            {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1'
+            },
             {
                 hid: 'description',
                 name: 'description',
@@ -19,7 +26,11 @@ module.exports = {
             }
         ],
         link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+            {
+                rel: 'icon',
+                type: 'image/x-icon',
+                href: '/favicon.ico'
+            }
         ]
     },
     /*
@@ -45,11 +56,14 @@ module.exports = {
     ** Nuxt.js modules
     */
     modules: [
-        // axios is required by @nuxtjs/auth
         '@nuxtjs/axios',
-        // https://auth.nuxtjs.org
-        '@nuxtjs/auth'
+        '@nuxtjs/auth',
+        '@nuxtjs/apollo',
+        'vue-social-sharing/nuxt'
     ],
+    axios: {
+        retry: { retries: 3 }
+    },
     auth: {
         redirect: {
             login: '/',
@@ -60,9 +74,28 @@ module.exports = {
             local: false,
             auth0: {
                 domain: process.env.AUTH0_DOMAIN,
-                client_id: process.env.AUTH0_CLIENT_ID
+                client_id: process.env.AUTH0_CLIENT_ID,
+                audience: process.env.AUTH0_AUDIANCE,
+                useRefreshTokens: true
             }
         }
+    },
+    apollo: {
+        clientConfigs: {
+            default: {
+                httpEndpoint: process.env.GRAPHQL_ENDPOINT,
+                httpLinkOptions: {
+                    credentials: 'same-origin'
+                },
+                tokenName: 'authToken',
+                defaultOptions: {
+                    $query: {
+                        fetchPolicy: 'network-only'
+                    }
+                }
+            }
+        },
+        authenticationType: ''
     },
     /*
     ** vuetify module configuration
@@ -92,13 +125,28 @@ module.exports = {
         /*
         ** You can extend webpack config here
         */
-        extend (config, ctx) {
+        extend (config) {
             config.node = {
                 fs: 'empty'
-            }
-        }
+            };
+        },
+        watch: ['nuxt.config.js']
     },
     env: {
         AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
+    },
+    serverMiddleware: [
+        'redirect-ssl',
+        {
+            path: '/api',
+            handler: '~/api/public.ts'
+        },
+        {
+            path: '/protected-api',
+            handler: '~/api/protected.ts'
+        }
+    ],
+    router: {
+        middleware: 'authorizationGraphQL'
     }
 };

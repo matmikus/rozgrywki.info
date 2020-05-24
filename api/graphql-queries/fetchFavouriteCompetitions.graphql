@@ -1,0 +1,25 @@
+query {
+    fetchedFavouriteCompetitions: favourites {
+        competition {
+            id
+            name
+            routeName
+            description
+            start
+            end
+            type
+            updatedAt
+            userId
+            lastCupUpdate: cup {
+                lastGameUpdate: games(limit: 1, order_by: {updatedAt: desc}) {
+                    updatedAt
+                }
+            }
+            lastGroupUpdate: group {
+                lastGameUpdate: games(limit: 1, order_by: {updatedAt: desc}) {
+                    updatedAt
+                }
+            }
+        }
+    }
+}

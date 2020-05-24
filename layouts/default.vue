@@ -68,15 +68,15 @@
                 </v-list-item>
                 <v-list-item
                     v-if="$auth.loggedIn"
-                    to="/obserwowane"
+                    to="/edycja"
                     router
                     exact
                 >
                     <v-list-item-action>
-                        <v-icon>{{ 'mdi-star' }}</v-icon>
+                        <v-icon>{{ 'mdi-plus-circle' }}</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Obserwowane</v-list-item-title>
+                        <v-list-item-title>Dodaj nowe</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item
@@ -113,7 +113,9 @@
             app
         >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
-            <v-toolbar-title v-text="title"/>
+            <nuxt-link to="/">
+                <v-toolbar-title v-text="title"/>
+            </nuxt-link>
             <v-spacer/>
             <v-btn icon @click.stop="rightDrawer = !rightDrawer">
                 <v-icon>mdi-account-circle</v-icon>
@@ -134,6 +136,8 @@
 </template>
 
 <script>
+    import pl from 'vuetify/src/locale/pl.ts';
+
     export default {
         data () {
             return {
@@ -152,11 +156,6 @@
                         to: '/rozgrywki'
                     },
                     {
-                        icon: 'mdi-text-subject',
-                        title: 'Aktualności',
-                        to: '/aktualnosci'
-                    },
-                    {
                         icon: 'mdi-help',
                         title: 'Pomoc',
                         to: '/pomoc'
@@ -171,7 +170,23 @@
                 right: true,
                 rightDrawer: false,
                 title: 'rozgrywki🏐info'
-            }
+            };
+        },
+        mounted () {
+            this.$vuetify.lang.locales = { pl };
+            this.$vuetify.lang.current = 'pl';
+            this.$vuetify.lang.locales.pl.dataTable.itemsPerPageText = 'Pokaż:';
         }
-    }
+    };
 </script>
+
+<style>
+    html {
+        overflow: auto;
+    }
+
+    .v-toolbar__content a {
+        color: #fff;
+        text-decoration: none;
+    }
+</style>

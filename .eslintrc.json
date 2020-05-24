@@ -3,7 +3,8 @@
         "browser": true,
         "commonjs": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "jest": true
     },
     "extends": [
         "plugin:vue/essential",
@@ -22,6 +23,25 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "indent": 2
-    }
+        "vue/script-indent": ["error", 4, { "baseIndent": 1 }],
+        "indent": ["error", 4],
+        "space-before-function-paren": ["error", "always"],
+        "comma-dangle": ["error", "never"],
+        "no-param-reassign": ["error", { "props": false }],
+        "max-len": ["off"],
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "no-mixed-operators": "off",
+        "no-return-await": "off",
+        "object-shorthand": ["error", "methods"]
+    },
+    "overrides": [
+        {
+            "files": ["*.vue"],
+            "rules": {
+                "indent": "off"
+            }
+        }
+    ]
 }

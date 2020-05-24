@@ -1,35 +1,23 @@
 <template>
-    <v-layout
-        column
-        justify-center
-        align-center
-    >
-        <v-flex
-            xs12
-            sm8
-            md6
-        >
+    <v-layout column justify-center align-center>
+        <v-flex xs12 sm8 md6>
             <v-card>
                 <v-card-title class="headline">
-                    Fajnie, że tu jesteś!
+                    To jest prototyp aplikacji!
                 </v-card-title>
                 <v-card-text>
-                    <p>rozgrywki.info to całkowicie darmowa aplikacja przeglądarkowa do prowadzenia
-                        rozgrywek sportowych i publikowania wyników w najprostszy możliwy sposób.
-                        Kibice i sportowcy otrzymują szansę śledzenia na bieżąco wyników i stanu
-                        zawodów.</p>
+                    <p>Możliwość dodawania, edytowania i śledzenia nieskomplikowanych rozgrywek
+                        sportowych w systemie pucharowym lub każdy z każdym. Wersja graficzna na szybko.
+                        <br>Prototyp stworzony do zbadania tematu i wyznaczenia kierunków rozwoju
+                        wersji docelowej. Enjoy!</p>
                 </v-card-text>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn
-                        color="primary"
-                        nuxt
-                        to="/inspire"
-                    >
-                        Start
-                    </v-btn>
-                </v-card-actions>
             </v-card>
         </v-flex>
     </v-layout>
 </template>
+
+<style scoped>
+    .headline {
+        word-break: break-word;
+    }
+</style>

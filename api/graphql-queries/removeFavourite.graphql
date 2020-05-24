@@ -1,0 +1,5 @@
+mutation ($competitionId: Int) {
+    delete_favourites(where: {competitionId: {_eq: $competitionId}}) {
+        affected_rows
+    }
+}

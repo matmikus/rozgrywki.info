@@ -1,0 +1,25 @@
+query ($userId: String) {
+    competitions(where: {userId: {_eq: $userId}}) {
+        id
+        name
+        routeName
+        description
+        start
+        end
+        type
+        updatedAt
+        userId
+        lastCupUpdate: cup {
+            id
+            lastGameUpdate: games(limit: 1, order_by: {updatedAt: desc}) {
+                updatedAt
+            }
+        }
+        lastGroupUpdate: group {
+            id
+            lastGameUpdate: games(limit: 1, order_by: {updatedAt: desc}) {
+                updatedAt
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+mutation(
+    $userId: String,
+    $competitionId: Int
+) {
+    insert_favourites(
+        objects: [
+            {
+                userId: $userId ,
+                competitionId: $competitionId
+            }
+        ]
+    ) {
+        affected_rows
+    }
+}
