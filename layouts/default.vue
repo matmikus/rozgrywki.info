@@ -130,7 +130,7 @@
             :fixed="fixed"
             app
         >
-            <span>&copy; {{ new Date().getFullYear() }}</span>
+            <span>&copy; A.D. {{ new Date().getFullYear() }}</span>
         </v-footer>
     </v-app>
 </template>
