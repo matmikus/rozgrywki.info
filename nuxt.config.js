@@ -136,7 +136,7 @@ module.exports = {
         AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
     },
     serverMiddleware: [
-        'redirect-ssl',
+        // 'redirect-ssl', disabled for cloudflare fix
         {
             path: '/api',
             handler: '~/api/public.ts'
