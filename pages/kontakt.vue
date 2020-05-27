@@ -3,7 +3,7 @@
         <v-flex xs12 sm8 md6>
             <v-card>
                 <v-card-text>
-                    <a href="mailto:rozgrywki.info@gmail.com">rozgrywki.info@gmail.com</a>
+                    <a href="mailto:kontakt@rozgrywki.info">kontakt@rozgrywki.info</a>
                 </v-card-text>
             </v-card>
         </v-flex>
