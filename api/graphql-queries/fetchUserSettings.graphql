@@ -1,5 +1,0 @@
-query {
-    fetchedUserSettings: userSettings {
-        settings
-    }
-}

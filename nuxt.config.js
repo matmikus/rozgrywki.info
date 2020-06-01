@@ -1,11 +1,7 @@
-require('dotenv').config();
-const colors = require('vuetify/es5/util/colors').default;
+require('dotenv').config({ path: '.env' });
 
 module.exports = {
     mode: 'universal',
-    /*
-    ** Headers of the page
-    */
     head: {
         titleTemplate: `%s - ${process.env.npm_package_name}`,
         title: process.env.npm_package_name || '',
@@ -33,53 +29,21 @@ module.exports = {
             }
         ]
     },
-    /*
-    ** Customize the progress-bar color
-    */
     loading: { color: '#fff' },
-    /*
-    ** Global CSS
-    */
     css: [],
-    /*
-    ** Plugins to load before mounting the App
-    */
     plugins: [],
-    /*
-    ** Nuxt.js dev-modules
-    */
     buildModules: [
-        '@nuxt/typescript-build',
-        '@nuxtjs/vuetify'
+        '@nuxt/typescript-build'
     ],
-    /*
-    ** Nuxt.js modules
-    */
     modules: [
-        '@nuxtjs/axios',
+        '@nuxtjs/dotenv',
         '@nuxtjs/auth',
         '@nuxtjs/apollo',
+        'nuxt-webfontloader',
+        '@nuxtjs/dayjs',
+        'nuxt-helmet',
         'vue-social-sharing/nuxt'
     ],
-    axios: {
-        retry: { retries: 3 }
-    },
-    auth: {
-        redirect: {
-            login: '/',
-            logout: '/',
-            callback: '/zaloguj'
-        },
-        strategies: {
-            local: false,
-            auth0: {
-                domain: process.env.AUTH0_DOMAIN,
-                client_id: process.env.AUTH0_CLIENT_ID,
-                audience: process.env.AUTH0_AUDIANCE,
-                useRefreshTokens: true
-            }
-        }
-    },
     apollo: {
         clientConfigs: {
             default: {
@@ -97,34 +61,32 @@ module.exports = {
         },
         authenticationType: ''
     },
-    /*
-    ** vuetify module configuration
-    ** https://github.com/nuxt-community/vuetify-module
-    */
-    vuetify: {
-        customVariables: ['~/assets/variables.scss'],
-        theme: {
-            dark: true,
-            themes: {
-                dark: {
-                    primary: colors.blue.darken2,
-                    accent: colors.grey.darken3,
-                    secondary: colors.amber.darken3,
-                    info: colors.teal.lighten1,
-                    warning: colors.amber.base,
-                    error: colors.deepOrange.accent4,
-                    success: colors.green.accent3
-                }
-            }
+    webfontloader: {
+        google: {
+            families: ['Roboto:300,400,600&display=swap']
         }
     },
-    /*
-    ** Build configuration
-    */
-    build: {
+    dayjs: {
+        locales: ['en', 'pl'],
+        defaultLocale: 'pl'
+    },
+    helmet: {
         /*
-        ** You can extend webpack config here
+        dnsPrefetchControl: true,
+        expectCt: true,
+        featurePolicy: true,
+        frameguard: true,
+        hidePoweredBy: true,
+        hsts: true,
+        ieNoOpen: true,
+        noCache: true,
+        noSniff: true,
+        permittedCrossDomainPolicies: true,
+        referrerPolicy: true,
+        xssFilter: true,
         */
+    },
+    build: {
         extend (config) {
             config.node = {
                 fs: 'empty'
@@ -134,19 +96,5 @@ module.exports = {
     },
     env: {
         AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
-    },
-    serverMiddleware: [
-        // 'redirect-ssl', // should be disabled for cloudflare redirect fix
-        {
-            path: '/api',
-            handler: '~/api/public.ts'
-        },
-        {
-            path: '/protected-api',
-            handler: '~/api/protected.ts'
-        }
-    ],
-    router: {
-        middleware: 'authorizationGraphQL'
     }
 };

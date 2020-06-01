@@ -1,5 +1,0 @@
-mutation insert_multiple_games($games: [games_insert_input!]! ) {
-    insert_games(objects: $games) {
-        affected_rows
-    }
-}
