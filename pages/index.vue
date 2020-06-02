@@ -1,12 +1,11 @@
 <template>
-    <logo :style="{ fill: 'navy' }"></logo>
+    <div>
+        index
+    </div>
 </template>
 
 <script lang="ts">
-    import logo from '@/components/Logo.vue';
-
     export default {
-        components: { logo },
         mounted () {
             console.log(this.$t('greeting'))
         }
