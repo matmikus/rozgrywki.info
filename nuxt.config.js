@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '.env' });
+require('dotenv')
+.config({ path: '.env' });
 
 module.exports = {
     mode: 'universal',
@@ -42,7 +43,25 @@ module.exports = {
         'nuxt-webfontloader',
         '@nuxtjs/dayjs',
         'nuxt-helmet',
-        'vue-social-sharing/nuxt'
+        'vue-social-sharing/nuxt',
+        'nuxt-svg-loader',
+        [
+            'nuxt-i18n',
+            {
+                strategy: 'no_prefix',
+                locales: [
+                    {
+                        code: 'pl',
+                        file: 'pl.js'
+                    },
+                    {
+                        code: 'en',
+                        file: 'en.js'
+                    }
+                ],
+                langDir: 'lang/'
+            }
+        ]
     ],
     apollo: {
         clientConfigs: {
@@ -63,7 +82,13 @@ module.exports = {
     },
     webfontloader: {
         google: {
-            families: ['Roboto:300,400,600&display=swap']
+            families: ['Syncopate:400,700', 'Roboto Condensed:300,400', 'Roboto Mono', 'Roboto:300,400,500,700'],
+            urls: [
+                'https://fonts.googleapis.com/css?family=Syncopate:400,700&display=swap',
+                'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400&display=swap',
+                'https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap',
+                'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+            ]
         }
     },
     dayjs: {
