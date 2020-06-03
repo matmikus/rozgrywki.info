@@ -55,6 +55,8 @@
             align-items: center;
             flex-wrap: wrap;
             flex-shrink: 10;
+            height: 56px;
+            overflow: hidden;
         }
 
         .competition-name-wrapper {
