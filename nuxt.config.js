@@ -34,7 +34,8 @@ module.exports = {
     css: [],
     plugins: [],
     buildModules: [
-        '@nuxt/typescript-build'
+        '@nuxt/typescript-build',
+        '@nuxtjs/color-mode'
     ],
     modules: [
         '@nuxtjs/dotenv',
@@ -89,6 +90,16 @@ module.exports = {
                 'https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap',
                 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
             ]
+        }
+    },
+    colorMode: {
+        preference: 'light', // default value of $colorMode.preference
+        fallback: 'light', // fallback value if not system preference found
+        hid: 'nuxt-color-mode-script',
+        globalName: '__NUXT_COLOR_MODE__',
+        componentName: 'ColorScheme',
+        cookie: {
+            key: 'nuxt-color-mode'
         }
     },
     dayjs: {
