@@ -31,18 +31,24 @@ module.exports = {
         ]
     },
     loading: { color: '#fff' },
-    css: [],
+    styleResources: {
+        scss: [
+            '@/assets/scss/variables.scss',
+            '@/assets/scss/global.scss'
+        ]
+    },
     plugins: [],
     buildModules: [
         '@nuxt/typescript-build',
-        '@nuxtjs/color-mode'
+        '@nuxtjs/color-mode',
+        '@nuxtjs/style-resources'
     ],
     modules: [
         '@nuxtjs/dotenv',
         '@nuxtjs/auth',
         '@nuxtjs/apollo',
-        'nuxt-webfontloader',
         '@nuxtjs/dayjs',
+        'nuxt-webfontloader',
         'nuxt-helmet',
         'vue-social-sharing/nuxt',
         'nuxt-svg-loader',
@@ -83,9 +89,8 @@ module.exports = {
     },
     webfontloader: {
         google: {
-            families: ['Syncopate:400,700', 'Roboto Condensed:300,400', 'Roboto Mono', 'Roboto:300,400,500,700'],
+            families: ['Roboto Condensed:300,400', 'Roboto Mono', 'Roboto:300,400,500,700'],
             urls: [
-                'https://fonts.googleapis.com/css?family=Syncopate:400,700&display=swap',
                 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400&display=swap',
                 'https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap',
                 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
@@ -93,8 +98,7 @@ module.exports = {
         }
     },
     colorMode: {
-        preference: 'light', // default value of $colorMode.preference
-        fallback: 'light', // fallback value if not system preference found
+        preference: 'light',
         hid: 'nuxt-color-mode-script',
         globalName: '__NUXT_COLOR_MODE__',
         componentName: 'ColorScheme',
