@@ -4,6 +4,7 @@ html {
 
 body {
     margin: 0;
+    font-family: 'Roboto';
     height: 100%;
 }
 
@@ -13,4 +14,8 @@ body {
 
 .pointer {
     cursor: pointer;
+}
+
+* {
+    transition: 250ms ease-in-out;
 }
