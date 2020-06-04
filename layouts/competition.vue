@@ -1,14 +1,14 @@
 <template>
     <div class="layout-container">
         <transition name="component-fade" mode="out-in">
-            <competition-header v-show="competitionHeader"
+            <competition-header v-show="competitionScrollingDown"
                                 style="z-index: 101"
                                 :competition-name="'Puchar Burmistrza Pcimia Górnego 2021'"></competition-header>
         </transition>
         <app-header style="z-index: 100"
                     :competition-name="'Puchar Burmistrza Pcimia Górnego 2021'"></app-header>
         <nuxt/>
-        <competition-nav></competition-nav>
+        <competition-nav :small="competitionScrollingDown"></competition-nav>
     </div>
 </template>
 
@@ -21,7 +21,7 @@
         components: { appHeader, competitionHeader, competitionNav },
         data () {
             return {
-                competitionHeader: false,
+                competitionScrollingDown: false,
                 scrollPosition: null
             }
         },
@@ -40,9 +40,9 @@
         watch: {
             scrollPosition (newPosition: number, prevPosition: number): void {
                 if (window.innerWidth > 600) {
-                    this.competitionHeader = false;
+                    this.competitionScrollingDown = false;
                 } else {
-                    this.competitionHeader = newPosition > prevPosition;
+                    this.competitionScrollingDown = newPosition > prevPosition;
                 }
             }
         }

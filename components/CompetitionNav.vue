@@ -1,5 +1,5 @@
 <template>
-    <div id="competition-nav-container">
+    <div id="competition-nav-container" :class="{'small-nav': small}">
         <div class="nav-item">
             <div class="spacer"></div>
             <div class="icon-container">
@@ -43,7 +43,8 @@
     import gamesIcon from '@/assets/icons/reorder.svg';
 
     export default {
-        components: { cupIcon, rankingIcon, infoIcon, gamesIcon }
+        components: { cupIcon, rankingIcon, infoIcon, gamesIcon },
+        props: ['small']
     };
 </script>
 
@@ -52,19 +53,19 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        height: 72px;
         display: flex;
         align-items: center;
         overflow: hidden;
 
         .nav-item {
-            height: 72px;
+            height: 100%;
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: height 250ms ease-in-out;
         }
 
         .name-container {
@@ -73,7 +74,7 @@
         }
 
         .spacer {
-            flex-grow: 1;
+            height: 17px;
         }
 
         .active-bar-container {
@@ -83,6 +84,14 @@
             width: 33%;
             height: 3px;
             transition: left 250ms ease-in-out;
+        }
+
+        .icon-container {
+            height: 28px;
+            transition: height 250ms ease-in-out;
+            display: flex;
+            align-items: flex-start;
+            overflow: hidden;
         }
 
         @media (not (orientation: landscape)) {
@@ -100,6 +109,7 @@
 
             .nav-item {
                 flex: unset;
+                height: 72px;
             }
 
             .active-bar-container {
@@ -148,6 +158,16 @@
             .active-bar-container {
                 background-color: $text-color-light;
             }
+        }
+    }
+
+    #competition-nav-container.small-nav {
+        .nav-item {
+            height: 48px;
+        }
+
+        .icon-container {
+            height: 0;
         }
     }
 </style>
