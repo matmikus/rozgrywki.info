@@ -161,13 +161,15 @@
         }
     }
 
-    #competition-nav-container.small-nav {
-        .nav-item {
-            height: 48px;
-        }
+    @media (not (orientation: landscape)) {
+        #competition-nav-container.small-nav {
+            .nav-item {
+                height: 48px;
+            }
 
-        .icon-container {
-            height: 0;
+            .icon-container {
+                height: 0;
+            }
         }
     }
 </style>
