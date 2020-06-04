@@ -110,6 +110,7 @@
             .nav-item {
                 flex: unset;
                 height: 72px;
+                transition: unset;
             }
 
             .active-bar-container {
@@ -161,7 +162,7 @@
         }
     }
 
-    @media (not (orientation: landscape)) {
+    @media not all and (orientation: landscape) {
         #competition-nav-container.small-nav {
             .nav-item {
                 height: 48px;
