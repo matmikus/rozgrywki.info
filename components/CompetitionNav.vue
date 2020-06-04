@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-    import cupIcon from '@/assets/icons/device_hub.svg';
+    import cupIcon from '@/assets/icons/graph.svg';
     import rankingIcon from '@/assets/icons/format_list_numbered.svg';
     import infoIcon from '@/assets/icons/info.svg';
     import gamesIcon from '@/assets/icons/reorder.svg';
