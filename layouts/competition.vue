@@ -39,7 +39,7 @@
         },
         watch: {
             scrollPosition (newPosition: number, prevPosition: number): void {
-                if (window.innerWidth > 600) {
+                if (window.innerWidth > 600 || newPosition < 4) {
                     this.competitionScrollingDown = false;
                 } else {
                     this.competitionScrollingDown = newPosition > prevPosition;
