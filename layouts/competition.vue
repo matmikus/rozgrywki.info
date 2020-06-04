@@ -41,6 +41,8 @@
             scrollPosition (newPosition: number, prevPosition: number): void {
                 if (window.innerWidth > 600 || newPosition < 4) {
                     this.competitionScrollingDown = false;
+                } else if (newPosition + this.$el.offsetHeight >= this.$el.scrollHeight) {
+                    this.competitionScrollingDown = true;
                 } else {
                     this.competitionScrollingDown = newPosition > prevPosition;
                 }
