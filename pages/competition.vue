@@ -17,7 +17,13 @@
     #competition-container {
         min-height: 100%;
         padding-top: 56px;
+        padding-bottom: 48px;
         box-sizing: border-box;
+
+        @media (orientation: landscape) {
+            padding-bottom: unset;
+            padding-left: 80px;
+        }
 
         div {
             padding: 16px;

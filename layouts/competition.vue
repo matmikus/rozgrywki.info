@@ -8,15 +8,17 @@
         <app-header style="z-index: 100"
                     :competition-name="'Puchar Burmistrza Pcimia Górnego 2021'"></app-header>
         <nuxt/>
+        <competition-nav></competition-nav>
     </div>
 </template>
 
 <script lang="ts">
     import appHeader from '@/components/DefaultHeader.vue';
     import competitionHeader from '@/components/CompetitionHeader.vue';
+    import competitionNav from '@/components/CompetitionNav.vue';
 
     export default {
-        components: { appHeader, competitionHeader },
+        components: { appHeader, competitionHeader, competitionNav },
         data () {
             return {
                 competitionHeader: false,
@@ -49,7 +51,7 @@
 
 <style lang="scss">
     .component-fade-enter-active, .component-fade-leave-active {
-        transition: opacity 500ms;
+        transition: opacity 500ms ease-in-out;
     }
 
     .component-fade-enter, .component-fade-leave-to {
