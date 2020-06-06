@@ -65,7 +65,7 @@
                     'cup-content': { top: '144px', left: '67%' }
                 };
 
-                this.$store.commit('moveBar', data[content]);
+                this.$store.dispatch('moveBar', data[content]);
             }
         }
     };
