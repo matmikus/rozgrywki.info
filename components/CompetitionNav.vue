@@ -117,6 +117,7 @@
 
             .nav-item {
                 flex: unset;
+                width: 100%;
                 height: 72px;
                 transition: unset;
             }
