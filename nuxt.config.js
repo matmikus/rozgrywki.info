@@ -37,7 +37,10 @@ module.exports = {
             '@/assets/scss/global.scss'
         ]
     },
-    plugins: [],
+    plugins: [{
+        src: '~/plugins/v-waypoint.client.js',
+        mode: 'client'
+    }],
     buildModules: [
         '@nuxt/typescript-build',
         '@nuxtjs/color-mode',
@@ -52,6 +55,10 @@ module.exports = {
         'nuxt-helmet',
         'vue-social-sharing/nuxt',
         'nuxt-svg-loader',
+        ['vue-scrollto/nuxt', {
+            duration: 500,
+            offset: -56
+        }],
         [
             'nuxt-i18n',
             {
