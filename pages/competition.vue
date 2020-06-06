@@ -57,8 +57,8 @@
             }
         },
         methods: {
-            onActive (event: { el: { id: string }, going: any }) {
-                if (event.going === this.$waypointMap.GOING_IN) {
+            onActive (event: { el: { id: string }, going: any, direction: any }) {
+                if (event.direction !== undefined && event.going === this.$waypointMap.GOING_IN) {
                     const data: { [key: string]: { top: string, left: string } } = {
                         'info-content': { top: '0', left: '0' },
                         'games-content': { top: '72px', left: '33%' },

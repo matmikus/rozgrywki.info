@@ -1,6 +1,6 @@
 <template>
     <div id="competition-nav-container" :class="{'small-nav': small}">
-        <div class="nav-item" v-scroll-to="'#info-content'">
+        <div class="nav-item" v-scroll-to="'#info-content'" @click="moveBar('info-content')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <info-icon class="nav-icon"></info-icon>
@@ -8,7 +8,7 @@
             <div class="name-container">info</div>
             <div class="spacer"></div>
         </div>
-        <div class="nav-item" v-scroll-to="'#games-content'">
+        <div class="nav-item" v-scroll-to="'#games-content'" @click="moveBar('games-content')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <games-icon class="nav-icon"></games-icon>
@@ -16,7 +16,10 @@
             <div class="name-container">mecze</div>
             <div class="spacer"></div>
         </div>
-        <div class="nav-item" v-if="false" v-scroll-to="'#ranking-content'">
+        <div class="nav-item"
+             v-if="false"
+             v-scroll-to="'#ranking-content'"
+             @click="moveBar('ranking-content')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <ranking-icon class="nav-icon"></ranking-icon>
@@ -24,7 +27,7 @@
             <div class="name-container">tabela</div>
             <div class="spacer"></div>
         </div>
-        <div class="nav-item" v-scroll-to="'#cup-content'">
+        <div class="nav-item" v-scroll-to="'#cup-content'" @click="moveBar('cup-content')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <cup-icon class="nav-icon"></cup-icon>
@@ -32,7 +35,8 @@
             <div class="name-container">drabinka</div>
             <div class="spacer"></div>
         </div>
-        <div class="active-bar-container" :style="{ top: barPositionTop, left: barPositionLeft }"></div>
+        <div class="active-bar-container"
+             :style="{ top: barPositionTop, left: barPositionLeft }"></div>
     </div>
 </template>
 
@@ -51,6 +55,17 @@
             },
             barPositionLeft () {
                 return this.$store.state.bar.left;
+            }
+        },
+        methods: {
+            moveBar (content: string) {
+                const data: { [key: string]: { top: string, left: string } } = {
+                    'info-content': { top: '0', left: '0' },
+                    'games-content': { top: '72px', left: '33%' },
+                    'cup-content': { top: '144px', left: '67%' }
+                };
+
+                this.$store.commit('moveBar', data[content]);
             }
         }
     };
