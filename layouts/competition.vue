@@ -9,6 +9,7 @@
                     :competition-name="'Puchar Burmistrza Pcimia Górnego 2021'"></app-header>
         <nuxt/>
         <competition-nav :small="competitionScrollingDown"></competition-nav>
+        <snackbar></snackbar>
     </div>
 </template>
 
@@ -16,9 +17,10 @@
     import appHeader from '@/components/DefaultHeader.vue';
     import competitionHeader from '@/components/CompetitionHeader.vue';
     import competitionNav from '@/components/CompetitionNav.vue';
+    import snackbar from '@/components/Snackbar.vue';
 
     export default {
-        components: { appHeader, competitionHeader, competitionNav },
+        components: { appHeader, competitionHeader, competitionNav, snackbar },
         data () {
             return {
                 competitionScrollingDown: false,
@@ -42,8 +44,8 @@
                 this.scrollPosition = window.scrollY;
             },
             handleResize () {
-                const infoContentEl = document.getElementById('info-content');
-                const gamesContentEl = document.getElementById('games-content');
+                const infoContentEl = document.getElementById('info-section');
+                const gamesContentEl = document.getElementById('games-section');
 
                 if (!infoContentEl || !gamesContentEl) {
                     return;

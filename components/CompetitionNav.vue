@@ -1,6 +1,6 @@
 <template>
     <div id="competition-nav-container" :class="{'small-nav': small}">
-        <div class="nav-item" v-scroll-to="'#info-content'" @click="moveBar('info-content')">
+        <div class="nav-item" v-scroll-to="'#info-section'" @click="moveBar('info-section')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <info-icon class="nav-icon"></info-icon>
@@ -8,7 +8,7 @@
             <div class="name-container">info</div>
             <div class="spacer"></div>
         </div>
-        <div class="nav-item" v-scroll-to="'#games-content'" @click="moveBar('games-content')">
+        <div class="nav-item" v-scroll-to="'#games-section'" @click="moveBar('games-section')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <games-icon class="nav-icon"></games-icon>
@@ -18,8 +18,8 @@
         </div>
         <div class="nav-item"
              v-if="false"
-             v-scroll-to="'#ranking-content'"
-             @click="moveBar('ranking-content')">
+             v-scroll-to="'#ranking-section'"
+             @click="moveBar('ranking-section')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <ranking-icon class="nav-icon"></ranking-icon>
@@ -27,7 +27,7 @@
             <div class="name-container">tabela</div>
             <div class="spacer"></div>
         </div>
-        <div class="nav-item" v-scroll-to="'#cup-content'" @click="moveBar('cup-content')">
+        <div class="nav-item" v-scroll-to="'#cup-section'" @click="moveBar('cup-section')">
             <div class="spacer"></div>
             <div class="icon-container">
                 <cup-icon class="nav-icon"></cup-icon>
@@ -55,19 +55,19 @@
             }
         },
         methods: {
-            moveBar (content: string) {
+            moveBar (section: string) {
                     const data: {[key: string]: number} = {
-                    'info-content': 1,
-                    'games-content': 2,
-                    'cup-content': 3
+                    'info-section': 1,
+                    'games-section': 2,
+                    'cup-section': 3
                 };
                 // const data: { [key: string]: { top: string, left: string } } = {
-                //     'info-content': { top: '0', left: '0' },
-                //     'games-content': { top: '72px', left: '33%' },
-                //     'cup-content': { top: '144px', left: '67%' }
+                //     'info-section': { top: '0', left: '0' },
+                //     'games-section': { top: '72px', left: '33%' },
+                //     'cup-section': { top: '144px', left: '67%' }
                 // };
 
-                this.$store.dispatch('moveBarWithLock', data[content]);
+                this.$store.dispatch('moveBarWithLock', data[section]);
             }
         }
     };
