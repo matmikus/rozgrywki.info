@@ -10,7 +10,9 @@
 
 <script lang="ts">
     export default {
+        layout: 'simple',
         mounted () {
+            console.log(this.$i18n.locale);// TODO to delete
             console.log(this.$t('greeting'));// TODO to delete
         }
     };

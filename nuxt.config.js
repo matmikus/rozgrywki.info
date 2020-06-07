@@ -63,13 +63,14 @@ module.exports = {
                     {
                         code: 'pl',
                         file: 'pl.js'
-                    },
-                    {
-                        code: 'en',
-                        file: 'en.js'
                     }
+                    // {
+                    //     code: 'en',
+                    //     file: 'en.js'
+                    // }
                 ],
-                langDir: 'lang/'
+                langDir: 'lang/',
+                lazy: true
             }
         ]
     ],

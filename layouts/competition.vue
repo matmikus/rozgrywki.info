@@ -9,7 +9,7 @@
                     :competition-name="'Puchar Burmistrza Pcimia Górnego 2021'"></app-header>
         <nuxt/>
         <competition-nav :small="competitionScrollingDown"></competition-nav>
-        <snackbar></snackbar>
+        <actionDialog></actionDialog>
     </div>
 </template>
 
@@ -17,11 +17,11 @@
     import appHeader from '@/components/DefaultHeader.vue';
     import competitionHeader from '@/components/CompetitionHeader.vue';
     import competitionNav from '@/components/CompetitionNav.vue';
-    import snackbar from '@/components/Snackbar.vue';
+    import actionDialog from '@/components/ActionDialog.vue';
 
     export default {
         components: {
-            appHeader, competitionHeader, competitionNav, snackbar
+            appHeader, competitionHeader, competitionNav, actionDialog
         },
         data () {
             return {
