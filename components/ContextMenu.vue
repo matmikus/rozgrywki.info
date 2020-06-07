@@ -19,9 +19,11 @@
         },
         mounted () {
             window.addEventListener('click', this.handleEveryClick);
+            window.addEventListener('touchstart', this.handleEveryClick);
         },
         destroyed () {
             window.removeEventListener('click', this.handleEveryClick);
+            window.removeEventListener('touchstart', this.handleEveryClick);
         },
         methods: {
             handleEveryClick (event: any) {
