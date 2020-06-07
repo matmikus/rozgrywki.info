@@ -18,11 +18,11 @@
             }
         },
         mounted () {
-            window.addEventListener('click', this.handleEveryClick);
+            window.addEventListener('mousedown', this.handleEveryClick);
             window.addEventListener('touchstart', this.handleEveryClick);
         },
         destroyed () {
-            window.removeEventListener('click', this.handleEveryClick);
+            window.removeEventListener('mousedown', this.handleEveryClick);
             window.removeEventListener('touchstart', this.handleEveryClick);
         },
         methods: {
@@ -47,6 +47,8 @@
 
         .menu-item {
             padding: 16px;
+            cursor: pointer;
+            text-transform: uppercase;
         }
     }
 </style>
