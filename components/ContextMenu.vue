@@ -1,10 +1,10 @@
 <template>
     <div id="menu-container" v-if="visibility" :style="{ right: rightPosition, top: topPosition }">
-        <div class="menu-item">menu dsfsdf</div>
-        <div class="menu-item">menu dsfsdf</div>
-        <div class="menu-item">menu dsfsdf</div>
-        <div class="menu-item">menu dsfsdf</div>
-        <div class="menu-item">menu dsfsdf</div>
+        <div class="menu-item">menu</div>
+        <div class="menu-item">menu</div>
+        <div class="menu-item">menu</div>
+        <div class="menu-item">menu</div>
+        <div class="menu-item">menu</div>
     </div>
 </template>
 
