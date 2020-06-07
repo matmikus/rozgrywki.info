@@ -1,0 +1,50 @@
+<template>
+    <div id="menu-container" v-if="visibility" :style="{ right: rightPosition, top: topPosition }">
+        <div class="menu-item">menu dsfsdf</div>
+        <div class="menu-item">menu dsfsdf</div>
+        <div class="menu-item">menu dsfsdf</div>
+        <div class="menu-item">menu dsfsdf</div>
+        <div class="menu-item">menu dsfsdf</div>
+    </div>
+</template>
+
+<script lang="ts">
+    export default {
+        data () {
+            return {
+                visibility: false,
+                rightPosition: null,
+                topPosition: null
+            }
+        },
+        mounted () {
+            window.addEventListener('click', this.handleEveryClick);
+        },
+        destroyed () {
+            window.removeEventListener('click', this.handleEveryClick);
+        },
+        methods: {
+            handleEveryClick (event: any) {
+                this.visibility = false;
+            },
+            show (rightPosition: number, topPosition: number) {
+                this.visibility = true;
+                this.rightPosition = rightPosition + 'px';
+                this.topPosition = topPosition + 'px';
+            }
+        }
+    }
+</script>
+
+<style lang="scss">
+    #menu-container {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+        .menu-item {
+            padding: 16px;
+        }
+    }
+</style>

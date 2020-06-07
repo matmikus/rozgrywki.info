@@ -6,25 +6,43 @@
                 <span class="competition-name-text">&nbsp;{{ competitionName }}</span>
             </div>
             <div class="spacer"></div>
-            <share-button class="share-button pointer" v-if="!!competitionName"></share-button>
+            <share-button class="share-button pointer"
+                          v-if="!!competitionName"
+                          @click="onShareButtonClick"></share-button>
         </div>
         <color-mode-button @click="$colorMode.preference = $colorMode.preference === 'light' ? 'dark' : 'light'"
                            class="color-mode-button pointer"></color-mode-button>
-        <account-button class="account-button pointer"></account-button>
+        <account-button class="account-button pointer"
+                        @click="onAccountButtonClick"></account-button>
+        <context-menu ref="accountMenu"></context-menu>
+        <context-menu ref="shareMenu"></context-menu>
     </div>
 </template>
 
 <script lang="ts">
     import logo from '@/components/Logo.vue';
+    import contextMenu from '@/components/ContextMenu.vue';
     import colorModeButton from '@/assets/icons/brightness.svg';
     import accountButton from '@/assets/icons/account.svg';
     import shareButton from '@/assets/icons/share.svg';
 
     export default {
         components: {
-            logo, colorModeButton, accountButton, shareButton
+            logo, colorModeButton, accountButton, shareButton, contextMenu
         },
-        props: ['competitionName']
+        props: ['competitionName'],
+        methods: {
+            onAccountButtonClick (event: any) {
+                setTimeout(() => {
+                this.$refs.accountMenu.show(document.body.clientWidth - event.clientX, event.clientY);
+                }, 100);
+            },
+            onShareButtonClick (event: any) {
+                setTimeout(() => {
+                    this.$refs.shareMenu.show(document.body.clientWidth - event.clientX, event.clientY);
+                }, 100);
+            }
+        }
     };
 </script>
 
