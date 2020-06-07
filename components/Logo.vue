@@ -7,5 +7,5 @@
 
     export default {
         components: { logo }
-    }
+    };
 </script>

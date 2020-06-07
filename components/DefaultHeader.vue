@@ -21,7 +21,9 @@
     import shareButton from '@/assets/icons/share.svg';
 
     export default {
-        components: { logo, colorModeButton, accountButton, shareButton },
+        components: {
+            logo, colorModeButton, accountButton, shareButton
+        },
         props: ['competitionName']
     };
 </script>

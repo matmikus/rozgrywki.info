@@ -47,7 +47,9 @@
     import gamesIcon from '@/assets/icons/reorder.svg';
 
     export default {
-        components: { cupIcon, rankingIcon, infoIcon, gamesIcon },
+        components: {
+            cupIcon, rankingIcon, infoIcon, gamesIcon
+        },
         props: ['small'],
         computed: {
             barPositionClassName () {
@@ -56,7 +58,7 @@
         },
         methods: {
             moveBar (section: string) {
-                    const data: {[key: string]: number} = {
+                const data: { [key: string]: number } = {
                     'info-section': 1,
                     'games-section': 2,
                     'cup-section': 3
@@ -118,7 +120,8 @@
 
         .active-bar-container.position-3 {
             top: 144px;
-            left: 67%;}
+            left: 67%;
+        }
 
         .icon-container {
             height: 28px;

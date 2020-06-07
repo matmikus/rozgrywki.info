@@ -12,7 +12,7 @@
                 visible: false,
                 message: '',
                 actionText: ''
-            }
+            };
         },
         methods: {
             showSnackbar (message: string, actionText: string = '') {
@@ -30,7 +30,7 @@
                 this.visible = false;
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">

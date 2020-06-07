@@ -34,7 +34,8 @@
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "no-mixed-operators": "off",
         "no-return-await": "off",
-        "object-shorthand": ["error", "methods"]
+        "object-shorthand": ["error", "methods"],
+        "object-curly-spacing": "off"
     },
     "overrides": [
         {

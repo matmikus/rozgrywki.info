@@ -11,7 +11,7 @@
 <script lang="ts">
     export default {
         mounted () {
-            console.log(this.$t('greeting'))
+            console.log(this.$t('greeting'));// TODO to delete
         }
     };
 </script>

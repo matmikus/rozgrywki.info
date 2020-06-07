@@ -1,5 +1,4 @@
-require('dotenv')
-.config({ path: '.env' });
+require('dotenv').config({path: '.env'});
 
 module.exports = {
     mode: 'universal',
@@ -7,7 +6,7 @@ module.exports = {
         titleTemplate: `%s - ${process.env.npm_package_name}`,
         title: process.env.npm_package_name || '',
         meta: [
-            { charset: 'utf-8' },
+            {charset: 'utf-8'},
             {
                 name: 'viewport',
                 content: 'width=device-width, initial-scale=1'
@@ -30,7 +29,7 @@ module.exports = {
             }
         ]
     },
-    loading: { color: '#fff' },
+    loading: {color: '#fff'},
     styleResources: {
         scss: [
             '@/assets/scss/variables.scss',

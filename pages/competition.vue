@@ -95,7 +95,7 @@
 <script lang="ts">
     export default {
         layout: 'competition'
-    }
+    };
 </script>
 
 <style lang="scss">
