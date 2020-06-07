@@ -1,19 +1,17 @@
 export const state = () => ({
     bar: {
-        top: '0',
-        left: '0',
+        position: 1,
         blocked: false
     }
 });
 
 export const mutations = {
-    moveBar (state: any, position: { top: string, left: string }) {
+    moveBar (state: any, position: number) {
         if (state.bar.blocked) {
             return;
         }
 
-        state.bar.top = position.top;
-        state.bar.left = position.left;
+        state.bar.position = position;
     },
     lockedBar (state: any, locked: boolean) {
         state.bar.blocked = locked;
@@ -21,12 +19,15 @@ export const mutations = {
 };
 
 export const actions = {
-    moveBar (context: any, position: { top: string, left: string }) {
+    moveBarWithLock (context: any, position: number) {
         context.commit('moveBar', position);
         context.commit('lockedBar', true);
 
         setTimeout(() => {
             context.commit('lockedBar', false);
-        }, 250);
+        }, 300);
+    },
+    moveBar (context: any, position: number) {
+        context.commit('moveBar', position);
     }
 };

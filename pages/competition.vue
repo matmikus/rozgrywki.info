@@ -1,8 +1,7 @@
 <template>
     <div id="competition-container">
-        <div id="info-content"
-             v-waypoint="{ active: true, callback: onActive, options: waypointOptions }"><h3>
-            INFO</h3>
+        <div id="info-content">
+            <h3>INFO</h3>
             Competition lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
             nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
@@ -15,9 +14,9 @@
             dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
             culpa qui officia deserunt mollit anim id est laborum.
         </div>
-        <div id="games-content"
-             v-waypoint="{ active: true, callback: onActive, options: waypointOptions }"><h3>
-            MECZE</h3>Competition lorem ipsum dolor sit amet, consectetur
+        <div id="games-content">
+            <h3>MECZE</h3>
+            Competition lorem ipsum dolor sit amet, consectetur
             adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
             enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
             commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
@@ -29,9 +28,19 @@
             velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
             proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </div>
-        <div id="cup-content"
-             v-waypoint="{ active: true, callback: onActive, options: waypointOptions }"><h3>
-            DRABINKA</h3>Competition lorem ipsum dolor sit amet, consectetur
+        <div id="cup-content">
+            <h3>DRABINKA</h3>
+            Competition lorem ipsum dolor sit amet, consectetur
+            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit
+            amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit amet, consectetur
             adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
             enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
             commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
@@ -48,27 +57,7 @@
 
 <script lang="ts">
     export default {
-        layout: 'competition',
-        data () {
-            return {
-                waypointOptions: {
-                    threshold: 0.5
-                }
-            }
-        },
-        methods: {
-            onActive (event: { el: { id: string }, going: any, direction: any }) {
-                if (event.direction !== undefined && event.going === this.$waypointMap.GOING_IN) {
-                    const data: { [key: string]: { top: string, left: string } } = {
-                        'info-content': { top: '0', left: '0' },
-                        'games-content': { top: '72px', left: '33%' },
-                        'cup-content': { top: '144px', left: '67%' }
-                    };
-
-                    this.$store.dispatch('moveBar', data[event.el.id]);
-                }
-            }
-        }
+        layout: 'competition'
     }
 </script>
 

@@ -36,7 +36,7 @@
             <div class="spacer"></div>
         </div>
         <div class="active-bar-container"
-             :style="{ top: barPositionTop, left: barPositionLeft }"></div>
+             :class="barPositionClassName"></div>
     </div>
 </template>
 
@@ -50,22 +50,24 @@
         components: { cupIcon, rankingIcon, infoIcon, gamesIcon },
         props: ['small'],
         computed: {
-            barPositionTop () {
-                return this.$store.state.bar.top;
-            },
-            barPositionLeft () {
-                return this.$store.state.bar.left;
+            barPositionClassName () {
+                return `position-${this.$store.state.bar.position}`;
             }
         },
         methods: {
             moveBar (content: string) {
-                const data: { [key: string]: { top: string, left: string } } = {
-                    'info-content': { top: '0', left: '0' },
-                    'games-content': { top: '72px', left: '33%' },
-                    'cup-content': { top: '144px', left: '67%' }
+                    const data: {[key: string]: number} = {
+                    'info-content': 1,
+                    'games-content': 2,
+                    'cup-content': 3
                 };
+                // const data: { [key: string]: { top: string, left: string } } = {
+                //     'info-content': { top: '0', left: '0' },
+                //     'games-content': { top: '72px', left: '33%' },
+                //     'cup-content': { top: '144px', left: '67%' }
+                // };
 
-                this.$store.dispatch('moveBar', data[content]);
+                this.$store.dispatch('moveBarWithLock', data[content]);
             }
         }
     };
@@ -108,6 +110,15 @@
             height: 3px;
             transition: left 250ms ease-in-out;
         }
+
+        .active-bar-container.position-2 {
+            top: 72px;
+            left: 33%;
+        }
+
+        .active-bar-container.position-3 {
+            top: 144px;
+            left: 67%;}
 
         .icon-container {
             height: 28px;

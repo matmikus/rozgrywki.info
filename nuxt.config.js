@@ -37,10 +37,7 @@ module.exports = {
             '@/assets/scss/global.scss'
         ]
     },
-    plugins: [{
-        src: '~/plugins/v-waypoint.client.js',
-        mode: 'client'
-    }],
+    plugins: [],
     buildModules: [
         '@nuxt/typescript-build',
         '@nuxtjs/color-mode',

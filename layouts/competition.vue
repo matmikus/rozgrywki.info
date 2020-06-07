@@ -22,19 +22,36 @@
         data () {
             return {
                 competitionScrollingDown: false,
-                scrollPosition: null
+                scrollPosition: null,
+                navElementsRange: [],
+                navActiveEl: 1
             }
         },
         mounted () {
             window.addEventListener('scroll', this.handleScroll);
+            window.addEventListener('resize', this.handleResize);
+            this.handleResize();
         },
         destroyed () {
             window.removeEventListener('scroll', this.handleScroll);
+            window.removeEventListener('resize', this.handleScroll);
         },
         methods: {
             handleScroll (e: any): void {
                 e.stopPropagation();
                 this.scrollPosition = window.scrollY;
+            },
+            handleResize () {
+                const infoContentEl = document.getElementById('info-content');
+                const gamesContentEl = document.getElementById('games-content');
+
+                if (!infoContentEl || !gamesContentEl) {
+                    return;
+                }
+
+                this.navElementsRange = [];
+                this.navElementsRange.push({ top: infoContentEl.offsetTop, bottom: infoContentEl.offsetTop + infoContentEl.offsetHeight });
+                this.navElementsRange.push({ top: gamesContentEl.offsetTop, bottom: gamesContentEl.offsetTop + gamesContentEl.offsetHeight });
             }
         },
         watch: {
@@ -45,6 +62,16 @@
                     this.competitionScrollingDown = true;
                 } else {
                     this.competitionScrollingDown = newPosition > prevPosition;
+                }
+
+                if (newPosition < this.navElementsRange[0].bottom - (window.innerHeight - 56) / 2 || newPosition < this.navElementsRange[0].top) {
+                    this.$store.dispatch('moveBar', 1);
+                }
+                else if (newPosition < this.navElementsRange[1].bottom - (window.innerHeight - 56) / 2 || newPosition < this.navElementsRange[1].top) {
+                    this.$store.dispatch('moveBar', 2);
+                }
+                else {
+                    this.$store.dispatch('moveBar', 3);
                 }
             }
         }
