@@ -1,7 +1,11 @@
 <template>
-    <div id="menu-container" v-if="visibility" :style="{ right: rightPosition, top: topPosition }">
-        <slot></slot>
-    </div>
+    <transition name="show-menu">
+        <div id="menu-container"
+             v-if="visibility"
+             :style="{ right: rightPosition, top: topPosition }">
+            <slot></slot>
+        </div>
+    </transition>
 </template>
 
 <script lang="ts">
@@ -50,6 +54,7 @@
             align-items: center;
             justify-content: flex-start;
             font-size: 14px;
+            overflow: hidden;
         }
 
         .menu-label {
@@ -67,6 +72,37 @@
 
         .menu-item > *:not(:first-child) {
             margin-left: 8px;
+        }
+
+        .menu-items-container > :first-child {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        .menu-items-container > :last-child {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+    }
+
+    .show-menu-enter-active {
+        .menu-label, .menu-item {
+            animation: show-menu .25s forwards;
+        }
+    }
+
+    .show-menu-leave-active {
+        .menu-label, .menu-item {
+            animation: show-menu .25s reverse forwards;
+        }
+    }
+
+    @keyframes show-menu {
+        0% {
+            height: 0;
+        }
+        100% {
+            height: 48px;
         }
     }
 </style>

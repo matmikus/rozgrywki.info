@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="menu-items-container">
         <div class="menu-item">
                 <person-icon></person-icon>
                 <span>Logowanie</span>
