@@ -101,6 +101,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 18px;
+            transition: unset;
         }
     }
 
