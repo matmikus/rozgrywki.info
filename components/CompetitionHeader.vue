@@ -3,23 +3,26 @@
         <div class="competition-name">{{ competitionName }}</div>
         <div class="spacer"></div>
         <share-button class="share-button pointer" @click="onShareButtonClick"></share-button>
-        <context-menu ref="shareMenu"></context-menu>
+        <context-menu ref="shareMenuRef">
+            <share-menu></share-menu>
+        </context-menu>
     </div>
 </template>
 
 <script lang="ts">
     import shareButton from '@/assets/icons/share.svg';
     import contextMenu from '@/components/ContextMenu.vue';
+    import shareMenu from '@/components/ShareMenu.vue';
 
     export default {
-        components: { shareButton, contextMenu },
+        components: { shareButton, contextMenu, shareMenu },
         props: ['competitionName'],
         methods: {
             onShareButtonClick (event: any) {
                 const targetPositions = event.target.getBoundingClientRect();
 
                 setTimeout(() => {
-                    this.$refs.shareMenu.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
                 }, 100);
             }
         }

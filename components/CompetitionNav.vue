@@ -63,11 +63,6 @@
                     'games-section': 2,
                     'cup-section': 3
                 };
-                // const data: { [key: string]: { top: string, left: string } } = {
-                //     'info-section': { top: '0', left: '0' },
-                //     'games-section': { top: '72px', left: '33%' },
-                //     'cup-section': { top: '144px', left: '67%' }
-                // };
 
                 this.$store.dispatch('moveBarWithLock', data[section]);
             }

@@ -14,62 +14,27 @@
                            class="color-mode-button pointer"></color-mode-button>
         <account-button class="account-button pointer"
                         @click="onAccountButtonClick"></account-button>
-        <context-menu ref="accountMenu">
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>Logowanie</span>
-            </div>
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>Nowe konto</span>
-            </div>
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>O aplikacji</span>
-            </div>
+        <context-menu ref="accountMenuRef">
+            <account-menu></account-menu>
         </context-menu>
-        <context-menu ref="shareMenu">
-            <div class="menu-label">
-                Udostępnij:
-            </div>
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>Facebook</span>
-            </div>
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>E-mail</span>
-            </div>
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>Whatsapp</span>
-            </div>
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>Twitter</span>
-            </div>
-            <div class="menu-item">
-                <ball-icon></ball-icon>
-                <span>Kopiuj link</span>
-            </div>
+        <context-menu ref="shareMenuRef">
+            <share-menu></share-menu>
         </context-menu>
     </div>
 </template>
 
 <script lang="ts">
     import logo from '@/components/Logo.vue';
-    import contextMenu from '@/components/ContextMenu.vue';
     import colorModeButton from '@/assets/icons/brightness.svg';
     import accountButton from '@/assets/icons/account.svg';
     import shareButton from '@/assets/icons/share.svg';
-    import ballIcon from '@/assets/icons/person.svg';
-    import ballIcon from '@/assets/icons/person_add.svg';
-    import ballIcon from '@/assets/icons/email.svg';
-    import ballIcon from '@/assets/icons/link.svg';
+    import contextMenu from '@/components/ContextMenu.vue';
+    import accountMenu from '@/components/AccountMenu.vue';
+    import shareMenu from '@/components/ShareMenu.vue';
 
     export default {
         components: {
-            logo, colorModeButton, accountButton, shareButton, contextMenu, ballIcon
+            logo, colorModeButton, accountButton, shareButton, contextMenu, accountMenu, shareMenu
         },
         props: ['competitionName'],
         methods: {
@@ -77,14 +42,14 @@
                 const targetPositions = event.target.getBoundingClientRect();
 
                 setTimeout(() => {
-                this.$refs.accountMenu.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                this.$refs.accountMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
                 }, 100);
             },
             onShareButtonClick (event: any) {
                 const targetPositions = event.target.getBoundingClientRect();
 
                 setTimeout(() => {
-                    this.$refs.shareMenu.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
                 }, 100);
             }
         }
