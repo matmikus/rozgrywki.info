@@ -174,16 +174,6 @@
             .active-bar-container {
                 background-color: $text-color-dark;
             }
-
-            .nav-item:hover {
-                .nav-icon {
-                    fill: $main-color-dark;
-                }
-
-                .name-container {
-                    color: $main-color-dark;
-                }
-            }
         }
     }
 
@@ -202,16 +192,6 @@
             .active-bar-container {
                 background-color: $text-color-light;
             }
-
-            .nav-item:hover {
-                .nav-icon {
-                    fill: $main-color-light;
-                }
-
-                .name-container {
-                    color: $main-color-light;
-                }
-            }
         }
     }
 
@@ -223,6 +203,36 @@
 
             .icon-container {
                 height: 0;
+            }
+        }
+    }
+
+    @media (hover: hover) {
+        .light-mode {
+            #competition-nav-container {
+                .nav-item:hover {
+                    .nav-icon {
+                        fill: $main-color-light;
+                    }
+
+                    .name-container {
+                        color: $main-color-light;
+                    }
+                }
+            }
+        }
+
+        .dark-mode {
+            #competition-nav-container {
+                .nav-item:hover {
+                    .nav-icon {
+                        fill: $main-color-dark;
+                    }
+
+                    .name-container {
+                        color: $main-color-dark;
+                    }
+                }
             }
         }
     }
