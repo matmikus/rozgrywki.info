@@ -2,8 +2,11 @@
     <div id="competition-header-container">
         <div class="competition-name">{{ competitionName }}</div>
         <div class="spacer"></div>
-        <share-button class="share-button pointer" @click="onShareButtonClick"></share-button>
-        <context-menu ref="shareMenuRef">
+        <share-button class="share-button pointer"
+                      @click="onShareButtonClick"
+                      id="competition-header-share-button"
+                      v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0 } }"></share-button>
+        <context-menu ref="shareMenuRef" :iconId="'competition-header-share-button'">
             <share-menu></share-menu>
         </context-menu>
     </div>
@@ -21,9 +24,11 @@
             onShareButtonClick (event: any) {
                 const targetPositions = event.target.getBoundingClientRect();
 
-                setTimeout(() => {
+                if (this.$refs.shareMenuRef.visibility) {
+                    this.$refs.shareMenuRef.close();
+                } else {
                     this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
-                }, 100);
+                }
             }
         }
     };

@@ -174,6 +174,16 @@
             .active-bar-container {
                 background-color: $text-color-dark;
             }
+
+            .nav-item:hover {
+                .nav-icon {
+                    fill: $main-color-dark;
+                }
+
+                .name-container {
+                    color: $main-color-dark;
+                }
+            }
         }
     }
 
@@ -191,6 +201,16 @@
 
             .active-bar-container {
                 background-color: $text-color-light;
+            }
+
+            .nav-item:hover {
+                .nav-icon {
+                    fill: $main-color-light;
+                }
+
+                .name-container {
+                    color: $main-color-light;
+                }
             }
         }
     }

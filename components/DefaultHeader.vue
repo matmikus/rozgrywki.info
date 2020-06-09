@@ -1,30 +1,35 @@
 <template>
     <div id="default-header-container">
-        <logo class="logo"></logo>
+        <logo class="logo" @click="onLogoClick"></logo>
         <div class="competition-info">
             <div class="competition-name-wrapper">
                 <span class="competition-name-text">&nbsp;{{ competitionName }}</span>
             </div>
             <div class="spacer"></div>
             <share-button class="share-button pointer"
+                          id="default-header-share-button"
                           v-if="!!competitionName"
+                          v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0 } }"
                           @click="onShareButtonClick"></share-button>
         </div>
         <color-mode-button @click="$colorMode.preference = $colorMode.preference === 'light' ? 'dark' : 'light'"
-                           class="color-mode-button pointer"></color-mode-button>
+                           class="color-mode-button pointer" v-tooltip.bottom="{ content: 'Zmień kolorystykę', delay: { show: 500, hide: 0 } }">
+        </color-mode-button>
         <account-button class="account-button pointer"
+                        id="default-header-account-button"
+                        v-tooltip.bottom="{ content: 'Menu użytkownika', delay: { show: 500, hide: 0 } }"
                         @click="onAccountButtonClick"></account-button>
-        <context-menu ref="accountMenuRef">
+        <context-menu ref="accountMenuRef" :iconId="'default-header-account-button'">
             <account-menu></account-menu>
         </context-menu>
-        <context-menu ref="shareMenuRef">
+        <context-menu ref="shareMenuRef" :iconId="'default-header-share-button'">
             <share-menu></share-menu>
         </context-menu>
     </div>
 </template>
 
 <script lang="ts">
-    import logo from '@/components/Logo.vue';
+    import logo from '@/assets/logo/logo.svg';
     import colorModeButton from '@/assets/icons/brightness.svg';
     import accountButton from '@/assets/icons/account.svg';
     import shareButton from '@/assets/icons/share.svg';
@@ -41,16 +46,23 @@
             onAccountButtonClick (event: any) {
                 const targetPositions = event.target.getBoundingClientRect();
 
-                setTimeout(() => {
-                this.$refs.accountMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
-                }, 100);
+                if (this.$refs.accountMenuRef.visibility) {
+                    this.$refs.accountMenuRef.close();
+                } else {
+                    this.$refs.accountMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                }
             },
             onShareButtonClick (event: any) {
                 const targetPositions = event.target.getBoundingClientRect();
 
-                setTimeout(() => {
+                if (this.$refs.shareMenuRef.visibility) {
+                    this.$refs.shareMenuRef.close();
+                } else {
                     this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
-                }, 100);
+                }
+            },
+            onLogoClick () {
+                this.$router.push('/');
             }
         }
     };
@@ -68,6 +80,7 @@
             height: 24px;
             margin: 8px;
             flex-shrink: 0;
+            cursor: pointer;
         }
 
         .logo {
@@ -124,6 +137,10 @@
             .competition-name-wrapper {
                 color: $main-color-dark;
             }
+
+            .color-mode-button:hover, .account-button:hover, .share-button:hover {
+                fill: $main-color-dark;
+            }
         }
     }
 
@@ -141,6 +158,10 @@
 
             .competition-name-wrapper {
                 color: $main-color-light;
+            }
+
+            .color-mode-button:hover, .account-button:hover, .share-button:hover {
+                fill: $main-color-light;
             }
         }
     }

@@ -34,6 +34,7 @@
         "nuxt-i18n": "^6.12.1",
         "nuxt-svg-loader": "^1.2.0",
         "nuxt-webfontloader": "^1.1.0",
+        "v-tooltip": "git://github.com/frkcn/v-tooltip.git#patch-1",
         "vue-scrollto": "^2.18.1",
         "vue-social-sharing": "^3.0.0-beta.10"
     },

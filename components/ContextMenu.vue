@@ -10,6 +10,7 @@
 
 <script lang="ts">
     export default {
+        props: ['iconId'],
         data () {
             return {
                 visibility: false,
@@ -27,12 +28,17 @@
         },
         methods: {
             handleEveryClick (event: any) {
-                this.visibility = false;
+                if (event.target.closest(`#${this.iconId}`) === null) {
+                    this.close();
+                }
             },
             show (rightPosition: number, topPosition: number) {
                 this.visibility = true;
                 this.rightPosition = rightPosition + 'px';
                 this.topPosition = topPosition + 'px';
+            },
+            close () {
+                this.visibility = false;
             }
         }
     }

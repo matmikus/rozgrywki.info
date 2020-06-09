@@ -36,7 +36,7 @@ module.exports = {
             '@/assets/scss/global.scss'
         ]
     },
-    plugins: [],
+    plugins: [{ src: '~/plugins/v-tooltip.ts', ssr: false }],
     buildModules: [
         '@nuxt/typescript-build',
         '@nuxtjs/color-mode',
