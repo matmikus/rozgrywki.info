@@ -22,14 +22,6 @@
             };
         },
         methods: {
-            // showDialog () {
-            //     this.visible = true;
-            //     this.cardVisible = true;
-            //
-            //     return new Promise((resolve) => {
-            //         this.promiseResolve = resolve;
-            //     });
-            // },
             closeDialog (promiseResolve: boolean) {
                 this.$store.dispatch('closeActionDialog', promiseResolve);
             },
@@ -91,6 +83,8 @@
             min-width: 280px;
             background-color: #fff;
             border-radius: 4px;
+            max-width: 400px;
+            margin: 32px;
 
             .heading {
                 font-size: 16px;
