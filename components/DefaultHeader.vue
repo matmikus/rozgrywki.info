@@ -13,7 +13,8 @@
                           @click="onShareButtonClick"></share-button>
         </div>
         <color-mode-button @click="$colorMode.preference = $colorMode.preference === 'light' ? 'dark' : 'light'"
-                           class="color-mode-button pointer" v-tooltip.bottom="{ content: 'Zmień kolorystykę', delay: { show: 500, hide: 0 } }">
+                           class="color-mode-button pointer"
+                           v-tooltip.bottom="{ content: 'Zmień kolorystykę', delay: { show: 500, hide: 0 } }">
         </color-mode-button>
         <account-button class="account-button pointer"
                         id="default-header-account-button"
@@ -137,10 +138,6 @@
             .competition-name-wrapper {
                 color: $main-color-dark;
             }
-
-            .color-mode-button:hover, .account-button:hover, .share-button:hover {
-                fill: $main-color-dark;
-            }
         }
     }
 
@@ -159,9 +156,23 @@
             .competition-name-wrapper {
                 color: $main-color-light;
             }
+        }
+    }
 
-            .color-mode-button:hover, .account-button:hover, .share-button:hover {
-                fill: $main-color-light;
+    @media (hover: hover) {
+        .light-mode {
+            #default-header-container {
+                .color-mode-button:hover, .account-button:hover, .share-button:hover {
+                    fill: $main-color-light;
+                }
+            }
+        }
+
+        .dark-mode {
+            #default-header-container {
+                .color-mode-button:hover, .account-button:hover, .share-button:hover {
+                    fill: $main-color-dark;
+                }
             }
         }
     }

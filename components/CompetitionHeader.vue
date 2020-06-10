@@ -88,4 +88,24 @@
             }
         }
     }
+
+
+
+    @media (hover: hover) {
+        .light-mode {
+            #competition-header-container {
+                .share-button:hover {
+                    fill: $main-color-light;
+                }
+            }
+        }
+
+        .dark-mode {
+            #competition-header-container {
+                .share-button:hover {
+                    fill: $main-color-dark;
+                }
+            }
+        }
+    }
 </style>
