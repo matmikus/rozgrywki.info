@@ -19,15 +19,26 @@
             }
         },
         mounted () {
-            window.addEventListener('click', this.handleEveryClick);
-            window.addEventListener('touchstart', this.handleEveryClick);
+            window.addEventListener('mousedown', this.handleEveryTap);
+            window.addEventListener('touchstart', this.handleEveryTap);
+            window.addEventListener('click', this.handleClick);
         },
         destroyed () {
-            window.removeEventListener('click', this.handleEveryClick);
-            window.removeEventListener('touchstart', this.handleEveryClick);
+            window.removeEventListener('mousedown', this.handleEveryTap);
+            window.removeEventListener('touchstart', this.handleEveryTap);
+            window.removeEventListener('click', this.handleClick);
         },
         methods: {
-            handleEveryClick (event: any) {
+            handleEveryTap (event: any) {
+                if (event.target.closest('.menu-item') !== null) {
+                    return;
+                }
+
+                if (event.target.closest(`#${this.iconId}`) === null) {
+                    this.close();
+                }
+            },
+            handleClick (event: any) {
                 if (event.target.closest(`#${this.iconId}`) === null) {
                     this.close();
                 }

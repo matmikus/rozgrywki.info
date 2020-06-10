@@ -94,7 +94,10 @@
 
 <script lang="ts">
     export default {
-        layout: 'competition'
+        layout: 'competition',
+        mounted () {
+            this.$store.dispatch('mockCompetitionData');
+        }
     };
 </script>
 

@@ -4,10 +4,10 @@ export const state = () => ({
         blocked: false
     },
     competition: {
-        name: 'Puchar Burmistrza Pcimia Górnego 2021',
-        route: 'puchar-pcimia2021',
-        link: 'www.rozgrywki.info/puchar-pcimia2021',
-        description: 'Zapraszamy serdecznie na kolejną edycję kultowych rozgrywek w Pcimiu Górnym!'
+        name: '',
+        route: '',
+        link: '',
+        description: ''
     },
     snackbar: {
         message: '',
@@ -47,7 +47,7 @@ export const mutations = {
     closeSnackbar (state: any) {
         state.snackbar.visible = false;
     },
-    showActionDialog (state: any, data: { heading: string, message: string , cancelText: string | undefined, okText: string }) {
+    showActionDialog (state: any, data: { heading: string, message: string, cancelText: string | undefined, okText: string }) {
         state.actionDialog.heading = data.heading;
         state.actionDialog.message = data.message;
         state.actionDialog.cancelText = data.cancelText;
@@ -57,6 +57,12 @@ export const mutations = {
     async closeActionDialog (state: any, resolveValue: boolean) {
         state.actionDialog.visible = false;
         state.actionDialog.promiseResolve(resolveValue);
+    },
+    setCompetitionData (state: any, data: { name: string, route: string, link: string, description: string }) {
+        state.competition.name = data.name;
+        state.competition.route = data.route;
+        state.competition.link = data.link;
+        state.competition.description = data.description;
     }
 };
 
@@ -103,7 +109,7 @@ export const actions = {
             context.commit('closeSnackbar');
         }
     },
-    showActionDialog (context: any, data: { heading: string, message: string , cancelText: string | undefined, okText: string }) {
+    showActionDialog (context: any, data: { heading: string, message: string, cancelText: string | undefined, okText: string }) {
         context.commit('showActionDialog', data);
 
         this.state.actionDialog.promise = new Promise(resolve => {
@@ -114,5 +120,13 @@ export const actions = {
     },
     closeActionDialog (context: any, resolveValue: boolean) {
         context.commit('closeActionDialog', resolveValue);
+    },
+    mockCompetitionData (context: any) {
+        context.commit('setCompetitionData', {
+            name: 'Puchar Burmistrza Pcimia Górnego 2021',
+            route: 'puchar-pcimia2021',
+            link: 'www.rozgrywki.info/puchar-pcimia2021',
+            description: 'Zapraszamy serdecznie na kolejną edycję kultowych rozgrywek w Pcimiu Górnym!'
+        });
     }
 };

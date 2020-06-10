@@ -8,7 +8,7 @@
                 <person-add-icon></person-add-icon>
                 <span>Nowe konto</span>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" @click="onAboutClick">
                 <ball-icon></ball-icon>
                 <span>O aplikacji</span>
             </div>
@@ -28,6 +28,9 @@
             },
             onSignInClick () {
                 this.$store.dispatch('showActionDialog', { heading: 'Komunikat', message: 'Funkcjonalność niedostępna. Przepraszamy.', okText: 'OK' });
+            },
+            onAboutClick () {
+                this.$router.push('/');
             }
         }
     };
