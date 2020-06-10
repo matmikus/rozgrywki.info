@@ -5,7 +5,7 @@
         <share-button class="share-button pointer"
                       @click="onShareButtonClick"
                       id="competition-header-share-button"
-                      v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0 } }"></share-button>
+                      v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0, trigger: 'hover' } }"></share-button>
         <context-menu ref="shareMenuRef" :iconId="'competition-header-share-button'">
             <share-menu></share-menu>
         </context-menu>

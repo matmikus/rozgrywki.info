@@ -9,16 +9,16 @@
             <share-button class="share-button pointer"
                           id="default-header-share-button"
                           v-if="!!competition.name"
-                          v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0 } }"
+                          v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0, trigger: 'hover', trigger: 'hover' } }"
                           @click="onShareButtonClick"></share-button>
         </div>
         <color-mode-button @click="$colorMode.preference = $colorMode.preference === 'light' ? 'dark' : 'light'"
                            class="color-mode-button pointer"
-                           v-tooltip.bottom="{ content: 'Zmień kolorystykę', delay: { show: 500, hide: 0 } }">
+                           v-tooltip.bottom="{ content: 'Zmień kolorystykę', delay: { show: 500, hide: 0, trigger: 'hover' } }">
         </color-mode-button>
         <account-button class="account-button pointer"
                         id="default-header-account-button"
-                        v-tooltip.bottom="{ content: 'Menu użytkownika', delay: { show: 500, hide: 0 } }"
+                        v-tooltip.bottom="{ content: 'Menu użytkownika', delay: { show: 500, hide: 0, trigger: 'hover' } }"
                         @click="onAccountButtonClick"></account-button>
         <context-menu ref="accountMenuRef" :iconId="'default-header-account-button'">
             <account-menu></account-menu>
