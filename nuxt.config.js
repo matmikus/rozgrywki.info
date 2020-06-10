@@ -51,6 +51,7 @@ module.exports = {
         'nuxt-helmet',
         'vue-social-sharing/nuxt',
         'nuxt-svg-loader',
+        'nuxt-clipboard2',
         ['vue-scrollto/nuxt', {
             duration: 500,
             offset: -56
