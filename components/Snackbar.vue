@@ -7,27 +7,20 @@
 
 <script lang="ts">
     export default {
-        data () {
-            return {
-                visible: false,
-                message: '',
-                actionText: ''
-            };
-        },
         methods: {
-            showSnackbar (message: string, actionText: string = '') {
-                this.message = message;
-                this.actionText = actionText;
-                this.visible = true;
-
-                if (!this.actionText) {
-                    setTimeout(() => {
-                        this.closeSnackbar();
-                    }, 4000);
-                }
-            },
             closeSnackbar () {
-                this.visible = false;
+                this.$store.dispatch('closeSnackbar');
+            }
+        },
+        computed: {
+            message () {
+                return this.$store.state.snackbar.message;
+            },
+            actionText () {
+                return this.$store.state.snackbar.actionText;
+            },
+            visible () {
+                return this.$store.state.snackbar.visible;
             }
         }
     };

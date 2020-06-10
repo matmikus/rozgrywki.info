@@ -1,6 +1,6 @@
 <template>
     <div id="competition-header-container">
-        <div class="competition-name">{{ competitionName }}</div>
+        <div class="competition-name">{{ competition.name }}</div>
         <div class="spacer"></div>
         <share-button class="share-button pointer"
                       @click="onShareButtonClick"
@@ -19,7 +19,11 @@
 
     export default {
         components: { shareButton, contextMenu, shareMenu },
-        props: ['competitionName'],
+        data () {
+            return {
+                competition: this.$store.state.competition
+            }
+        },
         methods: {
             onShareButtonClick (event: any) {
                 const targetPositions = event.target.getBoundingClientRect();

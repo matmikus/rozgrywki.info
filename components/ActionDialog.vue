@@ -1,5 +1,5 @@
 <template>
-    <div id="dialog-container" :class="{'visible': visible}">
+    <div id="dialog-container" :class="{'visible': containerVisible}">
         <div class="dialog-card" :class="{'visible': cardVisible}">
             <div class="heading">{{ heading }}</div>
             <div class="message">{{ message }}</div>
@@ -17,41 +17,55 @@
     export default {
         data () {
             return {
-                visible: false,
-                cardVisible: false,
-                heading: '',
-                message: '',
-                cancelText: '',
-                okText: '',
+                containerVisible: false,
                 promiseResolve: null
             };
         },
         methods: {
-            showDialog (heading: string, message: string, okText: string = '', cancelText: string = '') {
-                this.heading = heading;
-                this.message = message;
-                this.cancelText = cancelText;
-                this.okText = okText;
-                this.visible = true;
-                this.cardVisible = true;
-
-                return new Promise((resolve) => {
-                    this.promiseResolve = resolve;
-                });
-            },
-            closeDialog () {
-                this.cardVisible = false;
-                setTimeout(() => {
-                    this.visible = false;
-                }, 250);
+            // showDialog () {
+            //     this.visible = true;
+            //     this.cardVisible = true;
+            //
+            //     return new Promise((resolve) => {
+            //         this.promiseResolve = resolve;
+            //     });
+            // },
+            closeDialog (promiseResolve: boolean) {
+                this.$store.dispatch('closeActionDialog', promiseResolve);
             },
             onCancelClick () {
-                this.closeDialog();
-                this.promiseResolve(false);
+                this.closeDialog(false);
             },
             onOkClick () {
-                this.closeDialog();
-                this.promiseResolve(true);
+                this.closeDialog(true);
+            }
+        },
+        computed: {
+            cardVisible () {
+                return this.$store.state.actionDialog.visible;
+            },
+            heading () {
+                return this.$store.state.actionDialog.heading;
+            },
+            message () {
+                return this.$store.state.actionDialog.message;
+            },
+            cancelText () {
+                return this.$store.state.actionDialog.cancelText;
+            },
+            okText () {
+                return this.$store.state.actionDialog.okText;
+            }
+        },
+        watch: {
+            cardVisible (value: boolean) {
+                if (value) {
+                    this.containerVisible = true;
+                } else {
+                    setTimeout(() => {
+                        this.containerVisible = false;
+                    }, 250);
+                }
             }
         }
     };
@@ -85,6 +99,7 @@
                 align-items: center;
                 justify-content: flex-start;
                 padding: 12px 24px;
+                box-sizing: border-box;
             }
 
             .message {

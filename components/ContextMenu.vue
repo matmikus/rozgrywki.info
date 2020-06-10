@@ -19,11 +19,11 @@
             }
         },
         mounted () {
-            window.addEventListener('mousedown', this.handleEveryClick);
+            window.addEventListener('click', this.handleEveryClick);
             window.addEventListener('touchstart', this.handleEveryClick);
         },
         destroyed () {
-            window.removeEventListener('mousedown', this.handleEveryClick);
+            window.removeEventListener('click', this.handleEveryClick);
             window.removeEventListener('touchstart', this.handleEveryClick);
         },
         methods: {

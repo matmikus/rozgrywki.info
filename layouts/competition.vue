@@ -2,14 +2,13 @@
     <div class="layout-container">
         <transition name="component-fade" mode="out-in">
             <competition-header v-show="competitionScrollingDown"
-                                style="z-index: 101"
-                                :competition-name="'Puchar Burmistrza Pcimia Górnego 2021'"></competition-header>
+                                style="z-index: 101"></competition-header>
         </transition>
-        <app-header style="z-index: 100"
-                    :competition-name="'Puchar Burmistrza Pcimia Górnego 2021'"></app-header>
+        <app-header style="z-index: 100"></app-header>
         <nuxt/>
         <competition-nav :small="competitionScrollingDown"></competition-nav>
         <actionDialog></actionDialog>
+        <snackbar></snackbar>
     </div>
 </template>
 
@@ -18,10 +17,11 @@
     import competitionHeader from '@/components/CompetitionHeader.vue';
     import competitionNav from '@/components/CompetitionNav.vue';
     import actionDialog from '@/components/ActionDialog.vue';
+    import snackbar from '@/components/Snackbar.vue';
 
     export default {
         components: {
-            appHeader, competitionHeader, competitionNav, actionDialog
+            appHeader, competitionHeader, competitionNav, actionDialog, snackbar
         },
         data () {
             return {

@@ -2,13 +2,17 @@
     <div class="layout-container">
         <app-header></app-header>
         <nuxt/>
+        <actionDialog></actionDialog>
+        <snackbar></snackbar>
     </div>
 </template>
 
 <script lang="ts">
     import appHeader from '@/components/DefaultHeader.vue';
+    import actionDialog from '@/components/ActionDialog.vue';
+    import snackbar from '@/components/Snackbar.vue';
 
     export default {
-        components: { appHeader }
+        components: { appHeader, actionDialog, snackbar }
     };
 </script>

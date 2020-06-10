@@ -1,10 +1,10 @@
 <template>
     <div class="menu-items-container">
-        <div class="menu-item">
+        <div class="menu-item" @click="onLogInClick">
                 <person-icon></person-icon>
                 <span>Logowanie</span>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" @click="onSignInClick">
                 <person-add-icon></person-add-icon>
                 <span>Nowe konto</span>
             </div>
@@ -21,6 +21,14 @@
     import ballIcon from '@/assets/icons/ball.svg';
 
     export default {
-        components: { personIcon, personAddIcon, ballIcon }
+        components: { personIcon, personAddIcon, ballIcon },
+        methods: {
+            onLogInClick () {
+                this.$store.dispatch('showActionDialog', { heading: 'Komunikat', message: 'Funkcjonalność niedostępna. Przepraszamy.', okText: 'OK' });
+            },
+            onSignInClick () {
+                this.$store.dispatch('showActionDialog', { heading: 'Komunikat', message: 'Funkcjonalność niedostępna. Przepraszamy.', okText: 'OK' });
+            }
+        }
     };
 </script>

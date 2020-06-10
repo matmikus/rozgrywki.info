@@ -3,12 +3,12 @@
         <logo class="logo" @click="onLogoClick"></logo>
         <div class="competition-info">
             <div class="competition-name-wrapper">
-                <span class="competition-name-text">&nbsp;{{ competitionName }}</span>
+                <span class="competition-name-text">&nbsp;{{ competition.name }}</span>
             </div>
             <div class="spacer"></div>
             <share-button class="share-button pointer"
                           id="default-header-share-button"
-                          v-if="!!competitionName"
+                          v-if="!!competition.name"
                           v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0 } }"
                           @click="onShareButtonClick"></share-button>
         </div>
@@ -42,7 +42,11 @@
         components: {
             logo, colorModeButton, accountButton, shareButton, contextMenu, accountMenu, shareMenu
         },
-        props: ['competitionName'],
+        data () {
+            return {
+                competition: this.$store.state.competition
+            }
+        },
         methods: {
             onAccountButtonClick (event: any) {
                 const targetPositions = event.target.getBoundingClientRect();
