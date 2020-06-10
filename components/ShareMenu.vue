@@ -67,7 +67,7 @@
                 el.value = this.competition.link;
                 document.body.appendChild(el);
                 el.select();
-                el.setSelectionRange(0, 99999);// For mobile devices
+                // el.setSelectionRange(0, 99999);// For mobile devices
                 document.execCommand('copy');
                 document.body.removeChild(el);
 
