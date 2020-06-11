@@ -171,6 +171,10 @@
                 color: $background-color-dark;
                 background-color: $text-color-dark;
             }
+
+            .button:hover {
+                background-color: $main-color-dark;
+            }
         }
     }
 
@@ -186,6 +190,10 @@
             .button {
                 color: $background-color-light;
                 background-color: $text-color-light;
+            }
+
+            .button:hover {
+                color: $main-color-dark;
             }
         }
     }
