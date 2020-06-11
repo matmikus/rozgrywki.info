@@ -17,7 +17,7 @@ body {
 }
 
 * {
-    transition: color 250ms ease-in-out, background-color 250ms ease-in-out;
+    transition: background-color 250ms ease-in-out;
 }
 
 .tooltip {
@@ -68,6 +68,12 @@ body {
         visibility: visible;
         opacity: 1;
         transition: opacity .25s;
+    }
+}
+
+@media not all and (orientation: landscape) {
+    .tooltip {
+        display: none;
     }
 }
 

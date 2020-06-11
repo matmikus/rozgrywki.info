@@ -3,6 +3,7 @@ export const state = () => ({
         position: 1,
         blocked: false
     },
+    competitionScrollingDown: false,
     competition: {
         name: '',
         route: '',
@@ -34,6 +35,9 @@ export const mutations = {
     },
     lockedBar (state: any, locked: boolean) {
         state.bar.blocked = locked;
+    },
+    setCompetitionScrollingDown (state: any, value: boolean) {
+        state.competitionScrollingDown = value;
     },
     showSnackbar (state: any, data: { message: string, actionText: string }) {
         state.snackbar.message = data.message;
@@ -77,6 +81,9 @@ export const actions = {
     },
     moveBar (context: any, position: number) {
         context.commit('moveBar', position);
+    },
+    setCompetitionScrollingDown (context: any, value: boolean) {
+        context.commit('setCompetitionScrollingDown', value);
     },
     showSnackbar (context: any, message: string, actionText: string = '') {
         if (this.state.snackbar.visible) {

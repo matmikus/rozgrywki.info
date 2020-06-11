@@ -1,5 +1,5 @@
 <template>
-    <div id="snackbar-container" :class="{'visible': visible}" @click="closeSnackbar">
+    <div id="snackbar-container" :class="{'visible': visible, 'small-nav': withSmallNav}" @click="closeSnackbar">
         <div class="message">{{ message }}</div>
         <div class="action" v-if="actionText">{{ actionText }}</div>
     </div>
@@ -21,6 +21,9 @@
             },
             visible () {
                 return this.$store.state.snackbar.visible;
+            },
+            withSmallNav () {
+                return this.$store.state.competitionScrollingDown;
             }
         }
     };
@@ -53,6 +56,10 @@
     @media not all and (orientation: landscape) {
         #snackbar-container.visible {
             bottom: 84px;
+        }
+
+        #snackbar-container.visible.small-nav {
+            bottom: 56px;
         }
     }
 

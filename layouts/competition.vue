@@ -1,8 +1,8 @@
 <template>
     <div class="layout-container">
         <transition name="component-fade" mode="out-in">
-            <competition-header v-show="competitionScrollingDown"
-                                style="z-index: 101"></competition-header>
+            <mobile-competition-scroll-header v-show="competitionScrollingDown"
+                                style="z-index: 101"></mobile-competition-scroll-header>
         </transition>
         <app-header style="z-index: 100"></app-header>
         <nuxt/>
@@ -14,22 +14,26 @@
 
 <script lang="ts">
     import appHeader from '@/components/DefaultHeader.vue';
-    import competitionHeader from '@/components/CompetitionHeader.vue';
+    import mobileCompetitionScrollHeader from '@/components/MobileCompetitionScrollHeader.vue';
     import competitionNav from '@/components/CompetitionNav.vue';
     import actionDialog from '@/components/ActionDialog.vue';
     import snackbar from '@/components/Snackbar.vue';
 
     export default {
         components: {
-            appHeader, competitionHeader, competitionNav, actionDialog, snackbar
+            appHeader, mobileCompetitionScrollHeader, competitionNav, actionDialog, snackbar
         },
         data () {
             return {
-                competitionScrollingDown: false,
                 scrollPosition: null,
                 navElementsRange: [],
                 navActiveEl: 1
             };
+        },
+        computed: {
+            competitionScrollingDown () {
+                return this.$store.state.competitionScrollingDown;
+            }
         },
         mounted () {
             window.addEventListener('scroll', this.handleScroll);
@@ -67,11 +71,11 @@
         watch: {
             scrollPosition (newPosition: number, prevPosition: number): void {
                 if (window.innerWidth > 600 || newPosition < 4) {
-                    this.competitionScrollingDown = false;
+                    this.$store.dispatch('setCompetitionScrollingDown', false);
                 } else if (newPosition + this.$el.offsetHeight >= this.$el.scrollHeight) {
-                    this.competitionScrollingDown = true;
+                    this.$store.dispatch('setCompetitionScrollingDown', true);
                 } else {
-                    this.competitionScrollingDown = newPosition > prevPosition;
+                    this.$store.dispatch('setCompetitionScrollingDown', newPosition > prevPosition);
                 }
 
                 if (newPosition < this.navElementsRange[0].bottom - (window.innerHeight - 56) / 2 || newPosition < this.navElementsRange[0].top) {
