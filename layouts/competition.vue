@@ -85,8 +85,6 @@
                 } else {
                     this.$store.dispatch('moveBar', 3);
                 }
-                console.log(this.navElementsRange)
-                console.log(newPosition)
             }
         }
     };
