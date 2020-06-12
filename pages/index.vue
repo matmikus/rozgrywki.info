@@ -1,77 +1,93 @@
 <template>
     <div id="index-container">
-        <div class="content-card"><span class="pretty-name">ROZGRYWKI.INFO</span> to proste, szybkie
-            i <u>darmowe</u> narzędzie do dzielenia się wynikami rywalizacji sportowej na każdym
-            poziomie w każdej dyscyplinie sportu opartej na bezpośrednich pojedynkach pomiędzy
-            uczestnikami. Poprzez formularz tworzenia rozgrywek łatwo wygenerujesz stronę swoich
-            zawodów, która będzie dostępna dla wszystkich pod adresem
-            <i>www.rozgrywki.info/twoja&#8209;nazwa&#8209;rozgrywek</i>, a następnie szybko dodasz
-            wyniki poszczególnych gier lub umożliwisz to samym uczestnikom poszczególnych
-            pojedynków.
-            <ul class="section">
-                <div class="heading">Rodzaje rozgrywek</div>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Pucharowe
-                </li>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Każdy z każdym
-                </li>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Puchar podwójnej eliminacji (sytem brazylijski)
-                </li>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Mieszane (etapy składające się z powyższych rodzajów)
-                </li>
-            </ul>
-            <ul class="section">
-                <div class="heading">Możliwości konfiguracji rozgrywek</div>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Punkty za wygraną / przegraną / remis (jeśli umożliwiony)
-                </li>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Opcjonalnie mecz i rewanż w pucharze, runda rewanżowa w systemie każdy z każdym
-                </li>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Kolejność branych pod uwagę czynników decydujących o miejscu w tabeli lub
-                    zwycięzcy pucharowego dwumeczu
-                </li>
-                <li>
-                    <div>
-                        <ball-icon/>
-                    </div>
-                    Losowanie układu rozgrywek lub rozstawienie uczestników
-                </li>
-            </ul>
-            Intensywnie pracujemy nad kolejnymi funkcjonalnościami. W razie pytań lub sugestii
-            napisz do nas na
-            <b><a href="mailto:kontakt@rozgrywki.info">kontakt@rozgrywki.info</a></b>
-            <div class="section">
+        <div class="content-card">
+            <div class="card-illustration-container">
+                <first-illustration class="illustration"></first-illustration>
+            </div>
+            <div class="card-content-container">
+                <span class="pretty-name">ROZGRYWKI.INFO</span> to proste, szybkie
+                i&nbsp;<u>darmowe</u> narzędzie do dzielenia się wynikami rywalizacji sportowej na
+                każdym
+                poziomie w każdej dyscyplinie sportu opartej na bezpośrednich pojedynkach pomiędzy
+                uczestnikami. Poprzez formularz tworzenia rozgrywek łatwo wygenerujesz stronę swoich
+                zawodów, która będzie dostępna dla wszystkich pod adresem
+                <i>www.rozgrywki.info/twoja&#8209;nazwa</i>, a&nbsp;następnie szybko dodasz
+                wyniki poszczególnych gier lub umożliwisz to samym uczestnikom poszczególnych
+                pojedynków.
+            </div>
+        </div>
+        <div class="content-card">
+            <div class="card-illustration-container">
+                <second-illustration class="illustration"></second-illustration>
+            </div>
+            <div class="card-content-container">
+                <ul class="section">
+                    <div class="heading ul-heading">Rodzaje rozgrywek</div>
+                    <li>
+                        Pucharowe
+                    </li>
+                    <li>
+                        Każdy z każdym
+                    </li>
+                    <li>
+                        Puchar podwójnej eliminacji (sytem brazylijski)
+                    </li>
+                    <li>
+                        Mieszane (etapy składające się z powyższych rodzajów)
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content-card">
+            <div class="card-illustration-container">
+                <third-illustration class="illustration"></third-illustration>
+            </div>
+            <div class="card-content-container">
+                <ul class="section">
+                    <div class="heading ul-heading">Możliwości konfiguracji rozgrywek</div>
+                    <li>
+                        Punkty za wygraną / przegraną / remis (jeśli umożliwiony)
+                    </li>
+                    <li>
+                        Opcjonalnie mecz i rewanż w pucharze, runda rewanżowa w systemie każdy z
+                        każdym
+                    </li>
+                    <li>
+                        Kolejność branych pod uwagę czynników decydujących o miejscu w tabeli lub
+                        zwycięzcy pucharowego dwumeczu
+                    </li>
+                    <li>
+                        Losowanie układu rozgrywek lub rozstawienie uczestników
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content-card">
+            <div class="card-illustration-container">
+                <fourth-illustration class="illustration"></fourth-illustration>
+            </div>
+            <div class="card-content-container">
+                Intensywnie pracujemy nad kolejnymi funkcjonalnościami. W razie pytań lub sugestii
+                napisz do nas na
+                <b><a href="mailto:kontakt@rozgrywki.info">kontakt@rozgrywki.info</a></b>
+            </div>
+        </div>
+        <div class="content-card">
+            <div class="card-illustration-container">
+                <fifth-illustration class="illustration"></fifth-illustration>
+            </div>
+            <div class="card-content-container">
                 <div class="heading">Zobacz przykładowe rozgrywki</div>
                 <div class="buttons-container">
-                    <div class="button">Puchar</div>
-                    <div class="button">Liga</div>
-                    <div class="button">Mieszane</div>
+                    <nuxt-link to="/competition">
+                        <div class="button">Puchar</div>
+                    </nuxt-link>
+                    <nuxt-link to="/competition">
+                        <div class="button">Liga</div>
+                    </nuxt-link>
+                    <nuxt-link to="/competition">
+                        <div class="button">Mieszane</div>
+                    </nuxt-link>
                 </div>
             </div>
         </div>
@@ -80,10 +96,22 @@
 
 <script lang="ts">
     import ballIcon from '@/assets/icons/ball.svg';
+    import firstIllustration from '@/assets/illustrations/undraw_shared_goals_3d12.svg';
+    import secondIllustration from '@/assets/illustrations/undraw_placeholders_rklh.svg';
+    import thirdIllustration from '@/assets/illustrations/undraw_set_preferences_kwia.svg';
+    import fourthIllustration from '@/assets/illustrations/undraw_online_messaging_9ro6.svg';
+    import fifthIllustration from '@/assets/illustrations/undraw_online_articles_79ff.svg';
 
     export default {
         layout: 'simple',
-        components: { ballIcon },
+        components: {
+            ballIcon,
+            firstIllustration,
+            secondIllustration,
+            thirdIllustration,
+            fourthIllustration,
+            fifthIllustration
+        },
         mounted () {
             console.log(this.$i18n.locale);// TODO to delete
             console.log(this.$t('greeting'));// TODO to delete
@@ -101,36 +129,44 @@
         line-height: 24px;
         color: var(--content-txt-color);
         background-color: var(--content-bg-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         .content-card {
-            padding: 16px;
-            overflow-wrap: break-word;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            margin: 64px;
         }
 
-        .pretty-name {
-            font-weight: 400;
-            font-size: 120%;
+        .content-card:first-child, .content-card:last-child {
+            margin-top: 128px;
+            margin-bottom: 128px;
         }
 
-        .section {
-            padding: 0;
-            margin: 16px 0;
+        .content-card:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .card-illustration-container {
+            flex: 1;
+            align-self: self-start;
+        }
+
+        .illustration {
+            width: 100%;
+            height: auto;
+            fill: var(--main-color);
+        }
+
+        .card-content-container {
+            flex: 1;
+            padding: 0 32px;
         }
 
         ul {
-            list-style: none;
-        }
-
-        li {
-            display: flex;
-            align-items: flex-start;
-        }
-
-        li svg {
-            height: 12px;
-            width: 12px;
-            padding-right: 8px;
-            fill: var(--content-txt-color);
+            list-style-type: square;
         }
 
         a {
@@ -141,6 +177,10 @@
         .heading {
             margin-bottom: 8px;
             font-size: 120%;
+        }
+
+        .ul-heading {
+            margin-left: -16px;
         }
 
         .buttons-container {
@@ -156,10 +196,14 @@
             justify-content: center;
             height: 36px;
             cursor: pointer;
-            font-weight: 400;
+            font-weight: 500;
             font-size: 16px;
             color: var(--bar-txt-color);
             background-color: var(--bar-bg-color);
+        }
+
+        a:last-child > .button {
+            margin-right: 0;
         }
 
         @media (hover: hover) {
@@ -167,13 +211,39 @@
                 color: var(--bar-txt-active);
             }
         }
-    }
 
-    @media all and (min-width: 1000px) {
-        #index-container {
+        @media all and (max-width: 1000px) {
             .content-card {
-                padding: 48px;
+                margin: 32px 16px;
+            }
+
+            .content-card:first-child, .content-card:last-child {
+                margin-top: 48px;
+                margin-bottom: 48px;
             }
         }
+
+        @media all and (max-width: 700px) {
+            .content-card {
+                flex-direction: column !important;
+            }
+
+            .illustration {
+                max-height: 50vh;
+                max-width: 70vw;
+                margin-bottom: 16px;
+            }
+
+            .card-illustration-container {
+                display: flex;
+                justify-content: center;
+                align-self: unset;
+            }
+
+            .card-content-container {
+                padding: 0;
+            }
+        }
+
     }
 </style>

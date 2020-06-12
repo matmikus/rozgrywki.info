@@ -1,5 +1,5 @@
 <template>
-    <div id="snackbar-container" :class="{'visible': visible, 'small-nav': withSmallNav}" @click="closeSnackbar">
+    <div id="snackbar-container" :class="{'visible': visible, 'small-nav': withSmallNav, 'left-nav': withLeftNav }" @click="closeSnackbar">
         <div class="message">{{ message }}</div>
         <div class="action" v-if="actionText">{{ actionText }}</div>
     </div>
@@ -7,6 +7,7 @@
 
 <script lang="ts">
     export default {
+        props: ['withLeftNav'],
         methods: {
             closeSnackbar () {
                 this.$store.dispatch('closeSnackbar');
@@ -34,7 +35,7 @@
         position: fixed;
         bottom: -100px;
         transition: bottom 250ms ease-in-out;
-        left: 0;
+        left: 8px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -77,7 +78,7 @@
     }
 
     @media (orientation: landscape) {
-        #snackbar-container {
+        #snackbar-container.left-nav {
             left: 88px
         }
     }

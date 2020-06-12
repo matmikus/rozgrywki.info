@@ -8,7 +8,7 @@
         <nuxt/>
         <competition-nav :small="competitionScrollingDown"></competition-nav>
         <actionDialog></actionDialog>
-        <snackbar></snackbar>
+        <snackbar :with-left-nav="true"></snackbar>
     </div>
 </template>
 

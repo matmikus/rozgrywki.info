@@ -64,7 +64,7 @@
         methods: {
             onCopyClicked () {
                 this.$copyText(this.competition.link).then(() => {
-                    this.$store.dispatch('showSnackbar', 'Skopiowano link do schowka')
+                    this.$store.dispatch('showSnackbar', 'Skopiowano link do schowka');
                 });
             }
         }
