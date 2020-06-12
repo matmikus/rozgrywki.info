@@ -1,8 +1,19 @@
-$main-color-dark: #2E9CCA;
-$main-color-light: #25274D;
-$accent-color-dark: #25274D;
-$accent-color-light: #2E9CCA;
-$text-color-dark: #AAABB9;
-$text-color-light: #464866;
-$background-color-dark: #464866;
-$background-color-light: #AAABB9;
+:root {
+    --main-color: #304ffe;
+}
+
+.dark-mode {
+    --bar-bg-color: #242427;
+    --bar-txt-color: #cacaca;
+    --bar-txt-active: #ffffff;
+    --content-bg-color: #373740;
+    --content-txt-color: #bdbdbd;
+}
+
+.light-mode {
+    --bar-bg-color: #78909c;
+    --bar-txt-color: white;
+    --bar-txt-active: #ffffff;
+    --content-bg-color: #e3f2fd;
+    --content-txt-color: #484848;
+}

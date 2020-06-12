@@ -18,23 +18,11 @@
         min-height: 100%;
         padding-top: 56px;
         box-sizing: border-box;
+        color: var(--content-txt-color);
+        background-color: var(--content-bg-color);
 
         p {
             padding: 16px;
-        }
-    }
-
-    .dark-mode {
-        #error-container {
-            color: $text-color-dark;
-            background-color: $background-color-dark;
-        }
-    }
-
-    .light-mode {
-        #error-container {
-            color: $text-color-light;
-            background-color: $background-color-light;
         }
     }
 </style>

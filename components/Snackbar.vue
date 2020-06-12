@@ -49,7 +49,7 @@
         .action {
             text-transform: uppercase;
             margin-left: 16px;
-            color: $main-color-dark;
+            color: var(--main-color);
         }
     }
 

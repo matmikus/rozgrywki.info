@@ -60,9 +60,9 @@
         position: absolute;
         border-radius: 4px;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-        background-color: $text-color-dark;
-        color: $accent-color-dark;
-        fill: $accent-color-dark;
+        background-color: var(--bar-txt-color);
+        color: var(--bar-bg-color);
+        fill: var(--bar-bg-color);
 
         .menu-label, .menu-item {
             height: 48px;
@@ -81,10 +81,13 @@
 
         .menu-item {
             cursor: pointer;
+            transition: unset;
         }
 
         .menu-item:hover {
-            background-color: $main-color-dark;
+            background-color: var(--bar-bg-color);
+            color: var(--bar-txt-color);
+            fill: var(--bar-txt-color);
         }
 
         .menu-item > *:not(:first-child) {

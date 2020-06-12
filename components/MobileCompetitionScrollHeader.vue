@@ -45,10 +45,12 @@
         display: flex;
         align-items: center;
         height: 56px;
+        background-color: var(--bar-bg-color);
 
         .share-button {
             height: 24px;
             margin: 8px;
+            fill: var(--bar-txt-color);
         }
 
         .spacer {
@@ -62,53 +64,12 @@
             flex-shrink: 10;
             margin-left: 16px;
             font-size: 18px;
-        }
-    }
-
-    .dark-mode {
-        #competition-header-container {
-            background-color: $accent-color-dark;
-
-            .share-button {
-                fill: $text-color-dark;
-            }
-
-            .competition-name {
-                color: $main-color-dark;
-            }
-        }
-    }
-
-    .light-mode {
-        #competition-header-container {
-            background-color: $accent-color-light;
-
-            .share-button {
-                fill: $text-color-light;
-            }
-
-            .competition-name {
-                color: $main-color-light;
-            }
-        }
-    }
-
-
-
-    @media (hover: hover) {
-        .light-mode {
-            #competition-header-container {
-                .share-button:hover {
-                    fill: $main-color-light;
-                }
-            }
+            color: var(--bar-txt-color);
         }
 
-        .dark-mode {
-            #competition-header-container {
-                .share-button:hover {
-                    fill: $main-color-dark;
-                }
+        @media (hover: hover) {
+            .share-button:hover {
+                fill: var(--bar-txt-active);
             }
         }
     }

@@ -116,7 +116,7 @@
                 }
 
                 .action.ok {
-                    color: $main-color-dark;
+                    color: var(--main-color);
                 }
             }
         }

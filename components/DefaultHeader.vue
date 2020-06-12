@@ -3,12 +3,12 @@
         <logo class="logo" @click="onLogoClick"></logo>
         <div class="competition-info">
             <div class="competition-name-wrapper">
-                <span class="competition-name-text">&nbsp;{{ competition.name }}</span>
+                <span v-if="isCompetition" class="competition-name-text">&nbsp;{{ competition.name }}</span>
             </div>
             <div class="spacer"></div>
             <share-button class="share-button pointer"
                           id="default-header-share-button"
-                          v-if="!!competition.name"
+                          v-if="isCompetition"
                           v-tooltip.bottom="{ content: 'Udostępnij', delay: { show: 500, hide: 0, trigger: 'hover', trigger: 'hover' } }"
                           @click="onShareButtonClick"></share-button>
         </div>
@@ -39,6 +39,7 @@
     import shareMenu from '@/components/ShareMenu.vue';
 
     export default {
+        props: ['isCompetition'],
         components: {
             logo, colorModeButton, accountButton, shareButton, contextMenu, accountMenu, shareMenu
         },
@@ -80,17 +81,20 @@
         display: flex;
         align-items: center;
         height: 56px;
+        background-color: var(--bar-bg-color);
 
         .logo, .color-mode-button, .account-button, .share-button {
             height: 24px;
             margin: 8px;
             flex-shrink: 0;
             cursor: pointer;
+            fill: var(--bar-txt-color);
         }
 
         .logo {
             margin-left: 16px;
             flex-shrink: 1;
+            fill: var(--main-color);
         }
 
         .spacer {
@@ -112,6 +116,7 @@
             display: flex;
             align-items: center;
             overflow: hidden;
+            color: var(--bar-txt-color);
         }
 
         .competition-name-text {
@@ -121,62 +126,18 @@
             font-size: 18px;
             transition: unset;
         }
+
+        @media (hover: hover) {
+            .color-mode-button:hover, .account-button:hover, .share-button:hover {
+                fill: var(--bar-txt-active);
+            }
+        }
     }
 
     .dark-mode {
         #default-header-container {
-            background-color: $accent-color-dark;
-
-            .logo {
-                fill: $main-color-dark;
-            }
-
-            .color-mode-button, .account-button, .share-button {
-                fill: $text-color-dark;
-            }
-
             .color-mode-button {
                 transform: scaleX(-1);
-            }
-
-            .competition-name-wrapper {
-                color: $main-color-dark;
-            }
-        }
-    }
-
-    .light-mode {
-        #default-header-container {
-            background-color: $accent-color-light;
-
-            .logo {
-                fill: $main-color-light;
-            }
-
-            .color-mode-button, .account-button, .share-button {
-                fill: $text-color-light;
-            }
-
-            .competition-name-wrapper {
-                color: $main-color-light;
-            }
-        }
-    }
-
-    @media (hover: hover) {
-        .light-mode {
-            #default-header-container {
-                .color-mode-button:hover, .account-button:hover, .share-button:hover {
-                    fill: $main-color-light;
-                }
-            }
-        }
-
-        .dark-mode {
-            #default-header-container {
-                .color-mode-button:hover, .account-button:hover, .share-button:hover {
-                    fill: $main-color-dark;
-                }
             }
         }
     }

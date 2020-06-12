@@ -99,6 +99,8 @@
         font-weight: 300;
         letter-spacing: 1px;
         line-height: 24px;
+        color: var(--content-txt-color);
+        background-color: var(--content-bg-color);
 
         .content-card {
             padding: 16px;
@@ -128,6 +130,7 @@
             height: 12px;
             width: 12px;
             padding-right: 8px;
+            fill: var(--content-txt-color);
         }
 
         a {
@@ -155,45 +158,13 @@
             cursor: pointer;
             font-weight: 400;
             font-size: 16px;
+            color: var(--bar-txt-color);
+            background-color: var(--bar-bg-color);
         }
-    }
 
-    .dark-mode {
-        #index-container {
-            color: $text-color-dark;
-            background-color: $background-color-dark;
-
-            li svg {
-                fill: $text-color-dark;
-            }
-
-            .button {
-                color: $background-color-dark;
-                background-color: $text-color-dark;
-            }
-
+        @media (hover: hover) {
             .button:hover {
-                background-color: $main-color-dark;
-            }
-        }
-    }
-
-    .light-mode {
-        #index-container {
-            color: $text-color-light;
-            background-color: $background-color-light;
-
-            li svg {
-                fill: $text-color-light;
-            }
-
-            .button {
-                color: $background-color-light;
-                background-color: $text-color-light;
-            }
-
-            .button:hover {
-                color: $main-color-dark;
+                color: var(--bar-txt-active);
             }
         }
     }

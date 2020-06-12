@@ -107,6 +107,7 @@
         padding-top: 56px;
         padding-bottom: 48px;
         box-sizing: border-box;
+        background-color: var(--content-bg-color);
 
         @media (orientation: landscape) {
             padding-bottom: unset;
@@ -116,25 +117,9 @@
         .section-container {
             padding: 16px;
         }
-    }
 
-    .dark-mode {
-        #competition-container {
-            background-color: $background-color-dark;
-
-            .section-heading, .section-content {
-                color: $text-color-dark;
-            }
-        }
-    }
-
-    .light-mode {
-        #competition-container {
-            background-color: $background-color-light;
-
-            .section-heading, .section-content {
-                color: $text-color-light;
-            }
+        .section-heading, .section-content {
+            color: var(--content-txt-color);
         }
     }
 </style>

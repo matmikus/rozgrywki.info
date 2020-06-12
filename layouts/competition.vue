@@ -4,7 +4,7 @@
             <mobile-competition-scroll-header v-show="competitionScrollingDown"
                                 style="z-index: 101"></mobile-competition-scroll-header>
         </transition>
-        <app-header style="z-index: 100"></app-header>
+        <app-header is-competition="true" style="z-index: 100"></app-header>
         <nuxt/>
         <competition-nav :small="competitionScrollingDown"></competition-nav>
         <actionDialog></actionDialog>
@@ -85,6 +85,8 @@
                 } else {
                     this.$store.dispatch('moveBar', 3);
                 }
+                console.log(this.navElementsRange)
+                console.log(newPosition)
             }
         }
     };

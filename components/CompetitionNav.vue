@@ -78,6 +78,7 @@
         display: flex;
         align-items: center;
         overflow: hidden;
+        background-color: var(--bar-bg-color);
 
         .nav-item {
             height: 100%;
@@ -90,9 +91,14 @@
             transition: height 250ms ease-in-out;
         }
 
+        .nav-icon {
+            fill: var(--bar-txt-color);
+        }
+
         .name-container {
             text-transform: uppercase;
             font-size: 12px;
+            color: var(--bar-txt-color);
         }
 
         .spacer {
@@ -106,6 +112,7 @@
             width: 33%;
             height: 3px;
             transition: left 250ms ease-in-out;
+            background-color: var(--main-color);
         }
 
         .active-bar-container.position-2 {
@@ -159,42 +166,6 @@
         }
     }
 
-    .dark-mode {
-        #competition-nav-container {
-            background-color: $accent-color-dark;
-
-            .nav-icon {
-                fill: $text-color-dark;
-            }
-
-            .name-container {
-                color: $text-color-dark;
-            }
-
-            .active-bar-container {
-                background-color: $text-color-dark;
-            }
-        }
-    }
-
-    .light-mode {
-        #competition-nav-container {
-            background-color: $accent-color-light;
-
-            .nav-icon {
-                fill: $text-color-light;
-            }
-
-            .name-container {
-                color: $text-color-light;
-            }
-
-            .active-bar-container {
-                background-color: $text-color-light;
-            }
-        }
-    }
-
     @media not all and (orientation: landscape) {
         #competition-nav-container.small-nav {
             .nav-item {
@@ -208,32 +179,16 @@
     }
 
     @media (hover: hover) {
-        .light-mode {
             #competition-nav-container {
                 .nav-item:hover {
                     .nav-icon {
-                        fill: $main-color-light;
+                        fill: var(--bar-txt-active);
                     }
 
                     .name-container {
-                        color: $main-color-light;
+                        color: var(--bar-txt-active);
                     }
                 }
             }
-        }
-
-        .dark-mode {
-            #competition-nav-container {
-                .nav-item:hover {
-                    .nav-icon {
-                        fill: $main-color-dark;
-                    }
-
-                    .name-container {
-                        color: $main-color-dark;
-                    }
-                }
-            }
-        }
     }
 </style>
