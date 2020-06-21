@@ -16,7 +16,7 @@
                 visibility: false,
                 rightPosition: null,
                 topPosition: null
-            }
+            };
         },
         mounted () {
             window.addEventListener('mousedown', this.handleEveryTap);
@@ -45,14 +45,14 @@
             },
             show (rightPosition: number, topPosition: number) {
                 this.visibility = true;
-                this.rightPosition = rightPosition + 'px';
-                this.topPosition = topPosition + 'px';
+                this.rightPosition = `${rightPosition}px`;
+                this.topPosition = `${topPosition}px`;
             },
             close () {
                 this.visibility = false;
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">

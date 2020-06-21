@@ -46,7 +46,7 @@
         data () {
             return {
                 competition: this.$store.state.competition
-            }
+            };
         },
         methods: {
             onAccountButtonClick (event: any) {

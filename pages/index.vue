@@ -11,7 +11,7 @@
                 poziomie w każdej dyscyplinie sportu opartej na bezpośrednich pojedynkach pomiędzy
                 uczestnikami. Poprzez formularz tworzenia rozgrywek łatwo wygenerujesz stronę swoich
                 zawodów, która będzie dostępna dla wszystkich pod adresem
-                <i>www.rozgrywki.info/twoja&#8209;nazwa</i>, a&nbsp;następnie szybko dodasz
+                <i style="white-space: nowrap">www.rozgrywki.info/twoja-nazwa</i>, a&nbsp;następnie szybko dodasz
                 wyniki poszczególnych gier lub umożliwisz to samym uczestnikom poszczególnych
                 pojedynków.
             </div>
@@ -95,7 +95,6 @@
 </template>
 
 <script lang="ts">
-    import ballIcon from '@/assets/icons/ball.svg';
     import firstIllustration from '@/assets/illustrations/undraw_shared_goals_3d12.svg';
     import secondIllustration from '@/assets/illustrations/undraw_placeholders_rklh.svg';
     import thirdIllustration from '@/assets/illustrations/undraw_set_preferences_kwia.svg';
@@ -105,7 +104,6 @@
     export default {
         layout: 'simple',
         components: {
-            ballIcon,
             firstIllustration,
             secondIllustration,
             thirdIllustration,
@@ -124,8 +122,7 @@
         min-height: 100%;
         padding-top: 56px;
         box-sizing: border-box;
-        font-weight: 300;
-        letter-spacing: 1px;
+        /*font-weight: 300;*/
         line-height: 24px;
         color: var(--content-txt-color);
         background-color: var(--content-bg-color);
@@ -214,7 +211,7 @@
 
         @media all and (max-width: 1000px) {
             .content-card {
-                margin: 32px 16px;
+                margin: 32px 24px;
             }
 
             .content-card:first-child, .content-card:last-child {
@@ -242,6 +239,12 @@
 
             .card-content-container {
                 padding: 0;
+            }
+        }
+
+        @media all and (orientation: landscape) and (max-width: 700px) {
+            .content-card {
+                margin: 32px 48px;
             }
         }
 

@@ -55,11 +55,13 @@
     import whatsappIcon from '@/assets/icons/whatsapp.svg';
 
     export default {
-        components: { emailIcon, linkIcon, facebookIcon, twitterIcon, whatsappIcon },
+        components: {
+            emailIcon, linkIcon, facebookIcon, twitterIcon, whatsappIcon
+        },
         data () {
             return {
                 competition: this.$store.state.competition
-            }
+            };
         },
         methods: {
             onCopyClicked () {
