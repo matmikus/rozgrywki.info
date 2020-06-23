@@ -33,12 +33,17 @@
         computed: {
             competitionScrollingDown () {
                 return this.$store.state.competitionScrollingDown;
+            },
+            infoContentEl () {
+                return this.$store.state.infoContentEl;
+            },
+            gamesContentEl () {
+                return this.$store.state.gamesContentEl;
             }
         },
         mounted () {
             window.addEventListener('scroll', this.handleScroll);
             window.addEventListener('resize', this.handleResize);
-            this.handleResize();
         },
         destroyed () {
             window.removeEventListener('scroll', this.handleScroll);
@@ -50,26 +55,27 @@
                 this.scrollPosition = window.scrollY;
             },
             handleResize () {
-                const infoContentEl = document.getElementById('info-section');
-                const gamesContentEl = document.getElementById('games-section');
-
-                if (!infoContentEl || !gamesContentEl) {
+                if (!this.infoContentEl || !this.gamesContentEl) {
                     return;
                 }
 
                 this.navElementsRange = [];
                 this.navElementsRange.push({
-                    top: infoContentEl.offsetTop,
-                    bottom: infoContentEl.offsetTop + infoContentEl.offsetHeight
+                    top: this.infoContentEl.offsetTop,
+                    bottom: this.infoContentEl.offsetTop + this.infoContentEl.offsetHeight
                 });
                 this.navElementsRange.push({
-                    top: gamesContentEl.offsetTop,
-                    bottom: gamesContentEl.offsetTop + gamesContentEl.offsetHeight
+                    top: this.gamesContentEl.offsetTop,
+                    bottom: this.gamesContentEl.offsetTop + this.gamesContentEl.offsetHeight
                 });
             }
         },
         watch: {
             scrollPosition (newPosition: number, prevPosition: number): void {
+                if (this.navElementsRange.length === 0) {
+                    return;
+                }
+
                 if (window.innerWidth > 600 || newPosition < 4) {
                     this.$store.dispatch('setCompetitionScrollingDown', false);
                 } else if (newPosition + this.$el.offsetHeight >= this.$el.scrollHeight) {
@@ -84,6 +90,16 @@
                     this.$store.dispatch('moveBar', 2);
                 } else {
                     this.$store.dispatch('moveBar', 3);
+                }
+            },
+            infoContentEl (value: any) {
+                if (value) {
+                    this.handleResize();
+                }
+            },
+            gamesContentEl (value: any) {
+                if (value) {
+                    this.handleResize();
                 }
             }
         }

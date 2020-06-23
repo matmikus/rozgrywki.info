@@ -1,15 +1,12 @@
 <template>
-    <div class="layout-container">
-        <app-header></app-header>
-        <div id="error-container">Błąd!!!!!!</div>
+    <div id="error-container">
+        <div>Wystąpił błąd :(</div>
     </div>
 </template>
 
 <script lang="ts">
-    import appHeader from '@/components/DefaultHeader.vue';
-
     export default {
-        components: { appHeader }
+        layout: 'simple'
     };
 </script>
 
@@ -21,8 +18,9 @@
         color: var(--content-txt-color);
         background-color: var(--content-bg-color);
 
-        p {
-            padding: 16px;
+        div {
+            margin: 32px;
+            text-align: center;
         }
     }
 </style>

@@ -4,12 +4,7 @@ export const state = () => ({
         blocked: false
     },
     competitionScrollingDown: false,
-    competition: {
-        name: '',
-        route: '',
-        link: '',
-        description: ''
-    },
+    competition: {},
     snackbar: {
         message: '',
         actionText: '',
@@ -22,7 +17,9 @@ export const state = () => ({
         cancelText: '',
         okText: '',
         visible: false
-    }
+    },
+    infoContentEl: null,
+    gamesContentEl: null
 });
 
 export const mutations = {
@@ -62,15 +59,25 @@ export const mutations = {
         state.actionDialog.visible = false;
         state.actionDialog.promiseResolve(resolveValue);
     },
-    setCompetitionData (state: any, data: { name: string, route: string, link: string, description: string }) {
-        state.competition.name = data.name;
-        state.competition.route = data.route;
-        state.competition.link = data.link;
-        state.competition.description = data.description;
+    setCompetition (state: any, data: any) {
+        state.competition = data;
+    },
+    setContentRefs (state: any, refs: any) {
+        state.infoContentEl = refs.infoContentEl;
+        state.gamesContentEl = refs.gamesContentEl;
+    },
+    resetBar (state: any) {
+        state.bar = {
+            position: 1,
+            blocked: false
+        };
     }
 };
 
 export const actions = {
+    resetBar (context: any) {
+        context.commit('resetBar');
+    },
     moveBarWithLock (context: any, position: number) {
         context.commit('moveBar', position);
         context.commit('lockedBar', true);
@@ -128,12 +135,10 @@ export const actions = {
     closeActionDialog (context: any, resolveValue: boolean) {
         context.commit('closeActionDialog', resolveValue);
     },
-    mockCompetitionData (context: any) {
-        context.commit('setCompetitionData', {
-            name: 'Puchar Burmistrza Pcimia Górnego 2021',
-            route: 'puchar-pcimia2021',
-            link: 'www.rozgrywki.info/puchar-pcimia2021',
-            description: 'Zapraszamy serdecznie na kolejną edycję kultowych rozgrywek w Pcimiu Górnym!'
-        });
+    setCompetition (context: any, data: any) {
+        context.commit('setCompetition', data);
+    },
+    setContentRefs (context: any, refs: any) {
+        context.commit('setContentRefs', refs);
     }
 };

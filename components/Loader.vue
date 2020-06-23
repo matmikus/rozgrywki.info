@@ -13,7 +13,7 @@
     </div>
 </template>
 
-<style>
+<style lang="scss">
     .loader-container {
         display: flex;
         align-items: center;
@@ -41,7 +41,7 @@
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: #fff;
+        background: var(--main-color);
         margin: -4px 0 0 -4px;
     }
 

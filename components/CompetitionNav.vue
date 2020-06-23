@@ -66,6 +66,9 @@
 
                 this.$store.dispatch('moveBarWithLock', data[section]);
             }
+        },
+        mounted () {
+            this.$store.dispatch('resetBar');
         }
     };
 </script>

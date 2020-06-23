@@ -1,263 +1,354 @@
 <template>
     <div id="competition-container">
-        <div id="info-section" class="section-container">
-            <div class="section-heading">
-                <div class="section-heading-icon">
-                    <info-icon></info-icon>
+        <div v-if="error" class="error">Nie ma takich rozgrywek :(</div>
+        <template v-else-if="competition.name">
+            <div id="info-section" class="section-container">
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <info-icon></info-icon>
+                    </div>
+                    INFO
                 </div>
-                INFO
-            </div>
-            <div class="section-content">Competition lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, ing do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                aute
-                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit amet,
-                consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit amet, consectetur
-                adipiscing elit, ing do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                aute
-                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit amet,
-                consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit amet, consectetur
-                adipiscing elit, ing do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                aute
-                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit amet,
-                consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-        </div>
-        <div id="games-section" class="section-container">
-            <div class="section-heading">
-                <div class="section-heading-icon">
-                    <games-icon></games-icon>
+                <div class="section-content">Competition lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, ing do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis
+                    aute
+                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                    officia
+                    deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit amet,
+                    consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit amet, consectetur
+                    adipiscing elit, ing do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis
+                    aute
+                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                    officia
+                    deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit amet,
+                    consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit amet, consectetur
+                    adipiscing elit, ing do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis
+                    aute
+                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                    officia
+                    deserunt mollit anim id est laborum. Competition lorem ipsum dolor sit amet,
+                    consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.
                 </div>
-                MECZE
             </div>
-            <div class="section-content">
-                Competition lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition
-                lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition
-                lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-        </div>
-        <div id="cup-section" class="section-container">
-            <div class="section-heading">
-                <div class="section-heading-icon">
-                    <cup-icon></cup-icon>
+            <div id="games-section" class="section-container">
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <games-icon></games-icon>
+                    </div>
+                    MECZE
                 </div>
-                DRABINKA
+                <div class="section-content">
+                    Competition lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Competition
+                    lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Competition
+                    lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
             </div>
-            <div class="section-content">
-                Competition lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition
-                lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition
-                lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition
-                lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition
-                lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Competition
-                lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum
-                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in
-                culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <div id="cup-section" class="section-container">
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <cup-icon></cup-icon>
+                    </div>
+                    DRABINKA
+                </div>
+                <div class="section-content">
+                    Competition lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Competition
+                    lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Competition
+                    lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Competition
+                    lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Competition
+                    lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Competition
+                    lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                    Ut
+                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex
+                    ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse
+                    cillum
+                    dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                    sunt in
+                    culpa qui officia deserunt mollit anim id est laborum. Competition lorem ipsum
+                    dolor
+                    sit
+                    amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate
+                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat
+                    non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
             </div>
+        </template>
+        <div v-else class="loader">
+            <loader></loader>
         </div>
     </div>
 </template>
 
 <script lang="ts">
+    import loader from '@/components/Loader.vue';
     import cupIcon from '@/assets/icons/graph.svg';
     import rankingIcon from '@/assets/icons/format_list_numbered.svg';
     import infoIcon from '@/assets/icons/info.svg';
@@ -267,10 +358,17 @@
     export default {
         layout: 'competition',
         components: {
-            cupIcon, rankingIcon, infoIcon, gamesIcon
+            loader, cupIcon, rankingIcon, infoIcon, gamesIcon
         },
-        mounted () {
-            this.$store.dispatch('mockCompetitionData');
+        data () {
+            return {
+                error: false
+            };
+        },
+        computed: {
+            competition () {
+                return this.$store.state.competition;
+            }
         },
         apollo: {
             getCompetition: {
@@ -281,6 +379,30 @@
                         route: this.$route.params.competition
                     };
                 }
+            }
+        },
+        watch: {
+            getCompetition (result: any) {
+                if (result.length === 1) {
+                    this.$store.dispatch('setCompetition', result[0]);
+                } else {
+                    this.error = true;
+                }
+            },
+            competition (data: any) {
+                if (Object.keys(data).length > 0) {
+                    setTimeout(() => {
+                        this.setContentRefs();
+                    }, 100);
+                }
+            }
+        },
+        methods: {
+            setContentRefs () {
+                const infoContentEl = document.getElementById('info-section');
+                const gamesContentEl = document.getElementById('games-section');
+
+                this.$store.dispatch('setContentRefs', { infoContentEl: infoContentEl, gamesContentEl: gamesContentEl });
             }
         }
     };
@@ -297,12 +419,29 @@
         letter-spacing: 1px;
         line-height: 24px;
 
+        .error {
+            text-align: center;
+            color: var(--content-txt-color);
+            padding-top: 32px;
+        }
+
+        .loader {
+            position: fixed;
+            top: calc(50% - 20px);
+            left: calc(50%);
+        }
+
         @media (orientation: landscape) {
             padding-left: 80px;
         }
 
         @media not all and (orientation: landscape) {
             padding-bottom: 48px;
+
+            .loader {
+                top: calc(50% - 60px);
+                left: calc(50% - 40px);
+            }
         }
 
         @media (orientation: landscape) and (max-width: 1000px) {
@@ -330,7 +469,6 @@
             letter-spacing: 2px;
             font-size: 120%;
             color: var(--main-color);
-            opacity: 0.5;
             line-height: 1;
             margin-bottom: 8px;
         }

@@ -43,10 +43,10 @@
         components: {
             logo, colorModeButton, accountButton, shareButton, contextMenu, accountMenu, shareMenu
         },
-        data () {
-            return {
-                competition: this.$store.state.competition
-            };
+        computed: {
+            competition () {
+                return this.$store.state.competition;
+            }
         },
         methods: {
             onAccountButtonClick (event: any) {
