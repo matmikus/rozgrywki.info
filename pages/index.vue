@@ -79,13 +79,13 @@
             <div class="card-content-container">
                 <div class="heading">Zobacz przykładowe rozgrywki</div>
                 <div class="buttons-container">
-                    <nuxt-link to="/competition">
+                    <nuxt-link to="/puchar-soltysa">
                         <div class="button">Puchar</div>
                     </nuxt-link>
-                    <nuxt-link to="/competition">
+                    <nuxt-link to="/liga-trojek">
                         <div class="button">Liga</div>
                     </nuxt-link>
-                    <nuxt-link to="/competition">
+                    <nuxt-link to="/mistrzostwa-wszechswiata">
                         <div class="button">Mieszane</div>
                     </nuxt-link>
                 </div>
@@ -122,7 +122,6 @@
         min-height: 100%;
         padding-top: 56px;
         box-sizing: border-box;
-        /*font-weight: 300;*/
         line-height: 24px;
         color: var(--content-txt-color);
         background-color: var(--content-bg-color);

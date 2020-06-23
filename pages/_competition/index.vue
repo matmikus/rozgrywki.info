@@ -262,6 +262,7 @@
     import rankingIcon from '@/assets/icons/format_list_numbered.svg';
     import infoIcon from '@/assets/icons/info.svg';
     import gamesIcon from '@/assets/icons/reorder.svg';
+    import getCompetition from '@/graphql/getCompetition.graphql';
 
     export default {
         layout: 'competition',
@@ -270,6 +271,17 @@
         },
         mounted () {
             this.$store.dispatch('mockCompetitionData');
+        },
+        apollo: {
+            getCompetition: {
+                prefetch: true,
+                query: getCompetition,
+                variables () {
+                    return {
+                        route: this.$route.params.competition
+                    };
+                }
+            }
         }
     };
 </script>
