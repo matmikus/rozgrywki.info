@@ -19,10 +19,10 @@
 
     export default {
         components: { shareButton, contextMenu, shareMenu },
-        data () {
-            return {
-                competition: this.$store.state.competition
-            };
+        computed: {
+            competition () {
+                return this.$store.state.competition;
+            }
         },
         methods: {
             onShareButtonClick (event: any) {
