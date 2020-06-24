@@ -4,7 +4,7 @@
             Udostępnij:
         </div>
         <ShareNetwork network="facebook"
-                      :url="competition.link"
+                      :url="getFullUrl(competition.routeName)"
                       :title="competition.name"
                       :description="competition.description"
                       hashtags="rozgrywki.info">
@@ -14,7 +14,7 @@
             </div>
         </ShareNetwork>
         <ShareNetwork network="email"
-                      :url="competition.link"
+                      :url="getFullUrl(competition.routeName)"
                       :title="competition.name"
                       :description="competition.description">
             <div class="menu-item">
@@ -23,7 +23,7 @@
             </div>
         </ShareNetwork>
         <ShareNetwork network="whatsapp"
-                      :url="competition.link"
+                      :url="getFullUrl(competition.routeName)"
                       :title="competition.name"
                       :description="competition.description">
             <div class="menu-item">
@@ -32,7 +32,7 @@
             </div>
         </ShareNetwork>
         <ShareNetwork network="twitter"
-                      :url="competition.link"
+                      :url="getFullUrl(competition.routeName)"
                       :title="competition.name">
             <div class="menu-item">
                 <twitter-icon></twitter-icon>
@@ -64,8 +64,11 @@
             };
         },
         methods: {
+            getFullUrl (route: String): String {
+                return `www.rozgrywki.info/${route}`;
+            },
             onCopyClicked () {
-                this.$copyText(this.competition.link).then(() => {
+                this.$copyText(this.getFullUrl(this.competition.routeName)).then(() => {
                     this.$store.dispatch('showSnackbar', 'Skopiowano link do schowka');
                 });
             }
