@@ -27,6 +27,7 @@
         "types": [
             "@types/jest",
             "@nuxt/types",
+            "@nuxtjs/dayjs",
             "@nuxt/vue-app",
             "nuxt-i18n"
         ],

@@ -1,5 +1,11 @@
 <template>
-    <div id="competition-summary-container">summary</div>
+    <div id="competition-summary-container">
+        <div v-for="stage in competition.stages" class="stage">
+            <div v-for="container in stage.containers" class="container">
+                tutaj będzie {{ container.type === 'cup' ? 'drabinka' : 'tabela' }} {{ container.name }}
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">

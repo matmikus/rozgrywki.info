@@ -81,6 +81,8 @@ export const mutations = {
             state.competitionSummary.name = 'TABELA';
             state.competitionSummary.iconName = 'rankingIcon';
         }
+
+        state.competition.fullRoute = `www.rozgrywki.info/${data.routeName}`;
     },
     setContentRefs (state: any, refs: any) {
         state.infoContentEl = refs.infoContentEl;

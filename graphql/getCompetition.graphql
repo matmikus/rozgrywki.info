@@ -11,6 +11,7 @@ query ($route: String) {
             promotionCount
             sequenceNumber
             containers {
+                name
                 drawPoints
                 isDouble
                 isDoubleEliminationCup
