@@ -5,6 +5,10 @@ export const state = () => ({
     },
     competitionScrollingDown: false,
     competition: {},
+    competitionSummary: {
+        name: '',
+        iconName: ''
+    },
     snackbar: {
         message: '',
         actionText: '',
@@ -61,6 +65,22 @@ export const mutations = {
     },
     setCompetition (state: any, data: any) {
         state.competition = data;
+
+        const types = data.stages.reduce((acc: any, stage: any) => {
+            acc.push(stage.containers.reduce((acc2: any, container: any) => {
+                acc2.push(container.type);
+                return acc2;
+            }, []));
+            return acc;
+        }, []).flat();
+
+        if (types.includes('cup')) {
+            state.competitionSummary.name = 'DRABINKA';
+            state.competitionSummary.iconName = 'cupIcon';
+        } else {
+            state.competitionSummary.name = 'TABELA';
+            state.competitionSummary.iconName = 'rankingIcon';
+        }
     },
     setContentRefs (state: any, refs: any) {
         state.infoContentEl = refs.infoContentEl;

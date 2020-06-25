@@ -30,9 +30,9 @@
         <div class="nav-item" v-scroll-to="'#cup-section'" @click="moveBar('cup-section')">
             <div class="spacer"></div>
             <div class="icon-container">
-                <cup-icon class="nav-icon"></cup-icon>
+                <component :is="competitionSummaryIconName" class="nav-icon"></component>
             </div>
-            <div class="name-container">drabinka</div>
+            <div class="name-container">{{ competitionSummaryName }}</div>
             <div class="spacer"></div>
         </div>
         <div class="active-bar-container"
@@ -54,6 +54,12 @@
         computed: {
             barPositionClassName () {
                 return `position-${this.$store.state.bar.position}`;
+            },
+            competitionSummaryName () {
+                return this.$store.state.competitionSummary.name;
+            },
+            competitionSummaryIconName () {
+                return this.$store.state.competitionSummary.iconName;
             }
         },
         methods: {
