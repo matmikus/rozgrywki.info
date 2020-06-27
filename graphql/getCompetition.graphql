@@ -7,10 +7,10 @@ query ($route: String) {
         end
         routeName
         start
-        stages {
+        stages (order_by: {sequenceNumber: asc}) {
             promotionCount
             sequenceNumber
-            containers {
+            containers (order_by: {id: asc}) {
                 name
                 drawPoints
                 isDouble
@@ -20,7 +20,7 @@ query ($route: String) {
                 size
                 type
                 winnerPoints
-                games {
+                games (order_by: {number: asc}) {
                     aResult
                     bResult
                     date

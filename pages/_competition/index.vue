@@ -166,6 +166,10 @@
             padding: 32px 48px;
         }
 
+        .section-container:not(:first-child) {
+            padding-top: 0;
+        }
+
         .section-heading, .section-content {
             color: var(--content-txt-color);
         }
