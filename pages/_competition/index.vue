@@ -170,14 +170,12 @@
             padding-top: 0;
         }
 
-        .section-heading, .section-content {
-            color: var(--content-txt-color);
+        .section-content {
+            overflow-x: auto;
         }
 
-        @media (max-width: 1000px) {
-            .section-container {
-                padding: 16px;
-            }
+        .section-heading, .section-content {
+            color: var(--content-txt-color);
         }
 
         .section-heading {
@@ -198,6 +196,16 @@
 
         .section-heading-icon > * {
             fill: var(--main-color);
+        }
+
+        @media (max-width: 1000px) {
+            .section-container {
+                padding: 16px 0;
+            }
+
+            .section-content, .section-heading {
+                margin: 0 16px;
+            }
         }
     }
 </style>

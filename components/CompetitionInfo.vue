@@ -85,14 +85,17 @@
         }
 
         .inline-container {
-            display: flex;
+            display:flex;
+            flex-direction:row;
             flex-wrap: wrap;
-            /*margin-top: 2px;*/
             white-space: nowrap;
+            padding: 0 1px;
+            margin-top: -1px;
         }
 
         .inline-container > * {
-            margin-top: 0;
+            flex: 1 1 auto;
+            margin: 1px;
         }
     }
 </style>

@@ -2,9 +2,23 @@
     <div id="competition-games-container">
         <div v-for="stage in competition.stages" class="stage">
             <div v-for="container in stage.containers" class="container">
-                <div>{{ container.name }}</div>
-                <div v-for="game in container.games" class="game">
-                    {{ game.number }}: {{ getCompetitorName(game.aCompetitor) }} vs {{ getCompetitorName(game.bCompetitor) }} {{ game.aResult && game.bResult ? `${game.aResult}:${game.bResult}` : '' }}
+                <div class="container-name">{{ container.name }}</div>
+                <div v-for="game in container.games" class="data-row">
+                    <div>
+                        <div class="game-number">#{{ game.number }}</div>
+                        <div class="game-date">{{ game.date || '' }}</div>
+                    </div>
+                    <div class="game-score">
+                        {{ game.aResult && game.bResult ? `${game.aResult}:${game.bResult}` : '' }}
+                    </div>
+                    <div class="game-competitors">
+                        <div>{{ getCompetitorName(game.aCompetitor) }}</div>
+                        <div>{{ getCompetitorName(game.bCompetitor) }}</div>
+                    </div>
+                    <div class="game-details">
+                        <span>{{ game.aResult && game.bResult && game.details ? `${game.aResult}:${game.bResult}` : '' }}</span>
+                        <span>{{ game.details ? `&nbsp;(${game.details})` : '' }}</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,8 +42,53 @@
 
 <style lang="scss">
     #competition-games-container {
+        display: inline-block;
+
+        .container-name {
+
+        }
+
         .container:not(:last-child), .stage:not(:last-child) {
             margin-bottom: 12px;
+        }
+
+        .data-row {
+            background-color: var(--content-row-bg-color);
+            display: flex;
+            padding: 4px 8px;
+            flex: 1;
+            margin: 2px;
+            white-space: nowrap;
+        }
+
+        .game-number {
+            opacity: 0.5;
+        }
+
+        .game-date {
+            opacity: 0.5;
+            font-size: 90%;
+        }
+
+        .game-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 24px;
+            font-weight: bold;
+            font-size: 110%;
+        }
+
+        .game-competitors {
+
+        }
+
+        .game-details {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 24px;
+            opacity: 0.5;
         }
     }
 </style>
