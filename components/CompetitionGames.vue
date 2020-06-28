@@ -3,7 +3,7 @@
         <div v-for="stage in competition.stages" class="stage">
             <div v-for="container in stage.containers" class="container">
                 <div class="container-name">{{ container.name }}</div>
-                <div>
+                <div class="container-games">
                     <div v-for="game in container.games" class="data-row">
                         <div>
                             <div class="game-number">#{{ game.number }}</div>
@@ -99,6 +99,10 @@
             justify-content: center;
             padding-left: 24px;
             opacity: 0.5;
+        }
+
+        @media (max-width: 1000px) {
+            margin: 0 16px;
         }
     }
 </style>

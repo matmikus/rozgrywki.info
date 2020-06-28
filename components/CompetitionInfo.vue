@@ -97,5 +97,9 @@
             flex: 1 1 auto;
             margin: 1px;
         }
+
+        @media (max-width: 1000px) {
+            margin: 0 16px;
+        }
     }
 </style>

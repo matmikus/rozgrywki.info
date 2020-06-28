@@ -203,10 +203,6 @@
                 padding: 16px 0;
             }
 
-            .section-content, .section-heading {
-                margin: 0 16px;
-            }
-
             .section-heading {
                 margin: 0 16px 8px 16px;
             }
