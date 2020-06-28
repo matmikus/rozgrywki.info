@@ -3,21 +3,28 @@
         <div v-for="stage in competition.stages" class="stage">
             <div v-for="container in stage.containers" class="container">
                 <div class="container-name">{{ container.name }}</div>
-                <div v-for="game in container.games" class="data-row">
-                    <div>
-                        <div class="game-number">#{{ game.number }}</div>
-                        <div class="game-date">{{ game.date || '' }}</div>
-                    </div>
-                    <div class="game-score">
-                        {{ game.aResult && game.bResult ? `${game.aResult}:${game.bResult}` : '' }}
-                    </div>
-                    <div class="game-competitors">
-                        <div>{{ getCompetitorName(game.aCompetitor) }}</div>
-                        <div>{{ getCompetitorName(game.bCompetitor) }}</div>
-                    </div>
-                    <div class="game-details">
-                        <span>{{ game.aResult && game.bResult && game.details ? `${game.aResult}:${game.bResult}` : '' }}</span>
-                        <span>{{ game.details ? `&nbsp;(${game.details})` : '' }}</span>
+                <div>
+                    <div v-for="game in container.games" class="data-row">
+                        <div>
+                            <div class="game-number">#{{ game.number }}</div>
+                        </div>
+                        <div class="game-competitors">
+                            <div>{{ getCompetitorName(game.aCompetitor) }}</div>
+                            <div style="margin-bottom: -2px;">{{ getCompetitorName(game.bCompetitor)
+                                }}
+                            </div>
+                        </div>
+                        <div class="game-score">
+                            {{ game.aResult && game.bResult ? `${game.aResult}:${game.bResult}` : ''
+                            }}
+                        </div>
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; flex: 1; align-items: flex-end">
+                            <div class="game-details">
+                                <span>{{ game.aResult && game.bResult && game.details ? `${game.aResult}:${game.bResult}` : '' }}</span>
+                                <span>{{ game.details ? `&nbsp;(${game.details})` : '' }}</span>
+                            </div>
+                            <div class="game-date">{{ game.date || '' }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,7 +52,9 @@
         display: inline-block;
 
         .container-name {
-
+            opacity: 0.5;
+            padding-left: 8px;
+            font-weight: bolder;
         }
 
         .container:not(:last-child), .stage:not(:last-child) {
@@ -63,24 +72,25 @@
 
         .game-number {
             opacity: 0.5;
+            padding-right: 12px;
+            min-width: 40px;
         }
 
         .game-date {
             opacity: 0.5;
             font-size: 90%;
+            line-height: 1;
         }
 
         .game-score {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 24px;
+            padding: 0 8px;
             font-weight: bold;
             font-size: 110%;
-        }
-
-        .game-competitors {
-
+            min-width: 100px;
+            box-sizing: border-box;
         }
 
         .game-details {
