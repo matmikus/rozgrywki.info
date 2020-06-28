@@ -2,7 +2,9 @@
     <div id="competition-games-container">
         <div v-for="stage in competition.stages" class="stage">
             <div v-for="container in stage.containers" class="container">
-                <div class="container-name">{{ container.name }}</div>
+                <div class="container-name">
+                    <span>{{ container.name }}</span>
+                </div>
                 <div class="container-games">
                     <div v-for="game in container.games" class="data-row">
                         <div>
@@ -55,6 +57,11 @@
             opacity: 0.5;
             padding-left: 8px;
             font-weight: bolder;
+            height: 24px;
+        }
+
+        .container-name > span {
+            position: absolute;
         }
 
         .container:not(:last-child), .stage:not(:last-child) {
