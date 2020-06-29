@@ -65,7 +65,7 @@
                 return this.$dayjs(data).format('YYYY-MM-DD HH:mm');
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">

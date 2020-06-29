@@ -1,33 +1,43 @@
 <template>
     <div id="competition-games-container">
-        <div v-for="stage in competition.stages" class="stage">
-            <div v-for="container in stage.containers" class="container">
-                <div class="container-name">
+        <div v-for="stage in competition.stages" :key="stage" class="stage">
+            <div v-for="container in stage.containers" :key="container" class="container">
+                <div class="container-name" v-show="container.name">
                     <span>{{ container.name }}</span>
                 </div>
                 <div class="container-games">
-                    <div v-for="game in container.games" class="data-row">
-                        <div>
-                            <div class="game-number">#{{ game.number }}</div>
-                        </div>
-                        <div class="game-competitors">
-                            <div>{{ getCompetitorName(game.aCompetitor) }}</div>
-                            <div style="margin-bottom: -2px;">{{ getCompetitorName(game.bCompetitor)
-                                }}
-                            </div>
-                        </div>
-                        <div class="game-score">
-                            {{ game.aResult && game.bResult ? `${game.aResult}:${game.bResult}` : ''
-                            }}
-                        </div>
-                        <div style="display: flex; flex-direction: column; justify-content: space-between; flex: 1; align-items: flex-end">
-                            <div class="game-details">
-                                <span>{{ game.aResult && game.bResult && game.details ? `${game.aResult}:${game.bResult}` : '' }}</span>
-                                <span>{{ game.details ? `&nbsp;(${game.details})` : '' }}</span>
-                            </div>
-                            <div class="game-date">{{ game.date || '' }}</div>
-                        </div>
-                    </div>
+                    <table class="data-table" cellspacing="0">
+                        <tr v-for="game in container.games" :key="game" class="data-row">
+                            <td class="game-number-cell">
+                                <div class="game-number">
+                                    #{{ game.number }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="game-competitors">
+                                    <div class="">{{ getCompetitorName(game.aCompetitor) }}</div>
+                                    <div class="">{{ getCompetitorName(game.bCompetitor) }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="game-score">{{ game.aResult && game.bResult ?
+                                    `${game.aResult}:${game.bResult}` : '' }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="game-details">
+                                    <div class="score-details">
+                                        {{ game.aResult && game.bResult && game.details ?
+                                        `${game.aResult}:${game.bResult}` : '' }}
+                                        {{ game.details ? ` (${game.details})` : '' }}
+                                    </div>
+                                    <div class="game-date">
+                                        {{ game.date || '' }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -46,12 +56,14 @@
                 return (competitorObj && competitorObj.name) || '?';
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">
     #competition-games-container {
         display: inline-block;
+        max-width: calc(100vw - 82px);
+        overflow-x: hidden;
 
         .container-name {
             opacity: 0.5;
@@ -68,48 +80,70 @@
             margin-bottom: 12px;
         }
 
-        .data-row {
-            background-color: var(--content-row-bg-color);
-            display: flex;
-            padding: 4px 8px;
-            flex: 1;
-            margin: 2px;
-            white-space: nowrap;
+        .game-number-cell {
+            vertical-align: top;
         }
 
         .game-number {
             opacity: 0.5;
-            padding-right: 12px;
-            min-width: 40px;
+            padding: 2px 12px 4px 4px;
+        }
+
+        .game-score {
+            padding: 0 16px;
+            font-weight: bold;
+            font-size: 110%;
+        }
+
+        .data-table {
+            border-collapse: separate;
+            border-spacing: 0 2px;
+        }
+
+        .data-row {
+            padding: 4px 8px;
+            white-space: nowrap;
+            background-color: var(--content-row-bg-color);
         }
 
         .game-date {
             opacity: 0.5;
             font-size: 90%;
-            line-height: 1;
+            line-height: 1.3;
+            text-align: right;
+            padding-right: 8px;
+            padding-bottom: 2px;
         }
 
-        .game-score {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 8px;
-            font-weight: bold;
-            font-size: 110%;
-            min-width: 100px;
-            box-sizing: border-box;
+        .score-details {
+            padding-left: 24px;
+            opacity: 0.5;
+            text-align: right;
+            padding-right: 8px;
         }
 
         .game-details {
+            height: 50px;
+            padding-top: 2px;
+            box-sizing: border-box;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-left: 24px;
-            opacity: 0.5;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .game-competitors {
+            padding-top: 2px;
         }
 
         @media (max-width: 1000px) {
-            margin: 0 16px;
+            .container {
+                overflow-x: auto;
+                padding: 0 16px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            max-width: 100vw;
         }
     }
 </style>

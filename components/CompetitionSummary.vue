@@ -1,7 +1,7 @@
 <template>
     <div id="competition-summary-container">
-        <div v-for="stage in competition.stages" class="stage">
-            <div v-for="container in stage.containers" class="container">
+        <div v-for="stage in competition.stages" :key="stage" class="stage">
+            <div v-for="container in stage.containers" :key="container" class="container">
                 tutaj będzie {{ container.type === 'cup' ? 'drabinka' : 'tabela' }} {{
                 container.name }}
             </div>
@@ -16,7 +16,7 @@
                 return this.$store.state.competition;
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">
