@@ -15,8 +15,8 @@
                             </td>
                             <td>
                                 <div class="game-competitors">
-                                    <div class="">{{ getCompetitorName(game.aCompetitor) }}</div>
-                                    <div class="">{{ getCompetitorName(game.bCompetitor) }}</div>
+                                    <div v-html="getCompetitorName(game.aCompetitor)"></div>
+                                    <div v-html="getCompetitorName(game.bCompetitor)"></div>
                                 </div>
                             </td>
                             <td>
@@ -24,7 +24,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="game-details">
+                                <div class="game-details" v-if="game.date || (game.aResult != null && game.bResult != null && game.details)">
                                     <div class="score-details">
                                         {{ game.aResult != null && game.bResult != null && game.details ?
                                         `${game.aResult}:${game.bResult}` : '' }}
@@ -52,7 +52,7 @@
         },
         methods: {
             getCompetitorName (competitorObj: { name: String } | null) {
-                return (competitorObj && competitorObj.name) || '';
+                return (competitorObj && competitorObj.name) || '&nbsp;';
             }
         }
     };
