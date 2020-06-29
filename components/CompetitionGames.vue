@@ -1,13 +1,13 @@
 <template>
     <div id="competition-games-container">
-        <div v-for="stage in competition.stages" :key="stage" class="stage">
-            <div v-for="container in stage.containers" :key="container" class="container">
+        <div v-for="stage in competition.stages" :key="stage.id" class="stage">
+            <div v-for="container in stage.containers" :key="container.id" class="container">
                 <div class="container-name" v-show="container.name">
                     <span>{{ container.name }}</span>
                 </div>
                 <div class="container-games">
                     <table class="data-table" cellspacing="0">
-                        <tr v-for="game in container.games" :key="game" class="data-row">
+                        <tr v-for="game in container.games" :key="game.id" class="data-row">
                             <td class="game-number-cell">
                                 <div class="game-number">
                                     #{{ game.number }}
@@ -20,14 +20,13 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="game-score">{{ game.aResult && game.bResult ?
-                                    `${game.aResult}:${game.bResult}` : '' }}
+                                <div class="game-score">{{ game.aResult != null && game.bResult != null ? `${game.aResult}:${game.bResult}` : '' }}
                                 </div>
                             </td>
                             <td>
                                 <div class="game-details">
                                     <div class="score-details">
-                                        {{ game.aResult && game.bResult && game.details ?
+                                        {{ game.aResult != null && game.bResult != null && game.details ?
                                         `${game.aResult}:${game.bResult}` : '' }}
                                         {{ game.details ? ` (${game.details})` : '' }}
                                     </div>
@@ -53,7 +52,7 @@
         },
         methods: {
             getCompetitorName (competitorObj: { name: String } | null) {
-                return (competitorObj && competitorObj.name) || '?';
+                return (competitorObj && competitorObj.name) || '';
             }
         }
     };

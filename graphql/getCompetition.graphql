@@ -30,9 +30,11 @@ query ($route: String) {
                     updatedAt
                     aCompetitor {
                         name
+                        id
                     }
                     bCompetitor {
                         name
+                        id
                     }
                 }
             }
