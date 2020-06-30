@@ -125,6 +125,7 @@
 <style lang="scss">
     #competition-container {
         min-height: 100%;
+        min-widtht: 100%;
         padding-top: 56px;
         padding-bottom: 16px;
         box-sizing: border-box;
@@ -132,6 +133,7 @@
         font-weight: 300;
         letter-spacing: 1px;
         line-height: 24px;
+        position: absolute;
 
         .error {
             text-align: center;
@@ -170,10 +172,6 @@
             padding-top: 0;
         }
 
-        .section-content {
-            overflow-x: auto;
-        }
-
         .section-heading, .section-content {
             color: var(--content-txt-color);
         }
@@ -199,6 +197,10 @@
         }
 
         @media (max-width: 1000px) {
+            .section-content {
+                overflow-x: auto;
+            }
+
             .section-container {
                 padding: 16px 0;
             }

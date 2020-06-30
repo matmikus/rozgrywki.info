@@ -61,7 +61,6 @@
 <style lang="scss">
     #competition-games-container {
         display: inline-block;
-        max-width: calc(100vw - 82px);
         overflow-x: hidden;
 
         .container-name {
@@ -135,10 +134,16 @@
         }
 
         @media (max-width: 1000px) {
+            max-width: calc(100vw - 95px);
+
             .container {
                 overflow-x: auto;
                 padding: 0 16px;
             }
+        }
+
+        @media not all and (orientation: landscape) {
+            max-width: calc(100vw - 16px);
         }
 
         @media (max-width: 700px) {

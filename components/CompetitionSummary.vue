@@ -2,8 +2,42 @@
     <div id="competition-summary-container">
         <div v-for="stage in competition.stages" :key="stage.id" class="stage">
             <div v-for="container in stage.containers" :key="container.id" class="container">
-                tutaj będzie {{ container.type === 'cup' ? 'drabinka' : 'tabela' }} {{
-                container.name }}
+                <div class="container-name" v-show="container.name">
+                    <span>{{ container.name }}</span>
+                </div>
+                <template v-if="container.type === 'cup'">tutaj będzie drabinka</template>
+                <template v-if="container.type === 'group'">
+                    <table class="data-table" cellspacing="0">
+                        <tr class="data-row">
+                            <th class="rank-th rank-number-th">Miejsce</th>
+                            <th class="rank-th rank-competitor-th">Drużyna</th>
+                            <th class="rank-th rank-games-th">Mecze</th>
+                            <th class="rank-th rank-points-th">Punkty</th>
+                        </tr>
+                        <tr v-for="competitor in container.ranking" :key="competitor.id" class="data-row">
+                            <td>
+                                <div class="rank-number">
+                                    {{ competitor.rank }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rank-competitor">
+                                    {{ competitor.name }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rank-games">
+                                    {{ competitor.games }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rank-points">
+                                    {{ competitor.points }}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </template>
             </div>
         </div>
     </div>
@@ -101,10 +135,96 @@
 
 <style lang="scss">
     #competition-summary-container {
+        display: inline-block;
+        overflow-x: hidden;
+
+        .container-name {
+            opacity: 0.5;
+            padding-left: 8px;
+            font-weight: bolder;
+            height: 24px;
+        }
+
+        .container-name > span {
+            position: absolute;
+        }
+
+        .container:not(:last-child), .stage:not(:last-child) {
+            margin-bottom: 12px;
+        }
+
+        .data-table {
+            border-collapse: separate;
+            border-spacing: 0 2px;
+        }
+
+        .data-row {
+            padding: 4px 8px;
+            white-space: nowrap;
+            background-color: var(--content-row-bg-color);
+        }
+
+        .data-row th {
+            padding: 0 8px;
+        }
+
+        .data-row td {
+            padding: 4px 8px;
+        }
+
+        .rank-th {
+            font-weight: 400;
+            font-size: 80%;
+            opacity: 0.5;
+        }
+
+        .rank-number-th {
+            text-align: left;
+        }
+
+        .rank-competitor-th {
+            text-align: left;
+        }
+
+        .rank-games-th {
+            text-align: center;
+        }
+
+        .rank-points-th {
+            text-align: center;
+        }
+
+        .rank-number {
+            text-align: left;
+        }
+
+        .rank-competitor {
+            text-align: left;
+        }
+
+        .rank-games {
+            text-align: center;
+        }
+
+        .rank-points {
+            text-align: center;
+        }
+
         @media (max-width: 1000px) {
+            max-width: calc(100vw - 95px);
+
             .container {
+                overflow-x: auto;
                 padding: 0 16px;
             }
+        }
+
+        @media not all and (orientation: landscape) {
+            max-width: calc(100vw - 16px);
+        }
+
+        @media (max-width: 700px) {
+            max-width: 100vw;
         }
     }
 </style>

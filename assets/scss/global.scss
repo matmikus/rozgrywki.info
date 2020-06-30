@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    width: 100%;
     -webkit-text-size-adjust: 100%;
 }
 
@@ -8,10 +9,13 @@ body {
     font-family: 'Roboto';
     font-size: 16px;
     height: 100%;
+    width: 100%;
+    background-color: var(--content-bg-color);
 }
 
 #__nuxt, #__layout, .layout-container {
     height: 100%;
+    width: 100%;
 }
 
 .pointer {
