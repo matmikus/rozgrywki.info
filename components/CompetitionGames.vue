@@ -20,7 +20,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="game-score">{{ game.aResult != null && game.bResult != null ? `${game.aResult}:${game.bResult}` : '' }}
+                                <div class="game-score" v-if="game.aResult != null && game.bResult != null">{{ `${game.aResult}:${game.bResult}` }}
                                 </div>
                             </td>
                             <td>
