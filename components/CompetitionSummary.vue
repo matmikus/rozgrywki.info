@@ -5,7 +5,10 @@
                 <div class="container-name" v-show="container.name">
                     <span>{{ container.name }}</span>
                 </div>
-                <template v-if="container.type === 'cup'">tutaj będzie drabinka</template>
+                <template v-if="container.type === 'cup'">
+                    <div v-html="getCupHtmlVisualization(container)">
+                    </div>
+                </template>
                 <template v-if="container.type === 'group'">
                     <table class="data-table" cellspacing="0">
                         <tr class="data-row">
@@ -14,7 +17,9 @@
                             <th class="rank-th rank-games-th">Mecze</th>
                             <th class="rank-th rank-points-th">Punkty</th>
                         </tr>
-                        <tr v-for="competitor in container.ranking" :key="competitor.id" class="data-row">
+                        <tr v-for="competitor in container.ranking"
+                            :key="competitor.id"
+                            class="data-row">
                             <td>
                                 <div class="rank-number">
                                     {{ competitor.rank }}
@@ -128,6 +133,93 @@
                         return competitors;
                     }, [])
                     .sort((a: { id: any, name: string }, b: { id: any, name: string }) => a.id - b.id);
+            },
+            getCupHtmlVisualization (competition: any) {
+                if (competition.isDoubleEliminationCup) {
+                    return 'Brak podglądu drabinki brazylijskiej'
+                }
+
+                let roundsAmount = Math.sqrt(competition.size);
+                let currentRoundSize = competition.size;
+                let gameCounter = 0;
+                let html = '<div class="cup-container">';
+
+                for (let i = 0; i < roundsAmount; i++) {
+                    html += '<div class="cup-round">';
+                    currentRoundSize /= 2;
+
+                    for (let j = 0; j < currentRoundSize; j++) {
+                        html += `<div class="cup-game-container">
+                                     <div class="cup-game">
+                                         <div class="cup-competitor">
+                                            <div>${this.getCompetitorName(competition.games[gameCounter].aCompetitor)}</div>
+                                            <div class="cup-competitor-line-container">
+                                                <div class="cup-competitor-line"></div>
+                                            </div>
+                                         </div>
+                                         <div class="cup-competitor">
+                                             <div>${this.getCompetitorName(competition.games[gameCounter].bCompetitor)}</div>
+                                             <div class="cup-competitor-line-container">
+                                                <div class="cup-competitor-line"></div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="cup-game-connector-container">
+                                         <div class="cup-game-connector">&nbsp;</div>
+                                         <div class="cup-result">${this.getCupResult(competition.games[gameCounter], competition.isDouble ? competition.games[gameCounter + 1] : {})}</div>
+                                     </div>
+                                 </div>`;
+
+                        ++gameCounter;
+
+                        if (competition.isDouble) {
+                            ++gameCounter;
+                        }
+                    }
+
+                    html += '</div>';
+                }
+
+                const finalGame = competition.games[competition.games.length - 1];
+                let winnerName = '?';
+
+                if (!competition.isDouble && finalGame.aResult !== null && finalGame.bResult !== null) {
+                    if (finalGame.aResult > finalGame.bResult) {
+                        winnerName = finalGame.aCompetitor.name;
+                    } else if (finalGame.aResult < finalGame.bResult) {
+                        winnerName = finalGame.bCompetitor.name;
+                    }
+                }
+
+                if (competition.isDouble) {
+                    const secondFinalGame = competition.games[competition.games.length - 2];
+
+                    if (finalGame.aResult !== null && finalGame.bResult !== null && secondFinalGame.aResult !== null && secondFinalGame.bResult !== null) {
+                        // TODO określenie kto wygrał podwójny finał
+                        winnerName = '';
+                    }
+                }
+
+                html += `<div class="cup-winner">${winnerName}</div>`;
+                html += '</div>';
+
+                return html;
+            },
+            getCompetitorName (competitorObj: { name: String } | null) {
+                return (competitorObj && competitorObj.name) || '?';
+            },
+            getCupResult (game: any, secondGame: any) {
+                let result = '';
+
+                if (game.aResult != null && game.bResult != null) {
+                    result = `${game.aResult}:${game.bResult}`;
+                }
+
+                if (secondGame.aResult != null && secondGame.bResult != null) {
+                    result += ` ,${game.aResult}:${game.bResult}`;
+                }
+
+                return result;
             }
         }
     };
@@ -208,6 +300,74 @@
 
         .rank-points {
             text-align: center;
+        }
+
+        .cup-container {
+            display: inline-flex;
+            background-color: var(--content-row-bg-color);
+            white-space: nowrap;
+        }
+
+        .cup-round {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cup-game {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .cup-game-container {
+            display: flex;
+            flex: 1;
+        }
+
+        .cup-game-connector-container {
+            display: flex;
+            align-items: center;
+            width: 5px;
+            direction: rtl;
+        }
+
+        .cup-game-connector {
+            display: flex;
+            background-color: var(--content-bg-color);
+            width: 5px;
+            height: 50%;
+        }
+
+        .cup-competitor {
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            padding-left: 16px;
+        }
+
+        .cup-competitor-line-container {
+            min-width: 30px;
+            flex: 1;
+            margin-left: 16px;
+            margin-right: -5px;
+        }
+
+        .cup-competitor-line {
+            background-color: var(--content-bg-color);
+            height: 5px;
+            width: 100%;
+        }
+
+        .cup-winner {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .cup-result {
+            padding-right: 4px;
+            direction: ltr;
         }
 
         @media (max-width: 1000px) {

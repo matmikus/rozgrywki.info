@@ -72,14 +72,13 @@
         },
         watch: {
             scrollPosition (newPosition: number, prevPosition: number): void {
+                // console.log(`scrollPosition: new ${newPosition}, prev ${prevPosition}`)
                 if (this.navElementsRange.length === 0) {
                     return;
                 }
 
                 if (window.innerWidth > 600 || newPosition < 4) {
                     this.$store.dispatch('setCompetitionScrollingDown', false);
-                } else if (newPosition + this.$el.offsetHeight >= this.$el.scrollHeight) {
-                    this.$store.dispatch('setCompetitionScrollingDown', true);
                 } else {
                     this.$store.dispatch('setCompetitionScrollingDown', newPosition > prevPosition);
                 }

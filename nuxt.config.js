@@ -103,7 +103,7 @@ module.exports = {
         }
     },
     colorMode: {
-        preference: 'light',
+        preference: 'dark',
         hid: 'nuxt-color-mode-script',
         globalName: '__NUXT_COLOR_MODE__',
         componentName: 'ColorScheme',
