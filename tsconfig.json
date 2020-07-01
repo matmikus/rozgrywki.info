@@ -25,9 +25,11 @@
             ]
         },
         "types": [
-            "@types/node",
+            "@types/jest",
             "@nuxt/types",
-            "@nuxt/vue-app"
+            "@nuxtjs/dayjs",
+            "@nuxt/vue-app",
+            "nuxt-i18n"
         ],
         "typeRoots": [
             "node_modules/@types",

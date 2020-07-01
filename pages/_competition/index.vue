@@ -1,138 +1,90 @@
 <template>
-    <v-layout>
-        <universal-loader v-if="!loaded"/>
-        <v-flex v-if="loaded" class="text-left">
-            <h2 class="competition-header">
-                {{ competition.name }}
-                <v-btn small color="#464646" class="favouriteButton shareButton" disabled>
-                    <v-icon small>mdi-bell</v-icon>
-                    <span class="copyButtonText">powiadomienia</span>
-                </v-btn>
-            </h2>
-            <v-simple-table>
-                <tbody>
-                <tr>
-                    <td>Link</td>
-                    <td class="link-container">
-                        <span>{{ competition.link }}</span>
-                        <div>
-                            <v-btn small color="#464646" class="copyButton" @click="copyLink">
-                                <v-icon small>mdi-content-copy</v-icon>
-                                <span class="copyButtonText">skopiuj</span>
-                            </v-btn>
-                            <ShareNetwork network="facebook"
-                                          v-bind:url="competition.link"
-                                          v-bind:title="competition.name"
-                                          v-bind:description="competition.description"
-                                          hashtags="rozgrywki.info">
-                                <v-btn small color="#464646" class="shareButton">
-                                    <v-icon>mdi-facebook</v-icon>
-                                </v-btn>
-                            </ShareNetwork>
-                            <ShareNetwork network="email"
-                                          v-bind:url="competition.link"
-                                          v-bind:title="competition.name"
-                                          v-bind:description="competition.description">
-                                <v-btn small color="#464646" class="shareButton">
-                                    <v-icon>mdi-at</v-icon>
-                                </v-btn>
-                            </ShareNetwork>
-                            <ShareNetwork network="whatsapp"
-                                          v-bind:url="competition.link"
-                                          v-bind:title="competition.name"
-                                          v-bind:description="competition.description">
-                                <v-btn small color="#464646" class="shareButton">
-                                    <v-icon>mdi-whatsapp</v-icon>
-                                </v-btn>
-                            </ShareNetwork>
-                            <ShareNetwork network="twitter"
-                                          v-bind:url="competition.link"
-                                          v-bind:title="competition.name">
-                                <v-btn small color="#464646" class="shareButton">
-                                    <v-icon>mdi-twitter</v-icon>
-                                </v-btn>
-                            </ShareNetwork>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Opis</td>
-                    <td>{{ competition.description }}</td>
-                </tr>
-                <tr>
-                    <td>Data rozpoczęcia</td>
-                    <td>{{ competition.start }}</td>
-                </tr>
-                <tr>
-                    <td>Data zakończenia</td>
-                    <td>{{ competition.end }}</td>
-                </tr>
-                <tr>
-                    <td>Typ rozgrywek</td>
-                    <td>{{ competition.typeName }}</td>
-                </tr>
-                <tr>
-                    <td>Liczba uczestników</td>
-                    <td>{{ competition.competitorsCount }}</td>
-                </tr>
-                <tr>
-                    <td>Aktualizacja</td>
-                    <td>{{ competition.updatedAt }}</td>
-                </tr>
-                </tbody>
-            </v-simple-table>
-            <h3 class="form-header">Mecze</h3>
-            <v-data-table
-                :headers="gamesHeaders"
-                :items="games"
-                :sort-by="gamesSort"
-                :mobile-breakpoint="0"
-                class="text-left"
-            >
-            </v-data-table>
-            <template v-if="competition.type === 'cup'">
-                <h3 class="form-header">Drabinka Pucharowa
-                    <v-icon class="mobile-and-vertical-only">mdi-phone-rotate-landscape</v-icon>
-                </h3>
-                <v-card class="cup-visualization-preview">
-                    <div v-html="cupHtmlVisualization" id="cup-visualization-table"></div>
-                </v-card>
-            </template>
-            <template v-if="competition.type === 'group'">
-                <h3 class="form-header">Tabela</h3>
-                <v-data-table
-                    :headers="standingsHeaders"
-                    :items="groupStandings"
-                    :sort-by="standingsSort"
-                    :hide-default-footer="true"
-                    :mobile-breakpoint="0"
-                    class="text-left"
-                >
-                </v-data-table>
-            </template>
-        </v-flex>
-    </v-layout>
+    <div id="competition-container">
+        <div v-if="error" class="error">Nie ma takich rozgrywek :(</div>
+        <template v-else-if="competition.name">
+            <div id="info-section" class="section-container">
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <info-icon></info-icon>
+                    </div>
+                    INFO
+                </div>
+                <div class="section-content">
+                    <competition-info></competition-info>
+                </div>
+            </div>
+            <div id="games-section" class="section-container">
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <games-icon></games-icon>
+                    </div>
+                    MECZE
+                </div>
+                <div class="section-content">
+                    <competition-games></competition-games>
+                </div>
+            </div>
+            <div id="cup-section" class="section-container">
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <component :is="competitionSummaryIconName"></component>
+                    </div>
+                    {{ competitionSummaryName }}
+                </div>
+                <div class="section-content">
+                    <competition-summary></competition-summary>
+                </div>
+            </div>
+        </template>
+        <div v-else class="loader">
+            <loader></loader>
+        </div>
+    </div>
 </template>
 
-<script>
-    import UniversalLoader from '../../components/UniversalLoader.vue';
-    import fetchCompetition from '../../api/graphql-queries/fetchCompetition.graphql';
-    import { hasResults, getResultObject } from '../../client/graphqlHelpers';
-    import {
-        parseCompetitionURL,
-        parseCompetitionUpdatedDatetime,
-        getCompetitionTypeNameFromType,
-        getCompetitorsCountFromCompetitionData,
-        getGamesFromCompetitionData,
-        getGroupStandings
-    } from '../../client/competitionDataParseHelpers';
-    import { createHtmlCupVisualization } from '../../client/competitionCreationHelpers';
+<script lang="ts">
+    import loader from '@/components/Loader.vue';
+    import cupIcon from '@/assets/icons/graph.svg';
+    import rankingIcon from '@/assets/icons/format_list_numbered.svg';
+    import infoIcon from '@/assets/icons/info.svg';
+    import gamesIcon from '@/assets/icons/reorder.svg';
+    import getCompetition from '@/graphql/getCompetition.graphql';
+    import competitionInfo from '@/components/CompetitionInfo.vue';
+    import competitionGames from '@/components/CompetitionGames.vue';
+    import competitionSummary from '@/components/CompetitionSummary.vue';
 
     export default {
+        layout: 'competition',
+        components: {
+            loader,
+            cupIcon,
+            rankingIcon,
+            infoIcon,
+            gamesIcon,
+            competitionInfo,
+            competitionGames,
+            competitionSummary
+        },
+        data () {
+            return {
+                error: false
+            };
+        },
+        computed: {
+            competition () {
+                return this.$store.state.competition;
+            },
+            competitionSummaryName () {
+                return this.$store.state.competitionSummary.name;
+            },
+            competitionSummaryIconName () {
+                return this.$store.state.competitionSummary.iconName;
+            }
+        },
         apollo: {
-            fetchedCompetition: {
+            getCompetition: {
                 prefetch: true,
-                query: fetchCompetition,
+                query: getCompetition,
                 variables () {
                     return {
                         route: this.$route.params.competition
@@ -141,211 +93,120 @@
             }
         },
         watch: {
-            fetchedCompetition () {
-                if (hasResults((this.fetchedCompetition))) {
-                    this.competition = getResultObject(this.fetchedCompetition);
-                    this.competition.link = parseCompetitionURL(this.competition.routeName);
-                    this.competition.typeName = getCompetitionTypeNameFromType(this.competition.type);
-                    this.competition.updatedAt = parseCompetitionUpdatedDatetime(this.competition.updatedAt);
-                    this.competition.competitorsCount = getCompetitorsCountFromCompetitionData(this.competition);
-                    this.games = getGamesFromCompetitionData(this.competition);
-
-                    if (this.competition.group !== null) {
-                        this.competition.typeName += this.competition.group.isDouble ? ' (z rundą rewanżową)' : ' (bez rundy rewanżowej)';
-
-                        this.groupStandings = getGroupStandings(this.competition);
-                    } else if (this.competition.cup !== null) {
-                        this.competition.typeName += this.competition.cup.isDouble ? ' (mecz i rewanż)' : ' (jeden mecz)';
-
-                        this.cupHtmlVisualization = createHtmlCupVisualization(this.games, this.competition.cup.isDouble);
-                    }
-
-                    this.loaded = true;
+            getCompetition (result: any) {
+                if (result.length === 1) {
+                    this.$store.dispatch('setCompetition', result[0]);
                 } else {
-                    this.$router.push({
-                        path: '/404'
-                    });
+                    this.error = true;
+                }
+            },
+            competition (data: any) {
+                if (Object.keys(data).length > 0) {
+                    setTimeout(() => {
+                        this.setContentRefs();
+                    }, 100);
                 }
             }
         },
-        data () {
-            return {
-                loaded: false,
-                competition: {},
-                games: [],
-                gamesHeaders: [
-                    {
-                        text: 'Mecz nr',
-                        value: 'number',
-                        align: 'center'
-                    },
-                    {
-                        text: 'Zespół',
-                        value: 'aCompetitor.name',
-                        align: 'center',
-                        sortable: false
-                    },
-                    {
-                        text: 'Zespół',
-                        value: 'bCompetitor.name',
-                        align: 'center',
-                        sortable: false
-                    },
-                    {
-                        text: 'Wynik',
-                        value: 'resultText',
-                        align: 'center',
-                        sortable: false
-                    },
-                    {
-                        text: 'Data',
-                        value: 'date',
-                        align: 'center',
-                        sortable: false
-                    }
-                ],
-                gamesSort: ['number'],
-                cupHtmlVisualization: '',
-                standingsHeaders: [
-                    {
-                        text: 'Pozycja',
-                        value: 'rank',
-                        align: 'center'
-                    },
-                    {
-                        text: 'Zespół',
-                        value: 'name'
-                    },
-                    {
-                        text: 'Mecze',
-                        value: 'games',
-                        align: 'center'
-                    },
-                    {
-                        text: 'Punkty',
-                        value: 'points',
-                        align: 'center'
-                    }
-                ],
-                standingsSort: ['rank'],
-                groupStandings: []
-            };
-        },
-        components: {
-            UniversalLoader
-        },
-        mounted () {
-            this.loaded = false;
-        },
         methods: {
-            copyLink () {
-                const el = document.createElement('textarea');
-                el.value = this.competition.link;
-                document.body.appendChild(el);
-                el.select();
-                el.setSelectionRange(0, 99999);// For mobile devices
-                document.execCommand('copy');
-                document.body.removeChild(el);
+            setContentRefs () {
+                const infoContentEl = document.getElementById('info-section');
+                const gamesContentEl = document.getElementById('games-section');
+
+                this.$store.dispatch('setContentRefs', {
+                    infoContentEl: infoContentEl,
+                    gamesContentEl: gamesContentEl
+                });
             }
         }
     };
 </script>
 
-<style scoped>
-    .competition-header {
-        margin-top: 8px;
-        text-align: center;
-        position: relative;
-        padding: 0 56px;
-    }
-
-    .v-data-table {
-        margin: 22px 0;
-        white-space: nowrap;
-    }
-
-    .copyButton {
-        margin-left: 16px;
-        color: #A7A7A7;
-    }
-
-    .shareButton {
-        margin-left: 8px;
-        color: #A7A7A7;
-    }
-
-    .copyButton:hover, .shareButton:hover {
-        color: #fff;
-    }
-
-    .copyButtonText {
-        margin-left: 8px;
-    }
-
-    td.link-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .form-header {
-        margin: 24px 8px 16px 8px;
-        text-align: center;
-        text-transform: capitalize;
-    }
-
-    .cup-visualization-preview {
-        padding: 16px 0;
-        text-align: center;
-        margin: 22px 0;
-    }
-
-    .favouriteButton {
+<style lang="scss">
+    #competition-container {
+        min-height: 100%;
+        padding-top: 56px;
+        padding-bottom: 16px;
+        box-sizing: border-box;
+        background-color: var(--content-bg-color);
+        font-weight: 300;
+        letter-spacing: 1px;
+        line-height: 24px;
         position: absolute;
-        right: 0;
-        top: calc(50% - 14px);
-    }
 
-    @media (max-width: 1000px) {
-        .favouriteButton {
-            top: 0;
+        .error {
+            text-align: center;
+            color: var(--content-txt-color);
+            padding-top: 32px;
         }
 
-        .favouriteButton span {
-            display: none;
+        .loader {
+            position: fixed;
+            top: calc(50% - 20px);
+            left: calc(50%);
         }
 
-        .competition-header {
-            font-size: 20px;
+        @media (orientation: landscape) {
+            padding-left: 80px;
         }
 
-        td.link-container {
-            flex-direction: column;
-            align-items: flex-start;
-            height: unset;
-            padding: 12px 16px;
+        @media not all and (orientation: landscape) {
+            padding-bottom: 48px;
+
+            .loader {
+                top: calc(50% - 60px);
+                left: calc(50% - 40px);
+            }
         }
 
-        .copyButton {
-            margin-left: 0;
+        @media (orientation: landscape) and (max-width: 1000px) {
+            padding-bottom: unset;
         }
 
-        .link-container > span {
-            margin: 4px 0 12px 0;
+        .section-container {
+            padding: 32px 48px;
         }
 
-        .cup-visualization-preview {
-            overflow: auto;
+        .section-container:not(:first-child) {
+            padding-top: 0;
         }
-    }
 
-    .mobile-and-vertical-only {
-        display: none;
-    }
+        .section-heading, .section-content {
+            color: var(--content-txt-color);
+        }
 
-    @media screen and (orientation: portrait) {
-        .mobile-and-vertical-only {
-            display: unset;
+        .section-heading {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            letter-spacing: 2px;
+            font-size: 120%;
+            color: var(--main-color);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .section-heading-icon {
+            display: inline-flex;
+            margin-right: 12px;
+        }
+
+        .section-heading-icon > * {
+            fill: var(--main-color);
+        }
+
+        @media (max-width: 1000px) {
+            .section-content {
+                overflow-x: auto;
+            }
+
+            .section-container {
+                padding: 16px 0;
+            }
+
+            .section-heading {
+                margin: 0 16px 8px 16px;
+            }
         }
     }
 </style>

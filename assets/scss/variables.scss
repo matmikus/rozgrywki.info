@@ -1,0 +1,19 @@
+.dark-mode {
+    --main-color: #1e88e5;
+    --bar-bg-color: #242427;
+    --bar-txt-color: #cacaca;
+    --bar-txt-active: #ffffff;
+    --content-bg-color: #373740;
+    --content-row-bg-color: #44444f;
+    --content-txt-color: #bdbdbd;
+}
+
+.light-mode {
+    --main-color: #003c8f;
+    --bar-bg-color: #78909c;
+    --bar-txt-color: #e0f2f1;
+    --bar-txt-active: #ffffff;
+    --content-bg-color: #d3e6f5;
+    --content-row-bg-color: #e3f2fd;
+    --content-txt-color: #484848;
+}

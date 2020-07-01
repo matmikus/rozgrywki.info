@@ -1,16 +1,12 @@
-require('dotenv').config();
-const colors = require('vuetify/es5/util/colors').default;
+require('dotenv').config({path: '.env'});
 
 module.exports = {
     mode: 'universal',
-    /*
-    ** Headers of the page
-    */
     head: {
         titleTemplate: `%s - ${process.env.npm_package_name}`,
         title: process.env.npm_package_name || '',
         meta: [
-            { charset: 'utf-8' },
+            {charset: 'utf-8'},
             {
                 name: 'viewport',
                 content: 'width=device-width, initial-scale=1'
@@ -33,53 +29,52 @@ module.exports = {
             }
         ]
     },
-    /*
-    ** Customize the progress-bar color
-    */
-    loading: { color: '#fff' },
-    /*
-    ** Global CSS
-    */
-    css: [],
-    /*
-    ** Plugins to load before mounting the App
-    */
-    plugins: [],
-    /*
-    ** Nuxt.js dev-modules
-    */
+    loading: {color: '#fff'},
+    styleResources: {
+        scss: [
+            '@/assets/scss/variables.scss',
+            '@/assets/scss/global.scss'
+        ]
+    },
+    plugins: [{ src: '~/plugins/v-tooltip.ts', ssr: false }],
     buildModules: [
         '@nuxt/typescript-build',
-        '@nuxtjs/vuetify'
+        '@nuxtjs/color-mode',
+        '@nuxtjs/style-resources'
     ],
-    /*
-    ** Nuxt.js modules
-    */
     modules: [
-        '@nuxtjs/axios',
+        '@nuxtjs/dotenv',
         '@nuxtjs/auth',
         '@nuxtjs/apollo',
-        'vue-social-sharing/nuxt'
-    ],
-    axios: {
-        retry: { retries: 3 }
-    },
-    auth: {
-        redirect: {
-            login: '/',
-            logout: '/',
-            callback: '/zaloguj'
-        },
-        strategies: {
-            local: false,
-            auth0: {
-                domain: process.env.AUTH0_DOMAIN,
-                client_id: process.env.AUTH0_CLIENT_ID,
-                audience: process.env.AUTH0_AUDIANCE,
-                useRefreshTokens: true
+        '@nuxtjs/dayjs',
+        'nuxt-webfontloader',
+        'nuxt-helmet',
+        'vue-social-sharing/nuxt',
+        'nuxt-svg-loader',
+        'nuxt-clipboard2',
+        ['vue-scrollto/nuxt', {
+            duration: 500,
+            offset: -56
+        }],
+        [
+            'nuxt-i18n',
+            {
+                strategy: 'no_prefix',
+                locales: [
+                    {
+                        code: 'pl',
+                        file: 'pl.js'
+                    }
+                    // {
+                    //     code: 'en',
+                    //     file: 'en.js'
+                    // }
+                ],
+                langDir: 'lang/',
+                lazy: true
             }
-        }
-    },
+        ]
+    ],
     apollo: {
         clientConfigs: {
             default: {
@@ -97,34 +92,46 @@ module.exports = {
         },
         authenticationType: ''
     },
-    /*
-    ** vuetify module configuration
-    ** https://github.com/nuxt-community/vuetify-module
-    */
-    vuetify: {
-        customVariables: ['~/assets/variables.scss'],
-        theme: {
-            dark: true,
-            themes: {
-                dark: {
-                    primary: colors.blue.darken2,
-                    accent: colors.grey.darken3,
-                    secondary: colors.amber.darken3,
-                    info: colors.teal.lighten1,
-                    warning: colors.amber.base,
-                    error: colors.deepOrange.accent4,
-                    success: colors.green.accent3
-                }
-            }
+    webfontloader: {
+        google: {
+            families: ['Roboto Condensed:300,400', 'Roboto Mono', 'Roboto:300,400,500,700'],
+            urls: [
+                'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400&display=swap',
+                'https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap',
+                'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+            ]
         }
     },
-    /*
-    ** Build configuration
-    */
-    build: {
+    colorMode: {
+        preference: 'dark',
+        hid: 'nuxt-color-mode-script',
+        globalName: '__NUXT_COLOR_MODE__',
+        componentName: 'ColorScheme',
+        cookie: {
+            key: 'nuxt-color-mode'
+        }
+    },
+    dayjs: {
+        locales: ['en', 'pl'],
+        defaultLocale: 'pl'
+    },
+    helmet: {
         /*
-        ** You can extend webpack config here
+        dnsPrefetchControl: true,
+        expectCt: true,
+        featurePolicy: true,
+        frameguard: true,
+        hidePoweredBy: true,
+        hsts: true,
+        ieNoOpen: true,
+        noCache: true,
+        noSniff: true,
+        permittedCrossDomainPolicies: true,
+        referrerPolicy: true,
+        xssFilter: true,
         */
+    },
+    build: {
         extend (config) {
             config.node = {
                 fs: 'empty'
@@ -134,19 +141,5 @@ module.exports = {
     },
     env: {
         AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
-    },
-    serverMiddleware: [
-        // 'redirect-ssl', // should be disabled for cloudflare redirect fix
-        {
-            path: '/api',
-            handler: '~/api/public.ts'
-        },
-        {
-            path: '/protected-api',
-            handler: '~/api/protected.ts'
-        }
-    ],
-    router: {
-        middleware: 'authorizationGraphQL'
     }
 };

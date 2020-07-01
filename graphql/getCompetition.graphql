@@ -1,0 +1,43 @@
+query ($route: String) {
+    getCompetition: competitions(where: {routeName: {_eq: $route}, _and: {visible: {_eq: true}}}) {
+        name
+        createdAt
+        updatedAt
+        description
+        end
+        routeName
+        start
+        stages (order_by: {sequenceNumber: asc}) {
+            promotionCount
+            sequenceNumber
+            containers (order_by: {id: asc}) {
+                name
+                drawPoints
+                isDouble
+                isDoubleEliminationCup
+                isDrawEnabled
+                loserPoints
+                size
+                type
+                winnerPoints
+                games (order_by: {number: asc}) {
+                    aResult
+                    bResult
+                    date
+                    details
+                    number
+                    time
+                    updatedAt
+                    aCompetitor {
+                        name
+                        id
+                    }
+                    bCompetitor {
+                        name
+                        id
+                    }
+                }
+            }
+        }
+    }
+}
