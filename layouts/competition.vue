@@ -5,7 +5,7 @@
                                 style="z-index: 101"></mobile-competition-scroll-header>
         </transition>
         <app-header is-competition="true" style="z-index: 100"></app-header>
-        <nuxt/>
+        <nuxt ref="competition"/>
         <competition-nav :small="competitionScrollingDown"></competition-nav>
         <actionDialog></actionDialog>
         <snackbar :with-left-nav="true"></snackbar>
@@ -72,13 +72,14 @@
         },
         watch: {
             scrollPosition (newPosition: number, prevPosition: number): void {
-                // console.log(`scrollPosition: new ${newPosition}, prev ${prevPosition}`)
                 if (this.navElementsRange.length === 0) {
                     return;
                 }
 
                 if (window.innerWidth > 600 || newPosition < 4) {
                     this.$store.dispatch('setCompetitionScrollingDown', false);
+                } else if (newPosition + window.innerHeight >= this.$refs.competition.$el.scrollHeight) {
+                    this.$store.dispatch('setCompetitionScrollingDown', true);
                 } else {
                     this.$store.dispatch('setCompetitionScrollingDown', newPosition > prevPosition);
                 }

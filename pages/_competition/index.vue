@@ -125,7 +125,6 @@
 <style lang="scss">
     #competition-container {
         min-height: 100%;
-        min-widtht: 100%;
         padding-top: 56px;
         padding-bottom: 16px;
         box-sizing: border-box;
