@@ -3,7 +3,11 @@
         <div v-for="stage in competition.stages" :key="stage.id" class="stage">
             <div v-for="container in stage.containers" :key="container.id" class="container">
                 <div class="container-name" v-show="container.name">
-                    <span>{{ container.name }}</span>
+                    <span>
+                        <component :is="container.type === 'cup' ? 'cupIcon' : 'rankingIcon'"
+                                   class="container-icon"></component>
+                        <span class="container-name-text">{{ container.name }}</span>
+                    </span>
                 </div>
                 <template v-if="container.type === 'cup'">
                     <div v-html="getCupHtmlVisualization(container)">
@@ -49,7 +53,11 @@
 </template>
 
 <script lang="ts">
+    import cupIcon from '@/assets/icons/graph.svg';
+    import rankingIcon from '@/assets/icons/format_list_numbered.svg';
+
     export default {
+        components: { cupIcon, rankingIcon },
         computed: {
             competition () {
                 let competition = this.$store.state.competition;
@@ -233,12 +241,27 @@
         .container-name {
             opacity: 0.5;
             padding-left: 8px;
+            padding-bottom: 4px;
             font-weight: bolder;
             height: 24px;
         }
 
+        .container-icon {
+            opacity: 0.6;
+            fill: var(--content-txt-color);
+            width: 18px;
+            height: 18px;
+        }
+
         .container-name > span {
             position: absolute;
+            display: flex;
+            align-items: center;
+        }
+
+        .container-name-text {
+            padding-left: 8px;
+            padding-top: 2px;
         }
 
         .container:not(:last-child), .stage:not(:last-child) {
