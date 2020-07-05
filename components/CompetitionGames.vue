@@ -3,7 +3,11 @@
         <div v-for="stage in competition.stages" :key="stage.id" class="stage">
             <div v-for="container in stage.containers" :key="container.id" class="container">
                 <div class="container-name" v-show="container.name">
-                    <span>{{ container.name }}</span>
+                    <span>
+                        <component :is="container.type === 'cup' ? 'cupIcon' : 'rankingIcon'"
+                                   class="container-icon"></component>
+                        <span class="container-name-text">{{ container.name }}</span>
+                    </span>
                 </div>
                 <div class="container-games">
                     <table class="data-table" cellspacing="0">
@@ -20,17 +24,21 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="game-score" v-if="game.aResult != null && game.bResult != null">{{ `${game.aResult}:${game.bResult}` }}
+                                <div class="game-score"
+                                     v-if="game.aResult != null && game.bResult != null">{{
+                                    `${game.aResult}:${game.bResult}` }}
                                 </div>
                             </td>
                             <td>
-                                <div class="game-details" v-if="game.date || (game.aResult != null && game.bResult != null && game.details)">
-                                    <div class="score-details">
-                                        {{ game.aResult != null && game.bResult != null && game.details ?
+                                <div class="game-details"
+                                     v-if="game.date || (game.aResult != null && game.bResult != null && game.details)">
+                                    <div class="score-details" :style="{ height: game.aResult != null && game.bResult != null && game.details ? '100%' : '0' }">
+                                        {{ game.aResult != null && game.bResult != null &&
+                                        game.details ?
                                         `${game.aResult}:${game.bResult}` : '' }}
                                         {{ game.details ? ` (${game.details})` : '' }}
                                     </div>
-                                    <div class="game-date">
+                                    <div class="game-date" :style="{ height: game.date ? '100%' : '0' }">
                                         {{ game.date || '' }}
                                     </div>
                                 </div>
@@ -44,7 +52,11 @@
 </template>
 
 <script lang="ts">
+    import cupIcon from '@/assets/icons/graph.svg';
+    import rankingIcon from '@/assets/icons/format_list_numbered.svg';
+
     export default {
+        components: { cupIcon, rankingIcon },
         computed: {
             competition () {
                 return this.$store.state.competition;
@@ -66,12 +78,27 @@
         .container-name {
             opacity: 0.5;
             padding-left: 8px;
+            padding-bottom: 4px;
             font-weight: bolder;
             height: 24px;
         }
 
+        .container-icon {
+            opacity: 0.6;
+            fill: var(--content-txt-color);
+            width: 18px;
+            height: 18px;
+        }
+
         .container-name > span {
             position: absolute;
+            display: flex;
+            align-items: center;
+        }
+
+        .container-name-text {
+            padding-left: 8px;
+            padding-top: 2px;
         }
 
         .container:not(:last-child), .stage:not(:last-child) {
@@ -108,16 +135,18 @@
             opacity: 0.5;
             font-size: 90%;
             line-height: 1.3;
-            text-align: right;
+            text-align: left;
             padding-right: 8px;
-            padding-bottom: 2px;
+            display: flex;
+            align-items: center;
         }
 
         .score-details {
-            padding-left: 24px;
             opacity: 0.5;
-            text-align: right;
+            text-align: left;
             padding-right: 8px;
+            display: flex;
+            align-items: center;
         }
 
         .game-details {
