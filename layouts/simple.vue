@@ -13,6 +13,7 @@
     import snackbar from '@/components/Snackbar.vue';
 
     export default {
-        components: { appHeader, actionDialog, snackbar }
+        components: { appHeader, actionDialog, snackbar },
+        middleware: 'cookieInfo'
     };
 </script>

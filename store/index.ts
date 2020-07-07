@@ -114,17 +114,17 @@ export const actions = {
     setCompetitionScrollingDown (context: any, value: boolean) {
         context.commit('setCompetitionScrollingDown', value);
     },
-    showSnackbar (context: any, message: string, actionText: string = '') {
+    showSnackbar (context: any, data: { message: string, actionText: string | undefined }) {
         if (this.state.snackbar.visible) {
             setTimeout(() => {
-                this.dispatch('showSnackbar', message, actionText);
+                this.dispatch('showSnackbar', data);
             }, 1000);
             return;
         }
 
-        context.commit('showSnackbar', { message, actionText });
+        context.commit('showSnackbar', data);
 
-        if (!actionText) {
+        if (!data.actionText) {
             this.dispatch('autoCloseSnackbar');
         }
     },

@@ -52,6 +52,7 @@ module.exports = {
         'vue-social-sharing/nuxt',
         'nuxt-svg-loader',
         'nuxt-clipboard2',
+        'cookie-universal-nuxt',
         ['vue-scrollto/nuxt', {
             duration: 500,
             offset: -56
