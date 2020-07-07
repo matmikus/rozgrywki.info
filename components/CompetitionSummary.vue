@@ -60,7 +60,7 @@
         components: { cupIcon, rankingIcon },
         computed: {
             competition () {
-                let competition = this.$store.state.competition;
+                const { competition } = this.$store.state;
 
                 for (const stage of competition.stages) {
                     for (const container of stage.containers) {
@@ -75,15 +75,16 @@
         },
         methods: {
             getGroupRanking (container: any) {
-                const games = container.games;
+                const { games } = container;
 
-                let competitors = this.getCompetitorsFromGames(games).map((competitor: any) => {
+                const competitors = this.getCompetitorsFromGames(games).map((competitor: any) => {
                     competitor.pointsAndGames = games.reduce((accumulator: any, game: any) => {
                         if (game.aResult === null || game.bResult === null) {
                             return accumulator;
                         }
 
-                        let competitorResult, opponentResult;
+                        let competitorResult;
+                        let opponentResult;
 
                         if (game.aCompetitor.id === competitor.id) {
                             competitorResult = game.aResult;
@@ -103,7 +104,7 @@
                             accumulator.points += container.drawPoints;
                         }
 
-                        ++accumulator.games;
+                        accumulator.games += 1;
 
                         return accumulator;
                     }, { points: 0, games: 0 });
@@ -115,10 +116,11 @@
                     return competitor;
                 }).sort((a: any, b: any) => b.points - a.points);
 
-                let rank = 0, previousCompetitorPoints;
+                let rank = 0;
+                let previousCompetitorPoints;
                 for (const competitor of competitors) {
                     if (competitor.points !== previousCompetitorPoints) {
-                        ++rank;
+                        rank += 1;
                     }
 
                     competitor.rank = rank;
@@ -144,10 +146,10 @@
             },
             getCupHtmlVisualization (competition: any) {
                 if (competition.isDoubleEliminationCup) {
-                    return 'Brak podglądu drabinki brazylijskiej'
+                    return 'Brak podglądu drabinki brazylijskiej';
                 }
 
-                let roundsAmount = Math.sqrt(competition.size);
+                const roundsAmount = Math.sqrt(competition.size);
                 let currentRoundSize = competition.size;
                 let gameCounter = 0;
                 let html = '<div class="cup-container">';
@@ -178,10 +180,10 @@
                                      </div>
                                  </div>`;
 
-                        ++gameCounter;
+                        gameCounter += 1;
 
                         if (competition.isDouble) {
-                            ++gameCounter;
+                            gameCounter += 1;
                         }
                     }
 
