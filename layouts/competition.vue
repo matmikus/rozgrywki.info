@@ -23,6 +23,7 @@
         components: {
             appHeader, mobileCompetitionScrollHeader, competitionNav, actionDialog, snackbar
         },
+        middleware: 'cookieInfo',
         data () {
             return {
                 scrollPosition: null,

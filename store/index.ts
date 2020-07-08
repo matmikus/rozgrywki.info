@@ -93,10 +93,20 @@ export const mutations = {
             position: 1,
             blocked: false
         };
+    },
+    resetCompetition (state: any) {
+        state.competition = {};
+        state.competitionSummary = {
+            name: '',
+            iconName: ''
+        };
     }
 };
 
 export const actions = {
+    resetCompetition (context: any) {
+        context.commit('resetCompetition');
+    },
     resetBar (context: any) {
         context.commit('resetBar');
     },
@@ -114,17 +124,17 @@ export const actions = {
     setCompetitionScrollingDown (context: any, value: boolean) {
         context.commit('setCompetitionScrollingDown', value);
     },
-    showSnackbar (context: any, message: string, actionText: string = '') {
+    showSnackbar (context: any, data: { message: string, actionText: string | undefined }) {
         if (this.state.snackbar.visible) {
             setTimeout(() => {
-                this.dispatch('showSnackbar', message, actionText);
+                this.dispatch('showSnackbar', data);
             }, 1000);
             return;
         }
 
-        context.commit('showSnackbar', { message, actionText });
+        context.commit('showSnackbar', data);
 
-        if (!actionText) {
+        if (!data.actionText) {
             this.dispatch('autoCloseSnackbar');
         }
     },

@@ -55,6 +55,7 @@
 
     export default {
         layout: 'competition',
+        middleware: 'resetCompetition',
         components: {
             loader,
             cupIcon,
