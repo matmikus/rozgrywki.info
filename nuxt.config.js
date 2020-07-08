@@ -95,11 +95,12 @@ module.exports = {
     },
     webfontloader: {
         google: {
-            families: ['Roboto Condensed:300,400', 'Roboto Mono', 'Roboto:300,400,500,700'],
+            families: ['Roboto Condensed:300,400', 'Roboto Mono', 'Roboto:300,400,500,700', 'Gudea'],
             urls: [
                 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400&display=swap',
                 'https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap',
-                'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+                'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap',
+                'https://fonts.googleapis.com/css?family=Gudea&display=swap'
             ]
         }
     },

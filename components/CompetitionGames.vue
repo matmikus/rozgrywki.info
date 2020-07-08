@@ -112,10 +112,12 @@
         .game-number {
             opacity: 0.5;
             padding: 2px 12px 4px 4px;
+            font-family: 'Gudea';
         }
 
         .game-score {
             padding: 0 16px;
+            font-family: 'Gudea';
             font-weight: bold;
             font-size: 110%;
         }
@@ -147,6 +149,7 @@
             padding-right: 8px;
             display: flex;
             align-items: center;
+            font-family: 'Gudea';
         }
 
         .game-details {

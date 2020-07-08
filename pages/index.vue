@@ -12,7 +12,7 @@
                 uczestnikami. Poprzez formularz tworzenia rozgrywek łatwo wygenerujesz stronę swoich
                 zawodów, która będzie dostępna dla wszystkich pod adresem
                 <i style="white-space: nowrap">www.rozgrywki.info/twoja-nazwa</i>, a&nbsp;następnie szybko dodasz
-                wyniki poszczególnych gier lub umożliwisz to samym uczestnikom poszczególnych
+                wyniki gier lub umożliwisz to samym uczestnikom poszczególnych
                 pojedynków.
             </div>
         </div>
@@ -77,7 +77,7 @@
                 <fifth-illustration class="illustration"></fifth-illustration>
             </div>
             <div class="card-content-container">
-                <div class="heading">Zobacz przykładowe rozgrywki</div>
+                <div class="heading">Zobacz przykładowe rozgrywki<br>w różnych formatach zawodów</div>
                 <div class="buttons-container">
                     <nuxt-link to="/puchar-soltysa">
                         <div class="button">Puchar</div>

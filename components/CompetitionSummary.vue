@@ -290,7 +290,7 @@
         }
 
         .rank-th {
-            font-weight: 400;
+            font-weight: 300;
             font-size: 80%;
             opacity: 0.5;
         }
@@ -313,6 +313,7 @@
 
         .rank-number {
             text-align: left;
+            font-family: 'Gudea';
         }
 
         .rank-competitor {
@@ -321,10 +322,12 @@
 
         .rank-games {
             text-align: center;
+            font-family: 'Gudea';
         }
 
         .rank-points {
             text-align: center;
+            font-family: 'Gudea';
         }
 
         .cup-container {
@@ -393,6 +396,7 @@
         .cup-result {
             padding-right: 4px;
             direction: ltr;
+            font-family: 'Gudea';
         }
 
         @media (max-width: 1000px) {
