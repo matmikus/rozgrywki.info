@@ -93,10 +93,20 @@ export const mutations = {
             position: 1,
             blocked: false
         };
+    },
+    resetCompetition (state: any) {
+        state.competition = {};
+        state.competitionSummary = {
+            name: '',
+            iconName: ''
+        };
     }
 };
 
 export const actions = {
+    resetCompetition (context: any) {
+        context.commit('resetCompetition');
+    },
     resetBar (context: any) {
         context.commit('resetBar');
     },
