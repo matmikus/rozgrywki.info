@@ -95,7 +95,7 @@
                 };
 
                 if (containerData.isDoubleEliminationCup) {
-                    containerTypeText += typeNames['doubleEliminationCup'];
+                    containerTypeText += typeNames.doubleEliminationCup;
                 } else {
                     containerTypeText += typeNames[containerData.type];
                     containerTypeText += volumeNames[containerData.isDouble ? 'double' : 'single'];
