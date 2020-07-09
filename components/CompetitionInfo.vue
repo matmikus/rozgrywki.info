@@ -41,7 +41,7 @@
                     {{ competition.end }}
                 </div>
             </div>
-            <div class="data-row">
+            <div class="data-row data-row-competition-type">
                 <div class="data-row__label">
                     Rodzaj rozgrywek
                 </div>
@@ -110,6 +110,7 @@
 <style lang="scss">
     #competition-info-container {
         display: inline-block;
+        max-width: calc(100vw - 32px);
 
         .data-row {
             background-color: var(--content-row-bg-color);
@@ -135,6 +136,14 @@
         .inline-container > * {
             flex: 1 1 auto;
             margin: 1px;
+        }
+
+        .data-row-competition-type {
+            max-width: calc(100% - 18px);
+        }
+
+        .competition-type {
+            overflow-x: auto;
         }
 
         .competition-type::first-letter {

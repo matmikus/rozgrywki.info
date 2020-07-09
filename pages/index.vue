@@ -5,11 +5,11 @@
                 <first-illustration class="illustration"></first-illustration>
             </div>
             <div class="card-content-container">
-                <span class="pretty-name">ROZGRYWKI.INFO</span> to proste, szybkie
+                <div class="heading">ROZGRYWKI.INFO</div>
+                Proste, szybkie
                 i&nbsp;<u>darmowe</u> narzędzie do dzielenia się wynikami rywalizacji sportowej na
                 każdym
-                poziomie w każdej dyscyplinie sportu opartej na bezpośrednich pojedynkach pomiędzy
-                uczestnikami. Poprzez formularz tworzenia rozgrywek łatwo wygenerujesz stronę swoich
+                poziomie w każdej dyscyplinie sportu opartej na bezpośrednich pojedynkach. Poprzez formularz tworzenia rozgrywek łatwo wygenerujesz stronę swoich
                 zawodów, która będzie dostępna dla wszystkich pod adresem
                 <i style="white-space: nowrap">www.rozgrywki.info/twoja-nazwa</i>, a&nbsp;następnie szybko dodasz
                 wyniki gier lub umożliwisz to samym uczestnikom poszczególnych
@@ -128,6 +128,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-family: sans-serif;
 
         .content-card {
             max-width: 800px;
