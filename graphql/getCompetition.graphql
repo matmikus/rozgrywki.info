@@ -20,6 +20,14 @@ query ($route: String) {
                 size
                 type
                 winnerPoints
+                awayGoalsRule
+                rankPoinsOrder
+                rankGamesRatioOrder
+                rankResultsRatioOrder
+                rankGamesAmountOrder
+                rankDirectGameOrder
+                onePointsWinnerPoints
+                onePointLoserPoints
                 games (order_by: {number: asc}) {
                     aResult
                     bResult

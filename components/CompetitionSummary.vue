@@ -205,8 +205,7 @@
                     const secondFinalGame = competition.games[competition.games.length - 2];
 
                     if (finalGame.aResult !== null && finalGame.bResult !== null && secondFinalGame.aResult !== null && secondFinalGame.bResult !== null) {
-                        // TODO określenie kto wygrał podwójny finał
-                        winnerName = '';
+                        winnerName = this.getCupDoubleFinalWinner(finalGame, secondFinalGame);
                     }
                 }
 
@@ -230,6 +229,47 @@
                 }
 
                 return result;
+            },
+            getCupDoubleFinalWinner (firstGame: any, secondGame: any) {
+                let firstGameWinner;
+                let secondGameWinner;
+
+                if (firstGame.aResult > firstGame.bResult) {
+                    firstGameWinner = firstGame.aCompetitor.name;
+                } else if (firstGame.aResult < firstGame.bResult) {
+                    firstGameWinner = firstGame.bCompetitor.name;
+                }
+
+                if (secondGame.aResult > secondGame.bResult) {
+                    secondGameWinner = secondGame.aCompetitor.name;
+                } else if (secondGame.aResult < secondGame.bResult) {
+                    secondGameWinner = secondGame.bCompetitor.name;
+                }
+
+                if (firstGameWinner === secondGameWinner) {
+                    return firstGameWinner;
+                }
+
+                if (firstGameWinner === undefined && secondGameWinner !== undefined) {
+                    return secondGameWinner;
+                }
+
+                if (firstGameWinner !== undefined && secondGameWinner === undefined) {
+                    return firstGameWinner;
+                }
+
+                const firstCompetitorResult = firstGame.aResult + secondGame.bResult;
+                const secondCompetitorResult = firstGame.bResult + secondGame.aResult;
+
+                if (firstCompetitorResult > secondCompetitorResult) {
+                    return firstGame.aCompetitor.name;
+                }
+
+                if (firstCompetitorResult < secondCompetitorResult) {
+                    return firstGame.bCompetitor.name;
+                }
+
+                return '';
             }
         }
     };
