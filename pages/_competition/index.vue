@@ -49,9 +49,9 @@
     import infoIcon from '@/assets/icons/info.svg';
     import gamesIcon from '@/assets/icons/reorder.svg';
     import getCompetition from '@/graphql/getCompetition.graphql';
-    import competitionInfo from '@/components/CompetitionInfo.vue';
-    import competitionGames from '@/components/CompetitionGames.vue';
-    import competitionSummary from '@/components/CompetitionSummary.vue';
+    import competitionInfo from '@/components/competition/CompetitionInfo.vue';
+    import competitionGames from '@/components/competition/CompetitionGames.vue';
+    import competitionSummary from '@/components/competition/CompetitionSummary.vue';
 
     export default {
         layout: 'competition',

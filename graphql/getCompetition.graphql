@@ -21,7 +21,7 @@ query ($route: String) {
                 type
                 winnerPoints
                 awayGoalsRule
-                rankPoinsOrder
+                rankPointsOrder
                 rankGamesRatioOrder
                 rankResultsRatioOrder
                 rankGamesAmountOrder
