@@ -20,6 +20,8 @@
                             <th class="rank-th rank-competitor-th">Drużyna</th>
                             <th class="rank-th rank-games-th">Mecze</th>
                             <th class="rank-th rank-points-th">Punkty</th>
+                            <th class="rank-th rank-points-th">Bilans meczy</th>
+                            <th class="rank-th rank-points-th">Bilans wyników</th>
                         </tr>
                         <tr v-for="competitor in container.ranking"
                             :key="competitor.id"
@@ -42,6 +44,17 @@
                             <td>
                                 <div class="rank-points">
                                     {{ competitor.points }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rank-points">
+                                    {{ competitor.wins + '-' + (container.isDrawEnabled ?
+                                    competitor.draws + '-' : '') + competitor.losts }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rank-points">
+                                    {{ competitor.results.wins }}:{{ competitor.results.losts }}
                                 </div>
                             </td>
                         </tr>
@@ -75,10 +88,68 @@
         },
         methods: {
             getGroupRanking (container: any) {
-                const { games } = container;
+                const sortFunctions = {
+                    points: (a: any, b: any) => {
+                        return b.points - a.points;
+                    },
+                    gamesRatio: (a: any, b: any) => {
+                        return b.wins / b.losts - a.wins / a.losts;
+                    },
+                    resultsRatio: (a: any, b: any) => {
+                        return b.results.wins / b.results.losts - a.results.wins / a.results.losts;
+                    },
+                    gamesAmount: (a: any, b: any) => {
+                        return (b.wins + b.losts) - (a.wins + a.losts);
+                    },
+                    directGame: (a: any, b: any) => {
+                        if (!container.isDouble) {
+                            const directGame = container.games.find((game: any) => (game.aCompetitor.id === a.id && game.bCompetitor.id === b.id) || (game.aCompetitor.id === b.id && game.bCompetitor.id === a.id));
 
+                            if (directGame.aResult > directGame.bResult) {
+                                if (directGame.aCompetitor.id === a.id) {
+                                    return -1;
+                                } else if (directGame.aCompetitor.id === b.id) {
+                                    return 1;
+                                }
+                            } else if (directGame.aResult < directGame.bResult) {
+                                if (directGame.bCompetitor.id === b.id) {
+                                    return 1;
+                                } else if (directGame.bCompetitor.id === a.id) {
+                                    return -1;
+                                }
+                            }
+                        }
+
+                        return 0;
+                    }
+                };
+
+                let sortOrder: any[] = [];
+                sortOrder[container.rankPointsOrder - 1] = sortFunctions.points;
+                sortOrder[container.rankGamesRatioOrder - 1] = sortFunctions.gamesRatio;
+                sortOrder[container.rankResultsRatioOrder - 1] = sortFunctions.resultsRatio;
+                sortOrder[container.rankGamesAmountOrder - 1] = sortFunctions.gamesAmount;
+                sortOrder[container.rankDirectGameOrder - 1] = sortFunctions.directGame;
+
+                const compareFunc = (a: any, b: any) => {
+                    let sortResult = 0;
+
+                    for (const sortFunction of sortOrder) {
+                        const sortFunctionResult = sortFunction(a, b);
+
+                        if (sortFunctionResult > 0 || sortFunctionResult < 0) {
+
+                            sortResult = sortFunctionResult;
+                            break;
+                        }
+                    }
+
+                    return sortResult;
+                };
+
+                const { games } = container;
                 const competitors = this.getCompetitorsFromGames(games).map((competitor: any) => {
-                    competitor.pointsAndGames = games.reduce((accumulator: any, game: any) => {
+                    competitor.data = games.reduce((accumulator: any, game: any) => {
                         if (game.aResult === null || game.bResult === null) {
                             return accumulator;
                         }
@@ -98,33 +169,47 @@
 
                         if (competitorResult > opponentResult) {
                             accumulator.points += container.winnerPoints;
+                            accumulator.wins += 1;
                         } else if (competitorResult < opponentResult) {
                             accumulator.points += container.loserPoints;
+                            accumulator.losts += 1;
                         } else {
                             accumulator.points += container.drawPoints;
+                            accumulator.draws += 1;
                         }
+
+                        accumulator.results.wins += competitorResult;
+                        accumulator.results.losts += opponentResult;
 
                         accumulator.games += 1;
 
                         return accumulator;
-                    }, { points: 0, games: 0 });
+                    }, {
+                        points: 0,
+                        games: 0,
+                        wins: 0,
+                        losts: 0,
+                        draws: 0,
+                        results: { wins: 0, losts: 0 }
+                    });
 
-                    competitor.points = competitor.pointsAndGames.points;
-                    competitor.games = competitor.pointsAndGames.games;
-                    delete competitor.pointsAndGames;
+                    competitor.points = competitor.data.points;
+                    competitor.games = competitor.data.games;
+                    competitor.wins = competitor.data.wins;
+                    competitor.losts = competitor.data.losts;
+                    competitor.draws = competitor.data.draws;
+                    competitor.results = competitor.data.results;
+                    delete competitor.data;
 
                     return competitor;
-                }).sort((a: any, b: any) => b.points - a.points);
+                }).sort(compareFunc);
 
-                let rank = 0;
-                let previousCompetitorPoints;
-                for (const competitor of competitors) {
-                    if (competitor.points !== previousCompetitorPoints) {
-                        rank += 1;
+                for (let i = 0; i < competitors.length; i++) {
+                    if (i > 0 && compareFunc(competitors[i], competitors[i - 1]) === 0) {
+                        competitors[i].rank = competitors[i - 1].rank;
+                    } else {
+                        competitors[i].rank = i + 1;
                     }
-
-                    competitor.rank = rank;
-                    previousCompetitorPoints = competitor.points;
                 }
 
                 return competitors;
