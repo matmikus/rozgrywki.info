@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-    import appHeader from '@/components/DefaultHeader.vue';
+    import appHeader from '@/components/header/DefaultHeader.vue';
     import actionDialog from '@/components/ActionDialog.vue';
     import snackbar from '@/components/Snackbar.vue';
 

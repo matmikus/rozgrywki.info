@@ -35,8 +35,8 @@
     import accountButton from '@/assets/icons/account.svg';
     import shareButton from '@/assets/icons/share.svg';
     import contextMenu from '@/components/ContextMenu.vue';
-    import accountMenu from '@/components/AccountMenu.vue';
-    import shareMenu from '@/components/ShareMenu.vue';
+    import accountMenu from '@/components/header/AccountMenu.vue';
+    import shareMenu from '@/components/header/ShareMenu.vue';
 
     export default {
         props: ['isCompetition'],

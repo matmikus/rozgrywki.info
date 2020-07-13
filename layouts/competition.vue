@@ -13,9 +13,9 @@
 </template>
 
 <script lang="ts">
-    import appHeader from '@/components/DefaultHeader.vue';
-    import mobileCompetitionScrollHeader from '@/components/MobileCompetitionScrollHeader.vue';
-    import competitionNav from '@/components/CompetitionNav.vue';
+    import appHeader from '@/components/header/DefaultHeader.vue';
+    import mobileCompetitionScrollHeader from '@/components/header/MobileCompetitionScrollHeader.vue';
+    import competitionNav from '@/components/competition/CompetitionNav.vue';
     import actionDialog from '@/components/ActionDialog.vue';
     import snackbar from '@/components/Snackbar.vue';
 

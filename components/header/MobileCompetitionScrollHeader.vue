@@ -15,7 +15,7 @@
 <script lang="ts">
     import shareButton from '@/assets/icons/share.svg';
     import contextMenu from '@/components/ContextMenu.vue';
-    import shareMenu from '@/components/ShareMenu.vue';
+    import shareMenu from '@/components/header/ShareMenu.vue';
 
     export default {
         components: { shareButton, contextMenu, shareMenu },
