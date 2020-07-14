@@ -45,8 +45,7 @@
                 <div class="data-row__label">
                     Rodzaj rozgrywek
                 </div>
-                <div class="data-row__value competition-type">
-                    {{ getComplexCompetitionType(competition) }}
+                <div class="data-row__value competition-type" v-html="getComplexCompetitionType(competition)">
                 </div>
             </div>
         </div>
@@ -69,7 +68,7 @@
                 } else if (competitionData.stages.length > 1) {
                     for (const stage of competitionData.stages) {
                         if (competitionData.stages.indexOf(stage) !== 0) {
-                            competitionTypeText += ' + ';
+                            competitionTypeText += ' +&nbsp;';
                         }
 
                         if (stage.containers[0].type === 'group' && stage.containers.length > 1) {
@@ -90,8 +89,8 @@
                     doubleEliminationCup: 'puchar podwójnej eliminacji (brazylijski)'
                 };
                 const volumeNames: any = {
-                    single: ' (1 mecz)',
-                    double: ' (mecz i rewanż)'
+                    single: ' (1&nbsp;mecz)',
+                    double: ' (mecz&nbsp;i&nbsp;rewanż)'
                 };
 
                 if (containerData.isDoubleEliminationCup) {
@@ -128,7 +127,6 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            white-space: nowrap;
             padding: 0 1px;
             margin-top: -1px;
         }
@@ -140,10 +138,6 @@
 
         .data-row-competition-type {
             max-width: calc(100% - 18px);
-        }
-
-        .competition-type {
-            overflow-x: auto;
         }
 
         .competition-type::first-letter {
