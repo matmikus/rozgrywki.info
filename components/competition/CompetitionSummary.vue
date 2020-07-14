@@ -315,43 +315,78 @@
 
                 return result;
             },
-            getCupDoubleFinalWinner (firstGame: any, secondGame: any) {
-                let firstGameWinner;
-                let secondGameWinner;
+            getCupDoubleFinalWinner (firstGame: any, secondGame: any, awayGoalsRule: boolean) {
+                let aCompetitor = {
+                    name: firstGame.aCompetitor.name,
+                    wins: 0,
+                    losts: 0,
+                    draws: 0,
+                    results: {
+                        wins: firstGame.aResult + secondGame.bResult,
+                        losts: firstGame.bResult + secondGame.aResult
+                    }
+                };
+
+                let bCompetitor = {
+                    name: firstGame.bCompetitor.name,
+                    wins: 0,
+                    losts: 0,
+                    draws: 0,
+                    results: {
+                        wins: firstGame.bResult + secondGame.aResult,
+                        losts: firstGame.aResult + secondGame.bResult
+                    }
+                };
 
                 if (firstGame.aResult > firstGame.bResult) {
-                    firstGameWinner = firstGame.aCompetitor.name;
+                    aCompetitor.wins += 1;
+                    bCompetitor.losts += 1;
                 } else if (firstGame.aResult < firstGame.bResult) {
-                    firstGameWinner = firstGame.bCompetitor.name;
+                    aCompetitor.wins += 1;
+                    bCompetitor.losts += 1;
+                } else {
+                    aCompetitor.draws += 1;
+                    bCompetitor.draws += 1;
                 }
 
                 if (secondGame.aResult > secondGame.bResult) {
-                    secondGameWinner = secondGame.aCompetitor.name;
+                    aCompetitor.wins += 1;
+                    bCompetitor.losts += 1;
                 } else if (secondGame.aResult < secondGame.bResult) {
-                    secondGameWinner = secondGame.bCompetitor.name;
+                    aCompetitor.wins += 1;
+                    bCompetitor.losts += 1;
+                } else {
+                    aCompetitor.draws += 1;
+                    bCompetitor.draws += 1;
                 }
 
-                if (firstGameWinner === secondGameWinner) {
-                    return firstGameWinner;
+                const gamesRatioComparison = bCompetitor.wins / bCompetitor.losts - aCompetitor.wins / aCompetitor.losts;
+
+                if (gamesRatioComparison > 0) {
+                    return bCompetitor.name;
+                } else if (gamesRatioComparison < 0) {
+                    return aCompetitor.name;
                 }
 
-                if (firstGameWinner === undefined && secondGameWinner !== undefined) {
-                    return secondGameWinner;
+                const resultsRatioComparison = bCompetitor.results.wins / bCompetitor.results.losts - aCompetitor.results.wins / aCompetitor.results.losts;
+
+                if (resultsRatioComparison > 0) {
+                    return bCompetitor.name;
+                } else if (resultsRatioComparison < 0) {
+                    return aCompetitor.name;
                 }
 
-                if (firstGameWinner !== undefined && secondGameWinner === undefined) {
-                    return firstGameWinner;
-                }
+                if (awayGoalsRule) {
+                    aCompetitor.results.wins = firstGame.aResult + 2 * secondGame.bResult;
+                    bCompetitor.results.wins = 2 * firstGame.bResult + secondGame.aResult;
 
-                const firstCompetitorResult = firstGame.aResult + secondGame.bResult;
-                const secondCompetitorResult = firstGame.bResult + secondGame.aResult;
+                    const awayResultsRatioComparison = bCompetitor.results.wins - aCompetitor.results.wins;
 
-                if (firstCompetitorResult > secondCompetitorResult) {
-                    return firstGame.aCompetitor.name;
-                }
-
-                if (firstCompetitorResult < secondCompetitorResult) {
-                    return firstGame.bCompetitor.name;
+                    if (awayResultsRatioComparison > 0) {
+                        return bCompetitor.name;
+                    } else if (awayResultsRatioComparison < 0) {
+                        return aCompetitor.name;
+                    }
                 }
 
                 return '';

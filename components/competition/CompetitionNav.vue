@@ -1,42 +1,44 @@
 <template>
     <div id="competition-nav-container" :class="{'small-nav': small}">
-        <div class="nav-item" v-scroll-to="'#info-section'" @click="moveBar('info-section')">
-            <div class="spacer"></div>
-            <div class="icon-container">
-                <info-icon class="nav-icon"></info-icon>
+        <template v-if="competitionSummaryName">
+            <div class="nav-item" v-scroll-to="'#info-section'" @click="moveBar('info-section')">
+                <div class="spacer"></div>
+                <div class="icon-container">
+                    <info-icon class="nav-icon"></info-icon>
+                </div>
+                <div class="name-container">info</div>
+                <div class="spacer"></div>
             </div>
-            <div class="name-container">info</div>
-            <div class="spacer"></div>
-        </div>
-        <div class="nav-item" v-scroll-to="'#games-section'" @click="moveBar('games-section')">
-            <div class="spacer"></div>
-            <div class="icon-container">
-                <games-icon class="nav-icon"></games-icon>
+            <div class="nav-item" v-scroll-to="'#games-section'" @click="moveBar('games-section')">
+                <div class="spacer"></div>
+                <div class="icon-container">
+                    <games-icon class="nav-icon"></games-icon>
+                </div>
+                <div class="name-container">mecze</div>
+                <div class="spacer"></div>
             </div>
-            <div class="name-container">mecze</div>
-            <div class="spacer"></div>
-        </div>
-        <div class="nav-item"
-             v-if="false"
-             v-scroll-to="'#ranking-section'"
-             @click="moveBar('ranking-section')">
-            <div class="spacer"></div>
-            <div class="icon-container">
-                <ranking-icon class="nav-icon"></ranking-icon>
+            <div class="nav-item"
+                 v-if="false"
+                 v-scroll-to="'#ranking-section'"
+                 @click="moveBar('ranking-section')">
+                <div class="spacer"></div>
+                <div class="icon-container">
+                    <ranking-icon class="nav-icon"></ranking-icon>
+                </div>
+                <div class="name-container">tabela</div>
+                <div class="spacer"></div>
             </div>
-            <div class="name-container">tabela</div>
-            <div class="spacer"></div>
-        </div>
-        <div class="nav-item" v-scroll-to="'#cup-section'" @click="moveBar('cup-section')">
-            <div class="spacer"></div>
-            <div class="icon-container">
-                <component :is="competitionSummaryIconName" class="nav-icon"></component>
+            <div class="nav-item" v-scroll-to="'#cup-section'" @click="moveBar('cup-section')">
+                <div class="spacer"></div>
+                <div class="icon-container">
+                    <component :is="competitionSummaryIconName" class="nav-icon"></component>
+                </div>
+                <div class="name-container">{{ competitionSummaryName }}</div>
+                <div class="spacer"></div>
             </div>
-            <div class="name-container">{{ competitionSummaryName }}</div>
-            <div class="spacer"></div>
-        </div>
-        <div class="active-bar-container"
-             :class="barPositionClassName"></div>
+            <div class="active-bar-container"
+                 :class="barPositionClassName"></div>
+        </template>
     </div>
 </template>
 
@@ -188,16 +190,16 @@
     }
 
     @media (hover: hover) {
-            #competition-nav-container {
-                .nav-item:hover {
-                    .nav-icon {
-                        fill: var(--bar-txt-active);
-                    }
+        #competition-nav-container {
+            .nav-item:hover {
+                .nav-icon {
+                    fill: var(--bar-txt-active);
+                }
 
-                    .name-container {
-                        color: var(--bar-txt-active);
-                    }
+                .name-container {
+                    color: var(--bar-txt-active);
                 }
             }
+        }
     }
 </style>
