@@ -19,7 +19,7 @@
         <account-button class="account-button pointer"
                         id="default-header-account-button"
                         v-tooltip.bottom="{ content: 'Menu użytkownika', delay: { show: 500, hide: 0, trigger: 'hover' } }"
-                        @click="onAccountButtonClick"></account-button>
+                        @click.native="onAccountButtonClick"></account-button>
         <context-menu ref="accountMenuRef" :iconId="'default-header-account-button'">
             <account-menu></account-menu>
         </context-menu>
@@ -32,7 +32,7 @@
 <script lang="ts">
     import logo from '@/assets/logo/logo.svg';
     import colorModeButton from '@/assets/icons/brightness.svg';
-    import accountButton from '@/assets/icons/account.svg';
+    import accountButton from '@/components/AccountButton.vue';
     import shareButton from '@/assets/icons/share.svg';
     import contextMenu from '@/components/ContextMenu.vue';
     import accountMenu from '@/components/header/AccountMenu.vue';
@@ -50,6 +50,7 @@
         },
         methods: {
             onAccountButtonClick (event: any) {
+                console.log(event)
                 const targetPositions = event.target.getBoundingClientRect();
 
                 if (this.$refs.accountMenuRef.visibility) {

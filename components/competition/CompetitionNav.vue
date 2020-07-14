@@ -1,6 +1,5 @@
 <template>
-    <div id="competition-nav-container" :class="{'small-nav': small}">
-        <template v-if="competitionSummaryName">
+    <div id="competition-nav-container" :class="{'small-nav': small}" v-if="competitionSummaryName">
             <div class="nav-item" v-scroll-to="'#info-section'" @click="moveBar('info-section')">
                 <div class="spacer"></div>
                 <div class="icon-container">
@@ -38,7 +37,6 @@
             </div>
             <div class="active-bar-container"
                  :class="barPositionClassName"></div>
-        </template>
     </div>
 </template>
 

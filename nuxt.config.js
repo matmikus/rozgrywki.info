@@ -1,4 +1,5 @@
-require('dotenv').config({path: '.env'});
+require('dotenv')
+.config({path: '.env'});
 
 module.exports = {
     mode: 'universal',
@@ -7,6 +8,10 @@ module.exports = {
         title: process.env.npm_package_name || '',
         meta: [
             {charset: 'utf-8'},
+            {
+                name: 'google-signin-client_id',
+                content: '535901238693-6eeqd7altqjvlstdokcu4dcv7h902mgb.apps.googleusercontent.com'
+            },
             {
                 name: 'viewport',
                 content: 'width=device-width, initial-scale=1'
@@ -36,7 +41,10 @@ module.exports = {
             '@/assets/scss/global.scss'
         ]
     },
-    plugins: [{ src: '~/plugins/v-tooltip.ts', ssr: false }],
+    plugins: [{
+        src: '~/plugins/v-tooltip.ts',
+        ssr: false
+    }],
     buildModules: [
         '@nuxt/typescript-build',
         '@nuxtjs/color-mode',
@@ -44,6 +52,7 @@ module.exports = {
     ],
     modules: [
         '@nuxtjs/dotenv',
+        '@nuxtjs/axios',
         '@nuxtjs/auth',
         '@nuxtjs/apollo',
         '@nuxtjs/dayjs',
@@ -116,6 +125,13 @@ module.exports = {
     dayjs: {
         locales: ['en', 'pl'],
         defaultLocale: 'pl'
+    },
+    auth: {
+        strategies: {
+            google: {
+                client_id: '535901238693-6eeqd7altqjvlstdokcu4dcv7h902mgb.apps.googleusercontent.com'
+            }
+        }
     },
     helmet: {
         /*
