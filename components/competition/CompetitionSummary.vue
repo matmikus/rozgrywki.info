@@ -89,18 +89,10 @@
         methods: {
             getGroupRanking (container: any) {
                 const sortFunctions = {
-                    points: (a: any, b: any) => {
-                        return b.points - a.points;
-                    },
-                    gamesRatio: (a: any, b: any) => {
-                        return b.wins / b.losts - a.wins / a.losts;
-                    },
-                    resultsRatio: (a: any, b: any) => {
-                        return b.results.wins / b.results.losts - a.results.wins / a.results.losts;
-                    },
-                    gamesAmount: (a: any, b: any) => {
-                        return (b.wins + b.losts) - (a.wins + a.losts);
-                    },
+                    points: (a: any, b: any) => b.points - a.points,
+                    gamesRatio: (a: any, b: any) => b.wins / b.losts - a.wins / a.losts,
+                    resultsRatio: (a: any, b: any) => b.results.wins / b.results.losts - a.results.wins / a.results.losts,
+                    gamesAmount: (a: any, b: any) => (b.wins + b.losts) - (a.wins + a.losts),
                     directGame: (a: any, b: any) => {
                         if (!container.isDouble) {
                             const directGame = container.games.find((game: any) => (game.aCompetitor.id === a.id && game.bCompetitor.id === b.id) || (game.aCompetitor.id === b.id && game.bCompetitor.id === a.id));
@@ -108,13 +100,19 @@
                             if (directGame.aResult > directGame.bResult) {
                                 if (directGame.aCompetitor.id === a.id) {
                                     return -1;
-                                } else if (directGame.aCompetitor.id === b.id) {
+                                }
+
+                                if (directGame.aCompetitor.id === b.id) {
                                     return 1;
                                 }
-                            } else if (directGame.aResult < directGame.bResult) {
+                            }
+
+                            if (directGame.aResult < directGame.bResult) {
                                 if (directGame.bCompetitor.id === b.id) {
                                     return 1;
-                                } else if (directGame.bCompetitor.id === a.id) {
+                                }
+
+                                if (directGame.bCompetitor.id === a.id) {
                                     return -1;
                                 }
                             }
@@ -124,7 +122,7 @@
                     }
                 };
 
-                let sortOrder: any[] = [];
+                const sortOrder: any[] = [];
                 sortOrder[container.rankPointsOrder - 1] = sortFunctions.points;
                 sortOrder[container.rankGamesRatioOrder - 1] = sortFunctions.gamesRatio;
                 sortOrder[container.rankResultsRatioOrder - 1] = sortFunctions.resultsRatio;
@@ -138,7 +136,6 @@
                         const sortFunctionResult = sortFunction(a, b);
 
                         if (sortFunctionResult > 0 || sortFunctionResult < 0) {
-
                             sortResult = sortFunctionResult;
                             break;
                         }
@@ -316,7 +313,7 @@
                 return result;
             },
             getCupDoubleFinalWinner (firstGame: any, secondGame: any, awayGoalsRule: boolean) {
-                let aCompetitor = {
+                const aCompetitor = {
                     name: firstGame.aCompetitor.name,
                     wins: 0,
                     losts: 0,
@@ -327,7 +324,7 @@
                     }
                 };
 
-                let bCompetitor = {
+                const bCompetitor = {
                     name: firstGame.bCompetitor.name,
                     wins: 0,
                     losts: 0,
@@ -364,7 +361,9 @@
 
                 if (gamesRatioComparison > 0) {
                     return bCompetitor.name;
-                } else if (gamesRatioComparison < 0) {
+                }
+
+                if (gamesRatioComparison < 0) {
                     return aCompetitor.name;
                 }
 
@@ -372,7 +371,9 @@
 
                 if (resultsRatioComparison > 0) {
                     return bCompetitor.name;
-                } else if (resultsRatioComparison < 0) {
+                }
+
+                if (resultsRatioComparison < 0) {
                     return aCompetitor.name;
                 }
 
@@ -384,7 +385,9 @@
 
                     if (awayResultsRatioComparison > 0) {
                         return bCompetitor.name;
-                    } else if (awayResultsRatioComparison < 0) {
+                    }
+
+                    if (awayResultsRatioComparison < 0) {
                         return aCompetitor.name;
                     }
                 }

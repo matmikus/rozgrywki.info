@@ -50,7 +50,6 @@
         },
         methods: {
             onAccountButtonClick (event: any) {
-                console.log(event)
                 const targetPositions = event.target.getBoundingClientRect();
 
                 if (this.$refs.accountMenuRef.visibility) {

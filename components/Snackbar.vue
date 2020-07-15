@@ -1,5 +1,7 @@
 <template>
-    <div id="snackbar-container" :class="{'visible': visible, 'small-nav': withSmallNav, 'left-nav': withLeftNav }" @click="closeSnackbar">
+    <div id="snackbar-container"
+         :class="{'visible': visible, 'small-nav': withSmallNav, 'big-nav': withBigNav, 'left-nav': withLeftNav }"
+         @click="closeSnackbar">
         <div class="message">{{ message }}</div>
         <div class="action" v-if="actionText">{{ actionText }}</div>
     </div>
@@ -24,7 +26,10 @@
                 return this.$store.state.snackbar.visible;
             },
             withSmallNav () {
-                return this.$store.state.competitionScrollingDown;
+                return this.$route.name === 'competition' && this.$store.state.competition.name !== undefined && this.$store.state.competitionScrollingDown;
+            },
+            withBigNav () {
+                return this.$route.name === 'competition' && this.$store.state.competition.name !== undefined && !this.$store.state.competitionScrollingDown;
             }
         }
     };
@@ -54,8 +59,12 @@
         }
     }
 
+    #snackbar-container.visible {
+        bottom: 8px;
+    }
+
     @media not all and (orientation: landscape) {
-        #snackbar-container.visible {
+        #snackbar-container.visible.big-nav {
             bottom: 84px;
         }
 
@@ -68,12 +77,6 @@
         #snackbar-container {
             width: calc(100% - 16px);
             left: 8px;
-        }
-    }
-
-    @media (orientation: landscape) {
-        #snackbar-container.visible {
-            bottom: 8px;
         }
     }
 

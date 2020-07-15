@@ -26,7 +26,9 @@
     import ballIcon from '@/assets/icons/ball.svg';
 
     export default {
-        components: { personIcon, byeIcon, personAddIcon, ballIcon },
+        components: {
+            personIcon, byeIcon, personAddIcon, ballIcon
+        },
         methods: {
             onLogInClick () {
                 this.$auth.loginWith('google', { params: { prompt: 'login' } });
