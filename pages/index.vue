@@ -155,6 +155,7 @@
             width: 100%;
             height: auto;
             fill: var(--main-color);
+            transition: fill 250ms ease-in-out;
         }
 
         .card-content-container {
