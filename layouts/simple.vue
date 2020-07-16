@@ -14,6 +14,9 @@
 
     export default {
         components: { appHeader, actionDialog, snackbar },
-        middleware: 'cookieInfo'
+        middleware: 'cookieInfo',
+        mounted () {
+            document.title = 'rozgrywki.info';
+        }
     };
 </script>

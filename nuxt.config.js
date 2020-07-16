@@ -3,10 +3,10 @@ require('dotenv').config({path: '.env'});
 module.exports = {
     mode: 'universal',
     head: {
-        titleTemplate: `%s - ${process.env.npm_package_name}`,
-        title: process.env.npm_package_name || '',
+        titleTemplate: 'rozgrywki.info',
+        title: '',
         meta: [
-            {charset: 'utf-8'},
+            { charset: 'utf-8' },
             {
                 name: 'google-signin-client_id',
                 content: '535901238693-6eeqd7altqjvlstdokcu4dcv7h902mgb.apps.googleusercontent.com'

@@ -102,6 +102,10 @@
                 }
             },
             competition (data: any) {
+                if (this.competition.name && this.competition.name.length > 0) {
+                    document.title = this.competition.name;
+                }
+
                 if (Object.keys(data).length > 0) {
                     setTimeout(() => {
                         this.setContentRefs();
