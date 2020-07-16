@@ -4,7 +4,7 @@
             <google-icon></google-icon>
             <span>Logowanie Gmail</span>
         </div>
-        <div class="menu-item" @click="onLogInFacebookClick" v-if="!this.$auth.loggedIn">
+        <div class="menu-item" @click="onLogInFacebookClick" v-if="!this.$auth.loggedIn" :disabled="true">
             <facebook-icon></facebook-icon>
             <span>Logowanie Facebook</span>
         </div>
@@ -33,8 +33,9 @@
             onLogInGmailClick () {
                 this.$auth.loginWith('google', { params: { prompt: 'login' } });
             },
-            onLogInFacebookClick () {
-                this.$auth.loginWith('facebook', { params: { prompt: 'login' } });
+            onLogInFacebookClick (event: any) {
+                event.stopPropagation();
+                // this.$auth.loginWith('facebook', { params: { prompt: 'login' } });
             },
             onLogOutClick () {
                 setTimeout(() => {

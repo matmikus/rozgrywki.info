@@ -84,6 +84,12 @@
             transition: unset;
         }
 
+        .menu-item[disabled] {
+            cursor: default;
+            opacity: 0.3;
+            transition: unset;
+        }
+
         .menu-item:hover {
             background-color: var(--bar-txt-color);
             /*color: var(--bar-txt-color);*/
