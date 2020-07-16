@@ -1,4 +1,5 @@
-require('dotenv').config({path: '.env'});
+require('dotenv')
+.config({path: '.env'});
 
 module.exports = {
     mode: 'universal',
@@ -6,7 +7,7 @@ module.exports = {
         titleTemplate: 'rozgrywki.info',
         title: '',
         meta: [
-            { charset: 'utf-8' },
+            {charset: 'utf-8'},
             {
                 name: 'google-signin-client_id',
                 content: '535901238693-6eeqd7altqjvlstdokcu4dcv7h902mgb.apps.googleusercontent.com'
@@ -129,6 +130,11 @@ module.exports = {
         strategies: {
             google: {
                 client_id: '535901238693-6eeqd7altqjvlstdokcu4dcv7h902mgb.apps.googleusercontent.com'
+            },
+            facebook: {
+                client_id: '219047915934268',
+                userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=picture{url},email',
+                scope: ['public_profile', 'email']
             }
         }
     },

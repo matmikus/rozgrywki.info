@@ -2,7 +2,7 @@
     <div>
         <div id="account-button">
             <account-icon v-if="!$auth.loggedIn"></account-icon>
-            <img v-else :src="$auth.user.picture">
+            <img v-else :src="getUserPicture()">
         </div>
     </div>
 </template>
@@ -11,7 +11,20 @@
     import accountIcon from '@/assets/icons/account.svg';
 
     export default {
-        components: { accountIcon }
+        components: { accountIcon },
+        methods: {
+            getUserPicture () {
+                if (typeof this.$auth.user.picture === 'string') {
+                    return this.$auth.user.picture;
+                }
+
+                if (this.$auth.user.picture && this.$auth.user.picture.data && typeof this.$auth.user.picture.data.url === 'string') {
+                    return this.$auth.user.picture.data.url;
+                }
+
+                return '';
+            }
+        }
     };
 </script>
 
