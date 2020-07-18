@@ -133,7 +133,6 @@
         padding-top: 56px;
         padding-bottom: 16px;
         box-sizing: border-box;
-        background-color: var(--content-bg-color);
         font-weight: 300;
         letter-spacing: 1px;
         line-height: 24px;
@@ -148,7 +147,7 @@
         .loader {
             position: fixed;
             top: calc(50% - 20px);
-            left: calc(50%);
+            left: calc(50% - 32px);
         }
 
         @media (orientation: landscape) {
@@ -160,7 +159,7 @@
 
             .loader {
                 top: calc(50% - 60px);
-                left: calc(50% - 40px);
+                left: calc(50% - 32px);
             }
         }
 

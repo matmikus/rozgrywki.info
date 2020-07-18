@@ -87,3 +87,19 @@ body {
 *:focus {
     outline: none;
 }
+
+.button {
+    text-transform: uppercase;
+    border-radius: 4px;
+    color: var(--bar-txt-color);
+    padding: 2px 8px;
+    display: inline-flex;
+    font-weight: 500;
+    font-size: 12px;
+    background-color: var(--bar-bg-color);
+    cursor: pointer;
+}
+
+.button:hover {
+    color: var(--bar-txt-active);
+}
