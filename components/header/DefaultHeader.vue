@@ -82,6 +82,7 @@
         align-items: center;
         height: 56px;
         background-color: var(--bar-bg-color);
+        z-index: 100;
 
         .logo, .color-mode-button, .account-button, .share-button {
             height: 24px;

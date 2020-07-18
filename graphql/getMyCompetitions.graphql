@@ -1,0 +1,51 @@
+query ($userId: String) {
+    myCompetitions: competitions(where: {userId: {_eq: $userId}, _and: {visible: {_eq: true}}}, order_by: {updatedAt: desc}) {
+        name
+        createdAt
+        updatedAt
+        description
+        end
+        routeName
+        start
+        stages (order_by: {sequenceNumber: asc}) {
+            promotionCount
+            sequenceNumber
+            containers (order_by: {id: asc}) {
+                name
+                drawPoints
+                isDouble
+                isDoubleEliminationCup
+                isDrawEnabled
+                loserPoints
+                size
+                type
+                winnerPoints
+                awayGoalsRule
+                rankPointsOrder
+                rankGamesRatioOrder
+                rankResultsRatioOrder
+                rankGamesAmountOrder
+                rankDirectGameOrder
+                onePointsWinnerPoints
+                onePointLoserPoints
+                games (order_by: {number: asc}) {
+                    aResult
+                    bResult
+                    date
+                    details
+                    number
+                    time
+                    updatedAt
+                    aCompetitor {
+                        name
+                        id
+                    }
+                    bCompetitor {
+                        name
+                        id
+                    }
+                }
+            }
+        }
+    }
+}

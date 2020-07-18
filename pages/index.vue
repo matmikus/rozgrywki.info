@@ -124,7 +124,6 @@
         box-sizing: border-box;
         line-height: 24px;
         color: var(--content-txt-color);
-        background-color: var(--content-bg-color);
         display: flex;
         flex-direction: column;
         align-items: center;

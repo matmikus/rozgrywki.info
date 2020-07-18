@@ -1,5 +1,4 @@
-require('dotenv')
-.config({path: '.env'});
+require('dotenv').config({path: '.env'});
 
 module.exports = {
     mode: 'universal',
@@ -133,9 +132,15 @@ module.exports = {
             },
             facebook: {
                 client_id: '219047915934268',
-                userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=picture{url},email',
+                userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=name,picture{url},email',
                 scope: ['public_profile', 'email']
             }
+        },
+        redirect: {
+            login: '/login',
+            logout: '/logout',
+            callback: '/login',
+            home: '/moje'
         }
     },
     helmet: {

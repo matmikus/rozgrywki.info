@@ -2,7 +2,7 @@
     <div id="dialog-container" :class="{'visible': containerVisible}">
         <div class="dialog-card" :class="{'visible': cardVisible}">
             <div class="heading">{{ heading }}</div>
-            <div class="message">{{ message }}</div>
+            <div class="message" v-html="message"></div>
             <div class="actions">
                 <div class="action cancel" v-if="cancelText" @click="onCancelClick">
                     {{ cancelText }}
@@ -99,6 +99,10 @@
             .message {
                 font-size: 14px;
                 padding: 0 24px 12px;
+
+                a {
+                    word-break: break-all;
+                }
             }
 
             .actions {
