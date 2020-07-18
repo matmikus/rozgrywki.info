@@ -99,7 +99,9 @@
             const loginGreetings = this.$cookies.get('nuxt-login-greetings');
 
             if (!loginGreetings) {
-                this.$store.dispatch('showSnackbar', { message: `Witaj ${this.$auth.user.name}!` });
+                setTimeout(() => {
+                    this.$store.dispatch('showSnackbar', { message: `Witaj ${this.$auth.user.name}!` });
+                }, 500);
                 this.$cookies.set('nuxt-login-greetings', true);
             }
         },

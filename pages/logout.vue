@@ -12,7 +12,9 @@
             const loginGreetings = this.$cookies.get('nuxt-login-greetings');
 
             if (loginGreetings) {
-                this.$store.dispatch('showSnackbar', { message: 'Wylogowano pomyślnie. Do zobaczenia!' });
+                setTimeout(() => {
+                    this.$store.dispatch('showSnackbar', { message: 'Wylogowano pomyślnie. Do zobaczenia!' });
+                }, 500);
                 this.$cookies.remove('nuxt-login-greetings');
             }
         }
