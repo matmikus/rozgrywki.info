@@ -13,7 +13,9 @@
                     MOJE ROZGRYWKI
                 </div>
                 <div class="section-content">
-                    <div v-if="myCompetitions && myCompetitions.length === 0">Brak rozgrywek</div>
+                    <div v-if="myCompetitions && myCompetitions.length === 0" class="empty-data">
+                        Brak rozgrywek
+                    </div>
                     <table v-else class="data-table" cellspacing="0">
                         <tr class="data-row">
                             <th></th>
@@ -47,14 +49,18 @@
                             </td>
                             <td>
                                 <div>
-                                    <div class="button" @click="routeToCompetition(competition.routeName)">PODGLĄD</div>
-                                    <div class="button">EDYCJA</div>
+                                    <div class="button"
+                                         @click="routeToCompetition(competition.routeName)">PODGLĄD
+                                    </div>
+                                    <div class="button"
+                                         @click="routeToEdit(competition.routeName)">EDYCJA
+                                    </div>
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="button bottom-button">DODAJ NOWE</div>
+                <div class="button bottom-button" @click="routeToEdit()">DODAJ NOWE</div>
             </div>
         </div>
     </div>
@@ -64,6 +70,7 @@
     import getMyCompetitions from '@/graphql/getMyCompetitions.graphql';
     import loader from '@/components/Loader.vue';
     import listIcon from '@/assets/icons/list.svg';
+    import { isForbiddenRouteName } from '@/scripts/forbiddenValues.ts';
 
     export default {
         layout: 'simple',
@@ -127,6 +134,9 @@
             },
             routeToCompetition (routeName: string) {
                 this.$router.push(`/${routeName}`);
+            },
+            routeToEdit (routeName: string = '') {
+                this.$router.push(`/edycja/${routeName}`);
             }
         }
     };
@@ -219,6 +229,12 @@
             opacity: 0.5;
         }
 
+        .empty-data {
+            margin-bottom: 16px;
+            margin-top: 12px;
+            padding: 4px;
+        }
+
         @media (max-width: 1000px) {
             max-width: 100vw;
 
@@ -249,6 +265,10 @@
 
             .data-row td {
                 padding: 8px;
+            }
+
+            .empty-data {
+                margin-top: 8px;
             }
         }
 

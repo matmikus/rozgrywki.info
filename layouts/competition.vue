@@ -77,7 +77,7 @@
                     return;
                 }
 
-                if (window.innerWidth > 600 || newPosition < 4) {
+                if (newPosition < 4) {
                     this.$store.dispatch('setCompetitionScrollingDown', false);
                 } else if (newPosition + window.innerHeight >= this.$refs.competition.$el.scrollHeight) {
                     this.$store.dispatch('setCompetitionScrollingDown', true);
