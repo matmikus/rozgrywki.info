@@ -56,6 +56,7 @@
     import rankingIcon from '@/assets/icons/format_list_numbered.svg';
 
     export default {
+        props: ['mode'],
         components: { cupIcon, rankingIcon },
         computed: {
             competition () {

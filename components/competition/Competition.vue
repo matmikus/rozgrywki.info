@@ -10,7 +10,7 @@
                     INFO
                 </div>
                 <div class="section-content">
-                    <competition-info></competition-info>
+                    <competition-info :mode="mode"></competition-info>
                 </div>
             </div>
             <div id="games-section" class="section-container">
@@ -21,7 +21,7 @@
                     MECZE
                 </div>
                 <div class="section-content">
-                    <competition-games></competition-games>
+                    <competition-games :mode="mode"></competition-games>
                 </div>
             </div>
             <div id="cup-section" class="section-container">

@@ -5,7 +5,13 @@
                 Nazwa
             </div>
             <div class="data-row__value">
-                {{ competition.name }}
+                <template v-if="mode === 'edit'">
+                    <edit-input-text :placeholder="'Nazwa'"
+                                     :value="competition.name"
+                                     :info="'3-60 znaków'"
+                                     :validation-func="competitionNameValidatorFunc"></edit-input-text>
+                </template>
+                <template v-else>{{ competition.name }}</template>
             </div>
         </div>
         <div class="data-row">
@@ -13,7 +19,14 @@
                 Link
             </div>
             <div class="data-row__value">
-                {{ competition.fullRoute }}
+                <template v-if="mode === 'edit'">
+                    <edit-input-text :placeholder="'Ścieżka'"
+                                     :value="competition.routeName"
+                                     :info="'5-40 znaków'"
+                                     :prefix="'www.rozgrywki.info/'"
+                                     :validation-func="competitionRouteNameValidatorFunc"></edit-input-text>
+                </template>
+                <template v-else>{{ competition.fullRoute }}</template>
             </div>
         </div>
         <div class="data-row">
@@ -21,7 +34,10 @@
                 Opis
             </div>
             <div class="data-row__value">
-                {{ competition.description }}
+                <template v-if="mode === 'edit'">
+                    <edit-textarea :validation-func="competitionDescriptionValidatorFunc"></edit-textarea>
+                </template>
+                <template v-else>{{ competition.description }}</template>
             </div>
         </div>
         <div class="inline-container">
@@ -30,7 +46,10 @@
                     Początek
                 </div>
                 <div class="data-row__value">
-                    {{ competition.start }}
+                    <template v-if="mode === 'edit'">
+                        <edit-data-picker></edit-data-picker>
+                    </template>
+                    <template v-else>{{ competition.start }}</template>
                 </div>
             </div>
             <div class="data-row">
@@ -38,25 +57,61 @@
                     Koniec
                 </div>
                 <div class="data-row__value">
-                    {{ competition.end }}
+                    <template v-if="mode === 'edit'">
+                        <edit-data-picker></edit-data-picker>
+                    </template>
+                    <template v-else>{{ competition.end }}</template>
                 </div>
             </div>
             <div class="data-row data-row-competition-type">
                 <div class="data-row__label">
                     Rodzaj rozgrywek
                 </div>
-                <div class="data-row__value competition-type" v-html="getComplexCompetitionType(competition)">
-                </div>
+
+                <template v-if="mode === 'edit'">
+                    <div class="data-row__value competition-type">
+                        <edit-select></edit-select>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="data-row__value competition-type"
+                         v-html="getComplexCompetitionType(competition)">
+                    </div>
+                </template>
+
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
+    import EditInputText from '@/components/competition/EditInputText.vue';
+    import EditDataPicker from '@/components/competition/EditDataPicker.vue';
+    import EditTextarea from '@/components/competition/EditTextarea.vue';
+    import EditSelect from '@/components/competition/EditSelect.vue';
+    import {
+        competitionNameValidator,
+        competitionRouteNameValidator,
+        competitionDescriptionValidator,
+        competitionCompetitorNameValidator
+    } from '@/scripts/competitionFormValidator';
+
     export default {
+        props: ['mode'],
+        components: {
+            EditInputText, EditDataPicker, EditTextarea, EditSelect
+        },
         computed: {
             competition () {
                 return this.$store.state.competition;
+            }
+        },
+        data () {
+            return {
+                competitionNameValidatorFunc: competitionNameValidator,
+                competitionRouteNameValidatorFunc: competitionRouteNameValidator,
+                competitionDescriptionValidatorFunc: competitionDescriptionValidator,
+                competitionCompetitorNameValidatorFunc: competitionCompetitorNameValidator
             }
         },
         methods: {
