@@ -116,6 +116,7 @@
             padding: 4px 8px;
             flex: 1;
             margin: 2px;
+            border-radius: $data-row-border-radius;
         }
 
         .data-row__label {

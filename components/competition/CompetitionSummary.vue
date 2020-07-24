@@ -16,12 +16,12 @@
                 <template v-if="container.type === 'group'">
                     <table class="data-table" cellspacing="0">
                         <tr class="data-row">
-                            <th class="rank-th rank-number-th">Miejsce</th>
-                            <th class="rank-th rank-competitor-th">Drużyna</th>
-                            <th class="rank-th rank-games-th">Mecze</th>
-                            <th class="rank-th rank-points-th">Punkty</th>
-                            <th class="rank-th rank-points-th">Bilans meczy</th>
-                            <th class="rank-th rank-points-th">Bilans wyników</th>
+                            <th class="rank-th rank-number-th"><span>Miejsce</span></th>
+                            <th class="rank-th rank-competitor-th"><span>Drużyna</span></th>
+                            <th class="rank-th rank-games-th"><span>Mecze</span></th>
+                            <th class="rank-th rank-points-th"><span>Punkty</span></th>
+                            <th class="rank-th rank-points-th"><span>Bilans meczy</span></th>
+                            <th class="rank-th rank-points-th"><span>Bilans wyników</span></th>
                         </tr>
                         <tr v-for="competitor in container.ranking"
                             :key="competitor.id"
@@ -441,20 +441,34 @@
         .data-row {
             padding: 4px 8px;
             white-space: nowrap;
-            background-color: var(--content-row-bg-color);
         }
 
         .data-row th {
             padding: 0 8px;
+            background-color: var(--content-row-bg-color);
         }
 
         .data-row td {
             padding: 4px 8px;
+            background-color: var(--content-row-bg-color);
+        }
+
+        .data-row th:first-child, .data-row td:first-child {
+            border-top-left-radius: $data-row-border-radius;
+            border-bottom-left-radius: $data-row-border-radius;
+        }
+
+        .data-row th:last-child, .data-row td:last-child {
+            border-top-right-radius: $data-row-border-radius;
+            border-bottom-right-radius: $data-row-border-radius;
         }
 
         .rank-th {
             font-weight: 300;
             font-size: 80%;
+        }
+
+        .rank-th span {
             opacity: 0.5;
         }
 
@@ -497,6 +511,7 @@
             display: inline-flex;
             background-color: var(--content-row-bg-color);
             white-space: nowrap;
+            border-radius: $data-row-border-radius;
         }
 
         .cup-round {

@@ -133,6 +133,20 @@
             background-color: var(--content-row-bg-color);
         }
 
+        .data-row td {
+            background-color: var(--content-row-bg-color);
+        }
+
+        .data-row td:first-child {
+            border-top-left-radius: $data-row-border-radius;
+            border-bottom-left-radius: $data-row-border-radius;
+        }
+
+        .data-row td:last-child {
+            border-top-right-radius: $data-row-border-radius;
+            border-bottom-right-radius: $data-row-border-radius;
+        }
+
         .game-date {
             opacity: 0.5;
             font-size: 90%;

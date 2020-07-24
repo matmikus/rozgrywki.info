@@ -19,10 +19,10 @@
                     <table v-else class="data-table" cellspacing="0">
                         <tr class="data-row">
                             <th></th>
-                            <th>Nazwa</th>
-                            <th>Utworzone</th>
-                            <th>Ostatnia aktualizacja</th>
-                            <th>Akcje</th>
+                            <th><span>Nazwa</span></th>
+                            <th><span>Utworzone</span></th>
+                            <th><span>Ostatnia aktualizacja</span></th>
+                            <th><span>Akcje</span></th>
                         </tr>
                         <tr v-for="(competition, index) in myCompetitions"
                             :key="competition.id"
@@ -209,20 +209,34 @@
         .data-row {
             padding: 4px 8px;
             white-space: nowrap;
-            background-color: var(--content-row-bg-color);
         }
 
         .data-row th {
             padding: 0 16px;
             font-weight: 300;
             font-size: 80%;
-            opacity: 0.5;
             text-align: left;
+            background-color: var(--content-row-bg-color);
+        }
+
+        .data-row th > * {
+            opacity: 0.5;
         }
 
         .data-row td {
             padding: 8px 16px;
             text-align: left;
+            background-color: var(--content-row-bg-color);
+        }
+
+        .data-row th:first-child, .data-row td:first-child {
+            border-top-left-radius: $data-row-border-radius;
+            border-bottom-left-radius: $data-row-border-radius;
+        }
+
+        .data-row th:last-child, .data-row td:last-child {
+            border-top-right-radius: $data-row-border-radius;
+            border-bottom-right-radius: $data-row-border-radius;
         }
 
         .data-row .index {
