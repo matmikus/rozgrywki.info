@@ -15,12 +15,12 @@
 
 <script lang="ts">
     export default {
-        props: [ 'placeholder', 'value', 'info', 'prefix', 'validation-func' ],
+        props: ['placeholder', 'value', 'info', 'prefix', 'validation-func'],
         data () {
             return {
                 inputValue: '',
                 error: false
-            }
+            };
         },
         mounted () {
             this.inputValue = this.value;
@@ -45,6 +45,7 @@
             color: var(--content-txt-color);
             font-size: 16px;
             font-weight: 300;
+            font-family: Roboto;
         }
 
         .input:focus {
@@ -59,7 +60,7 @@
         }
 
         .info[has-error] {
-            color: red;
+            color: #ff0000;
             opacity: 1;
         }
 

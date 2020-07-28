@@ -13,7 +13,7 @@
     import SaveIcon from '@/assets/icons/save.svg';
 
     export default {
-        middleware: 'resetCompetition',
+        middleware: ['authenticated', 'resetCompetition'],
         layout: 'competition',
         components: { Competition, SaveIcon },
         computed: {
@@ -23,7 +23,7 @@
         },
         methods: {
             onSaveClick () {
-                console.log('zapis')
+                console.log('zapis');
             }
         }
     };

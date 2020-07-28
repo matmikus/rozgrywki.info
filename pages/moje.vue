@@ -70,7 +70,6 @@
     import getMyCompetitions from '@/graphql/getMyCompetitions.graphql';
     import loader from '@/components/Loader.vue';
     import listIcon from '@/assets/icons/list.svg';
-    import { isForbiddenRouteName } from '@/scripts/forbiddenValues.ts';
 
     export default {
         layout: 'simple',

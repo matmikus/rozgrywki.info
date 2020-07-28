@@ -35,7 +35,10 @@
             </div>
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
-                    <edit-textarea :validation-func="competitionDescriptionValidatorFunc"></edit-textarea>
+                    <edit-textarea :placeholder="'Opis'"
+                                   :value="competition.description"
+                                   :info="'0-1000 znaków'"
+                                   :validation-func="competitionDescriptionValidatorFunc"></edit-textarea>
                 </template>
                 <template v-else>{{ competition.description }}</template>
             </div>
@@ -47,7 +50,7 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker></edit-data-picker>
+                        <edit-data-picker :value="competition.start" :error-text="'Niepoprawny format daty'"></edit-data-picker>
                     </template>
                     <template v-else>{{ competition.start }}</template>
                 </div>
@@ -58,7 +61,7 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker></edit-data-picker>
+                        <edit-data-picker :value="competition.end" :error-text="'Niepoprawny format daty'"></edit-data-picker>
                     </template>
                     <template v-else>{{ competition.end }}</template>
                 </div>
@@ -69,8 +72,8 @@
                 </div>
 
                 <template v-if="mode === 'edit'">
-                    <div class="data-row__value competition-type">
-                        <edit-select></edit-select>
+                    <div class="data-row__value competition-type additional-bottom-space">
+                        <edit-select :options="competitionTypes"></edit-select>
                     </div>
                 </template>
                 <template v-else>
@@ -96,6 +99,16 @@
         competitionCompetitorNameValidator
     } from '@/scripts/competitionFormValidator';
 
+    const COMPETITION_TYPE_NAMES: any = {
+        cup: 'puchar',
+        group: 'każdy z każdym',
+        doubleEliminationCup: 'puchar podwójnej eliminacji (brazylijski)'
+    };
+    const COMPETITION_VOLUME_NAMES: any = {
+        single: ' (1&nbsp;mecz)',
+        double: ' (mecz&nbsp;i&nbsp;rewanż)'
+    };
+
     export default {
         props: ['mode'],
         components: {
@@ -111,8 +124,16 @@
                 competitionNameValidatorFunc: competitionNameValidator,
                 competitionRouteNameValidatorFunc: competitionRouteNameValidator,
                 competitionDescriptionValidatorFunc: competitionDescriptionValidator,
-                competitionCompetitorNameValidatorFunc: competitionCompetitorNameValidator
-            }
+                competitionCompetitorNameValidatorFunc: competitionCompetitorNameValidator,
+                competitionTypes: [
+                    { value: 'cupSingle', text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.single },
+                    { value: 'cupDouble', text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.double },
+                    { value: 'groupSingle', text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.single },
+                    { value: 'groupDouble', text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.double },
+                    { value: 'mixed', text: 'mieszane', disabled: true },
+                    { value: 'doubleEliminationCup', text: COMPETITION_TYPE_NAMES.doubleEliminationCup, disabled: true }
+                ]
+            };
         },
         methods: {
             getComplexCompetitionType (competitionData: any) {
@@ -138,21 +159,12 @@
             },
             getContainerCompetitionType (containerData: any) {
                 let containerTypeText = '';
-                const typeNames: any = {
-                    cup: 'puchar',
-                    group: 'każdy z każdym',
-                    doubleEliminationCup: 'puchar podwójnej eliminacji (brazylijski)'
-                };
-                const volumeNames: any = {
-                    single: ' (1&nbsp;mecz)',
-                    double: ' (mecz&nbsp;i&nbsp;rewanż)'
-                };
 
                 if (containerData.isDoubleEliminationCup) {
-                    containerTypeText += typeNames.doubleEliminationCup;
+                    containerTypeText += COMPETITION_TYPE_NAMES.doubleEliminationCup;
                 } else {
-                    containerTypeText += typeNames[containerData.type];
-                    containerTypeText += volumeNames[containerData.isDouble ? 'double' : 'single'];
+                    containerTypeText += COMPETITION_TYPE_NAMES[containerData.type];
+                    containerTypeText += COMPETITION_VOLUME_NAMES[containerData.isDouble ? 'double' : 'single'];
                 }
 
                 return containerTypeText;
@@ -198,6 +210,10 @@
 
         .competition-type::first-letter {
             text-transform: uppercase;
+        }
+
+        .additional-bottom-space {
+            margin-bottom: 4px;
         }
 
         @media (max-width: 1000px) {
