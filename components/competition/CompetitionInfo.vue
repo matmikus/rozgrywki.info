@@ -7,7 +7,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-input-text :placeholder="'Nazwa'"
-                                     :value="competition.name"
+                                     :default-value="competition.name"
                                      :info="'3-60 znaków'"
                                      :validation-func="competitionNameValidatorFunc"></edit-input-text>
                 </template>
@@ -21,7 +21,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-input-text :placeholder="'Ścieżka'"
-                                     :value="competition.routeName"
+                                     :default-value="competition.routeName"
                                      :info="'5-40 znaków'"
                                      :prefix="'www.rozgrywki.info/'"
                                      :validation-func="competitionRouteNameValidatorFunc"></edit-input-text>
@@ -36,7 +36,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-textarea :placeholder="'Opis'"
-                                   :value="competition.description"
+                                   :default-value="competition.description"
                                    :info="'0-1000 znaków'"
                                    :validation-func="competitionDescriptionValidatorFunc"></edit-textarea>
                 </template>
@@ -50,7 +50,8 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker :value="competition.start" :error-text="'Niepoprawny format daty'"></edit-data-picker>
+                        <edit-data-picker :default-value="competition.start"
+                                          :error-text="'Niepoprawny format daty'"></edit-data-picker>
                     </template>
                     <template v-else>{{ competition.start }}</template>
                 </div>
@@ -61,7 +62,8 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker :value="competition.end" :error-text="'Niepoprawny format daty'"></edit-data-picker>
+                        <edit-data-picker :default-value="competition.end"
+                                          :error-text="'Niepoprawny format daty'"></edit-data-picker>
                     </template>
                     <template v-else>{{ competition.end }}</template>
                 </div>
@@ -73,7 +75,8 @@
 
                 <template v-if="mode === 'edit'">
                     <div class="data-row__value competition-type additional-bottom-space">
-                        <edit-select :options="competitionTypes"></edit-select>
+                        <edit-select :options="competitionTypes"
+                                     :default-value="getCompetitionTypeValue(competition)"></edit-select>
                     </div>
                 </template>
                 <template v-else>
@@ -84,10 +87,12 @@
 
             </div>
         </div>
+        <competition-edit-group v-if="mode === 'edit'"></competition-edit-group>
     </div>
 </template>
 
 <script lang="ts">
+    import CompetitionEditGroup from '@/components/competition/CompetitionEditGroup.vue';
     import EditInputText from '@/components/competition/EditInputText.vue';
     import EditDataPicker from '@/components/competition/EditDataPicker.vue';
     import EditTextarea from '@/components/competition/EditTextarea.vue';
@@ -108,11 +113,19 @@
         single: ' (1&nbsp;mecz)',
         double: ' (mecz&nbsp;i&nbsp;rewanż)'
     };
+    const COMPETITION_TYPE_VALUES: any = {
+        cupSingle: 1,
+        cupDouble: 2,
+        groupSingle: 3,
+        groupDouble: 4,
+        mixed: 5,
+        doubleEliminationCup: 6
+    };
 
     export default {
         props: ['mode'],
         components: {
-            EditInputText, EditDataPicker, EditTextarea, EditSelect
+            EditInputText, EditDataPicker, EditTextarea, EditSelect, CompetitionEditGroup
         },
         computed: {
             competition () {
@@ -126,12 +139,32 @@
                 competitionDescriptionValidatorFunc: competitionDescriptionValidator,
                 competitionCompetitorNameValidatorFunc: competitionCompetitorNameValidator,
                 competitionTypes: [
-                    { value: 'cupSingle', text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.single },
-                    { value: 'cupDouble', text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.double },
-                    { value: 'groupSingle', text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.single },
-                    { value: 'groupDouble', text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.double },
-                    { value: 'mixed', text: 'mieszane', disabled: true },
-                    { value: 'doubleEliminationCup', text: COMPETITION_TYPE_NAMES.doubleEliminationCup, disabled: true }
+                    {
+                        value: COMPETITION_TYPE_VALUES['cupSingle'],
+                        text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.single
+                    },
+                    {
+                        value: COMPETITION_TYPE_VALUES['cupDouble'],
+                        text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.double
+                    },
+                    {
+                        value: COMPETITION_TYPE_VALUES['groupSingle'],
+                        text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.single
+                    },
+                    {
+                        value: COMPETITION_TYPE_VALUES['groupDouble'],
+                        text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.double
+                    },
+                    {
+                        value: COMPETITION_TYPE_VALUES['mixed'],
+                        text: 'mieszane',
+                        disabled: true
+                    },
+                    {
+                        value: 'doubleEliminationCup',
+                        text: COMPETITION_TYPE_NAMES.doubleEliminationCup,
+                        disabled: true
+                    }
                 ]
             };
         },
@@ -168,6 +201,19 @@
                 }
 
                 return containerTypeText;
+            },
+            getCompetitionTypeValue (competitionData: any) {
+                if (competitionData.stages.length > 1) {
+                    return COMPETITION_TYPE_VALUES['mixed'];
+                }
+
+                if (competitionData.stages[0].containers[0].type === 'group') {
+                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES['groupDouble'] : COMPETITION_TYPE_VALUES['groupSingle'];
+                }
+
+                if (competitionData.stages[0].containers[0].type === 'cup') {
+                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES['cupDouble'] : COMPETITION_TYPE_VALUES['cupSingle'];
+                }
             }
         }
     };
@@ -197,6 +243,7 @@
             flex-wrap: wrap;
             padding: 0 1px;
             margin-top: -1px;
+            margin-bottom: 1px;
         }
 
         .inline-container > * {

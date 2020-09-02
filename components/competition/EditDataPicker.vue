@@ -9,7 +9,7 @@
 
 <script lang="ts">
     export default {
-        props: ['value', 'errorText'],
+        props: ['defaultValue', 'errorText'],
         data () {
             return {
                 newValue: undefined,
@@ -17,7 +17,7 @@
             };
         },
         mounted () {
-            this.newValue = this.value;
+            this.newValue = this.defaultValue;
         }
     };
 </script>

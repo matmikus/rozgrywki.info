@@ -64,9 +64,9 @@ export const mutations = {
         state.actionDialog.promiseResolve(resolveValue);
     },
     setCompetition (state: any, data: any) {
-        state.competition = data;
+        state.competition = data.competition;
 
-        const types = data.stages.reduce((acc: any, stage: any) => {
+        const types = data.competition.stages.reduce((acc: any, stage: any) => {
             acc.push(stage.containers.reduce((acc2: any, container: any) => {
                 acc2.push(container.type);
                 return acc2;
@@ -74,7 +74,10 @@ export const mutations = {
             return acc;
         }, []).flat();
 
-        if (types.includes('cup')) {
+        if (data.mode === 'edit') {
+            state.competitionSummary.name = 'PODGLĄD';
+            state.competitionSummary.iconName = 'cupIcon';
+        } else if (types.includes('cup')) {
             state.competitionSummary.name = 'DRABINKA';
             state.competitionSummary.iconName = 'cupIcon';
         } else {

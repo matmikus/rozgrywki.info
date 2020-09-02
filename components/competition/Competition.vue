@@ -95,7 +95,7 @@
         watch: {
             getCompetition (result: any) {
                 if (result.length === 1) {
-                    this.$store.dispatch('setCompetition', result[0]);
+                    this.$store.dispatch('setCompetition', { competition: result[0], mode: this.mode });
                 } else {
                     this.error = true;
                 }

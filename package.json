@@ -39,7 +39,8 @@
         "nuxt-webfontloader": "^1.1.0",
         "v-tooltip": "^2.0.3",
         "vue-scrollto": "^2.18.1",
-        "vue-social-sharing": "^3.0.0-beta.10"
+        "vue-social-sharing": "^3.0.0-beta.10",
+        "vuedraggable": "^2.24.0"
     },
     "devDependencies": {
         "@nuxt/typescript-build": "^1.0.1",

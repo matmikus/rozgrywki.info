@@ -1,10 +1,10 @@
 <template>
     <div id="select-container">
-        <select @change="changeValue($event)">
-            <option value="" selected disabled>Wybierz</option>
+        <select @change="changeValue($event)" v-model="selected">
             <option v-for="option in options"
                     :value="option.value"
                     :key="option.value"
+                    :disabled="option.disabled"
                     v-html="option.text">
             </option>
         </select>
@@ -13,15 +13,18 @@
 
 <script lang="ts">
     export default {
-        props: ['options'],
+        props: ['options', 'defaultValue'],
         data () {
             return {
                 selected: undefined
             };
         },
+        mounted () {
+            this.selected = this.defaultValue;
+        },
         methods: {
             changeValue (event: any) {
-                this.selected = event.target.options[event.target.options.selectedIndex].value;
+                this.selected = parseInt(event.target.options[event.target.options.selectedIndex].value);
             }
         }
     };

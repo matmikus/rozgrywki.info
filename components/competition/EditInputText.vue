@@ -15,7 +15,7 @@
 
 <script lang="ts">
     export default {
-        props: ['placeholder', 'value', 'info', 'prefix', 'validation-func'],
+        props: ['placeholder', 'defaultValue', 'info', 'prefix', 'validation-func'],
         data () {
             return {
                 inputValue: '',
@@ -23,7 +23,7 @@
             };
         },
         mounted () {
-            this.inputValue = this.value;
+            this.inputValue = this.defaultValue;
         },
         watch: {
             inputValue (newValue: string) {

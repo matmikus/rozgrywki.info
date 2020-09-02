@@ -7,7 +7,7 @@
 
 <script lang="ts">
     export default {
-        props: ['placeholder', 'value', 'info', 'validation-func'],
+        props: ['placeholder', 'defaultValue', 'info', 'validation-func'],
         data () {
             return {
                 textareaValue: '',
@@ -15,7 +15,7 @@
             };
         },
         mounted () {
-            this.textareaValue = this.value;
+            this.textareaValue = this.defaultValue;
         },
         watch: {
             textareaValue (newValue: string) {
