@@ -28,13 +28,13 @@
 <style lang="scss">
     #textarea-container {
         .textarea {
-            background-color: var(--content-bg-color);
+            background-color: var(--bg2-color);
             border: 0;
             border-radius: 2px;
             width: 100%;
             box-sizing: border-box;
             padding: 8px;
-            color: var(--content-txt-color);
+            color: var(--content1-color);
             font-family: Roboto;
             font-size: 16px;
             font-weight: 300;
@@ -62,7 +62,7 @@
         }
 
         .prefix {
-            background-color: var(--content-bg-color);
+            background-color: var(--bg2-color);
             border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
             display: flex;

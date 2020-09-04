@@ -225,7 +225,7 @@
         max-width: calc(100vw - 32px);
 
         .data-row {
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
             padding: 4px 8px;
             flex: 1;
             margin: 2px;

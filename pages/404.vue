@@ -15,8 +15,8 @@
         min-height: 100%;
         padding-top: 56px;
         box-sizing: border-box;
-        color: var(--content-txt-color);
-        background-color: var(--content-bg-color);
+        color: var(--content1-color);
+        background-color: var(--bg2-color);
 
         div {
             margin: 32px;

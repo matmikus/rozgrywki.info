@@ -18,7 +18,7 @@
         min-height: 100%;
         padding-top: 56px;
         box-sizing: border-box;
-        background-color: var(--content-bg-color);
+        background-color: var(--bg2-color);
         display: flex;
         flex-direction: column;
         align-items: center;

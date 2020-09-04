@@ -139,7 +139,7 @@
 
         .error {
             text-align: center;
-            color: var(--content-txt-color);
+            color: var(--content1-color);
             padding-top: 32px;
         }
 
@@ -175,7 +175,7 @@
         }
 
         .section-heading, .section-content {
-            color: var(--content-txt-color);
+            color: var(--content1-color);
         }
 
         .section-heading {

@@ -413,7 +413,7 @@
 
         .container-icon {
             opacity: 0.6;
-            fill: var(--content-txt-color);
+            fill: var(--content1-color);
             width: 18px;
             height: 18px;
         }
@@ -445,12 +445,12 @@
 
         .data-row th {
             padding: 0 8px;
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
         }
 
         .data-row td {
             padding: 4px 8px;
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
         }
 
         .data-row th:first-child, .data-row td:first-child {
@@ -509,7 +509,7 @@
 
         .cup-container {
             display: inline-flex;
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
             white-space: nowrap;
             border-radius: $data-row-border-radius;
         }
@@ -540,7 +540,7 @@
 
         .cup-game-connector {
             display: flex;
-            background-color: var(--content-bg-color);
+            background-color: var(--bg2-color);
             width: 5px;
             height: 50%;
         }
@@ -560,7 +560,7 @@
         }
 
         .cup-competitor-line {
-            background-color: var(--content-bg-color);
+            background-color: var(--bg2-color);
             height: 5px;
             width: 100%;
         }

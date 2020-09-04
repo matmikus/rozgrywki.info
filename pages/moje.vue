@@ -156,7 +156,7 @@
 
         .error {
             text-align: center;
-            color: var(--content-txt-color);
+            color: var(--content1-color);
             padding-top: 32px;
         }
 
@@ -175,7 +175,7 @@
         }
 
         .section-heading, .section-content {
-            color: var(--content-txt-color);
+            color: var(--content1-color);
         }
 
         .section-heading {
@@ -215,7 +215,7 @@
             font-weight: 300;
             font-size: 80%;
             text-align: left;
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
         }
 
         .data-row th > * {
@@ -225,7 +225,7 @@
         .data-row td {
             padding: 8px 16px;
             text-align: left;
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
         }
 
         .data-row th:first-child, .data-row td:first-child {

@@ -11,7 +11,7 @@ body {
     font-size: 16px;
     height: 100%;
     width: 100%;
-    background-color: var(--content-bg-color);
+    background-color: var(--bg2-color);
 }
 
 #__nuxt, #__layout, .layout-container {
@@ -24,7 +24,7 @@ body {
 }
 
 * {
-    transition: background-color 250ms ease-in-out;
+    transition: background-color 250ms ease-in-out, box-shadow 250ms ease-in-out;
 }
 
 .tooltip {

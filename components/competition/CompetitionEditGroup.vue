@@ -85,7 +85,7 @@
 <style lang="scss">
     #edit-group-container {
         .data-row {
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
             padding: 4px 8px;
             flex: 1;
             margin: 2px;
@@ -119,7 +119,7 @@
         .draggable-item {
             width: auto;
             cursor: move;
-            background-color: var(--content-bg-color);
+            background-color: var(--bg2-color);
             margin: 2px 0;
             padding: 4px 8px;
             display: flex;
@@ -134,7 +134,7 @@
 
         .item-icon {
             margin: 4px 0 4px 12px;
-            fill: var(--content-txt-color);
+            fill: var(--content1-color);
             width: 18px;
             height: 18px;
         }

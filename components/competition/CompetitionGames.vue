@@ -86,7 +86,7 @@
 
         .container-icon {
             opacity: 0.6;
-            fill: var(--content-txt-color);
+            fill: var(--content1-color);
             width: 18px;
             height: 18px;
         }
@@ -131,11 +131,11 @@
         .data-row {
             padding: 4px 8px;
             white-space: nowrap;
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
         }
 
         .data-row td {
-            background-color: var(--content-row-bg-color);
+            background-color: var(--bg1-color);
         }
 
         .data-row td:first-child {
