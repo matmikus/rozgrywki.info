@@ -24,7 +24,7 @@
         },
         methods: {
             changeValue (event: any) {
-                this.selected = parseInt(event.target.options[event.target.options.selectedIndex].value);
+                this.selected = parseInt(event.target.options[event.target.options.selectedIndex].value, 10);
             }
         }
     };

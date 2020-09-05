@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="introduction-bottom-triangle"></div>
-        <div class="content-card content-card-types">
+        <div class="content-card content-card--types">
             <div class="heading">Rodzaje rozgrywek</div>
             <div class="types">
                 <div class="type-container">
@@ -44,15 +44,19 @@
                     <div class="type-icon-container">
                         <volleyball-icon></volleyball-icon>
                     </div>
-                    <div class="type-name">Puchar podwójnej eliminacji</div>
-                    <div class="type-description">(sytem brazylijski)</div>
+                    <div>
+                        <div class="type-name">Puchar podwójnej eliminacji</div>
+                        <div class="type-description">(sytem brazylijski)</div>
+                    </div>
                 </div>
                 <div class="type-container">
                     <div class="type-icon-container">
                         <complex-icon></complex-icon>
                     </div>
-                    <div class="type-name">Mieszane</div>
-                    <div class="type-description">(etapy składające się z poprzednich rodzajów)
+                    <div>
+                        <div class="type-name">Mieszane</div>
+                        <div class="type-description">(etapy składające się z poprzednich rodzajów)
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,7 +85,7 @@
                 <third-illustration class="illustration illustration--right"></third-illustration>
             </div>
         </div>
-        <div class="content-card">
+        <div class="content-card content-card--contact">
             <div class="card-illustration-container">
                 <fourth-illustration class="illustration illustration--left"></fourth-illustration>
             </div>
@@ -96,14 +100,14 @@
                 formatach zawodów
             </div>
             <div class="buttons-container">
-                <nuxt-link to="/puchar-soltysa">
-                    <div class="button">Puchar</div>
+                <nuxt-link to="/puchar-soltysa" class="button">
+                    Puchar
                 </nuxt-link>
-                <nuxt-link to="/liga-trojek">
-                    <div class="button">Liga</div>
+                <nuxt-link to="/liga-trojek" class="button">
+                    Liga
                 </nuxt-link>
-                <nuxt-link to="/mistrzostwa-wszechswiata">
-                    <div class="button">Mieszane</div>
+                <nuxt-link to="/mistrzostwa-wszechswiata" class="button">
+                    Mieszane
                 </nuxt-link>
             </div>
         </div>
@@ -153,6 +157,8 @@
         .content-card {
             display: flex;
             padding: 0 16vw 128px 16vw;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .content-card--introduction {
@@ -163,10 +169,8 @@
             padding-top: 128px;
         }
 
-        .content-card-types {
+        .content-card--types {
             flex-direction: column;
-            width: 100%;
-            box-sizing: border-box;
             margin-top: 40px;
         }
 
@@ -217,7 +221,7 @@
         .introduction-bottom-triangle {
             width: 100%;
             height: 128px;
-            background-image: linear-gradient(to bottom right, #474A51 0%, #474A51 50%, #373740 50%, #373740 100%);
+            background-image: linear-gradient(to bottom right, $dark-bg1-color 0%, $dark-bg1-color 50%, $dark-bg2-color 50%, $dark-bg2-color 100%);
             position: relative;
             z-index: 1;
         }
@@ -229,7 +233,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background-image: linear-gradient(to bottom right, #FFFFFF 0%, #FFFFFF 50%, #F2F3F5 50%, #F2F3F5 100%);
+            background-image: linear-gradient(to bottom right, $light-bg1-color 0%, $light-bg1-color 50%, $light-bg2-color 50%, $light-bg2-color 100%);
             z-index: -1;
             transition: opacity 250ms ease-in-out;
             opacity: 0;
@@ -260,6 +264,7 @@
         .card-content-container {
             flex: 1;
             align-self: center;
+            z-index: 2;
         }
 
         ul {
@@ -272,7 +277,7 @@
         }
 
         .heading {
-            margin-bottom: 8px;
+            margin-bottom: 32px;
             font-size: 163%;
             font-weight: 500;
             line-height: 30px;
@@ -304,6 +309,7 @@
 
         .section {
             list-style-type: disc;
+            margin-left: -24px;
         }
 
         .section > li {
@@ -325,7 +331,7 @@
         .button {
             border-radius: 4px;
             padding: 0 16px;
-            margin: 8px 16px 0 0;
+            margin: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -349,23 +355,81 @@
             }
         }
 
-        /*@media all and (max-width: 700px) {*/
-        /*.content-card {*/
-        /*flex-direction: column !important;*/
-        /*}*/
+        @media all and (max-width: 800px) {
+            .content-card {
+                padding: 0 16px 64px 16px;
+            }
 
-        /*.illustration {*/
-        /*max-height: 50vh;*/
-        /*max-width: 70vw;*/
-        /*margin-bottom: 16px;*/
-        /*}*/
+            .content-card--introduction {
+                padding: 48px 16px 0 16px;
+            }
 
-        /*.card-illustration-container {*/
-        /*display: flex;*/
-        /*justify-content: center;*/
-        /*align-self: unset;*/
-        /*}*/
-        /*}*/
+            .content-card--types {
+                margin-top: 0;
+            }
+
+            .introduction-bottom-triangle {
+                top: -32px;
+            }
+        }
+
+        @media all and (max-width: 666px) {
+            .content-card {
+                flex-direction: column;
+            }
+
+            .content-card--contact {
+                flex-direction: column-reverse;
+            }
+
+            .illustration {
+                width: 60vw;
+            }
+
+            .type-icon-container {
+                margin-top: 32px;
+                width: 48px;
+                height: 48px;
+            }
+
+            .heading, .heading--introduction, .heading--examples {
+                font-size: 140%;
+            }
+
+            .buttons-container {
+                margin-top: 16px;
+            }
+        }
+
+        @media all and (max-width: 500px) {
+            .types {
+                flex-direction: column;
+            }
+
+            .type-icon-container {
+                margin: 0;
+                width: 80px;
+                height: 80px;
+                display: table;
+            }
+
+            .type-container {
+                flex-direction: row;
+                margin-top: 32px;
+                margin-left: 24px;
+            }
+
+            .type-name, .type-description {
+                text-align: left;
+                padding-left: 32px;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 0;
+            }
+        }
     }
 
     .light-mode {

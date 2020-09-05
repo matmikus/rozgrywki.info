@@ -140,23 +140,23 @@
                 competitionCompetitorNameValidatorFunc: competitionCompetitorNameValidator,
                 competitionTypes: [
                     {
-                        value: COMPETITION_TYPE_VALUES['cupSingle'],
+                        value: COMPETITION_TYPE_VALUES.cupSingle,
                         text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.single
                     },
                     {
-                        value: COMPETITION_TYPE_VALUES['cupDouble'],
+                        value: COMPETITION_TYPE_VALUES.cupDouble,
                         text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.double
                     },
                     {
-                        value: COMPETITION_TYPE_VALUES['groupSingle'],
+                        value: COMPETITION_TYPE_VALUES.groupSingle,
                         text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.single
                     },
                     {
-                        value: COMPETITION_TYPE_VALUES['groupDouble'],
+                        value: COMPETITION_TYPE_VALUES.groupDouble,
                         text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.double
                     },
                     {
-                        value: COMPETITION_TYPE_VALUES['mixed'],
+                        value: COMPETITION_TYPE_VALUES.mixed,
                         text: 'mieszane',
                         disabled: true
                     },
@@ -204,16 +204,18 @@
             },
             getCompetitionTypeValue (competitionData: any) {
                 if (competitionData.stages.length > 1) {
-                    return COMPETITION_TYPE_VALUES['mixed'];
+                    return COMPETITION_TYPE_VALUES.mixed;
                 }
 
                 if (competitionData.stages[0].containers[0].type === 'group') {
-                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES['groupDouble'] : COMPETITION_TYPE_VALUES['groupSingle'];
+                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES.groupDouble : COMPETITION_TYPE_VALUES.groupSingle;
                 }
 
                 if (competitionData.stages[0].containers[0].type === 'cup') {
-                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES['cupDouble'] : COMPETITION_TYPE_VALUES['cupSingle'];
+                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES.cupDouble : COMPETITION_TYPE_VALUES.cupSingle;
                 }
+
+                return '';
             }
         }
     };

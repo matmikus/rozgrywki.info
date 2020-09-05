@@ -78,7 +78,7 @@
                     { property: 'rankGamesAmountOrder', name: 'Liczba rozegranych meczy' },
                     { property: 'rankDirectGameOrder', name: 'Bezpośredni mecz' }
                 ]
-            }
+            };
         }
     };
 </script>
