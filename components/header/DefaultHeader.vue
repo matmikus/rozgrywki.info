@@ -55,7 +55,7 @@
                 if (this.$refs.accountMenuRef.visibility) {
                     this.$refs.accountMenuRef.close();
                 } else {
-                    this.$refs.accountMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.accountMenuRef.show(document.body.clientWidth - targetPositions.right, 56);
                 }
             },
             onShareButtonClick (event: any) {
@@ -64,7 +64,7 @@
                 if (this.$refs.shareMenuRef.visibility) {
                     this.$refs.shareMenuRef.close();
                 } else {
-                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, 56);
                 }
             },
             onLogoClick () {

@@ -14,6 +14,9 @@
     --content-divider-color: rgba(151, 151, 151, 0.254589);
     --header-shadow-color: #242427;
     --cup-line-color: #373740;
+    --menu-color: #E6E8EC;
+    --menu-bg-color: #606470;
+    --menu-hover-color: rgba(207, 208, 210, 0.187992);
 }
 
 .light-mode {
@@ -32,6 +35,9 @@
     --content-divider-color: rgba(151, 151, 151, 0.254589);
     --header-shadow-color: rgba(0, 0, 0, 0.0993772);
     --cup-line-color: #cacaca;
+    --menu-color: #282828;
+    --menu-bg-color: #fafafa;
+    --menu-hover-color: rgba(207, 208, 210, 0.187992);
 }
 
 $dark-bg1-color: #474A51;

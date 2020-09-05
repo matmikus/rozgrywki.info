@@ -17,7 +17,7 @@
                         Brak rozgrywek
                     </div>
                     <table v-else class="data-table" cellspacing="0">
-                        <tr class="data-row">
+                        <tr>
                             <th></th>
                             <th><span>Nazwa</span></th>
                             <th><span>Utworzone</span></th>
@@ -198,42 +198,62 @@
 
         .data-table {
             border-collapse: separate;
-            border-spacing: 0 2px;
-            margin-bottom: 16px;
-            margin-top: 16px;
+            border-radius: $data-row-border-radius;
+            padding-top: 24px;
+            padding-bottom: 24px;
         }
 
         .data-row {
-            padding: 4px 8px;
             white-space: nowrap;
         }
 
-        .data-row th {
-            padding: 0 16px;
-            font-weight: 300;
-            font-size: 80%;
-            text-align: left;
+        .data-row > td {
             background-color: var(--bg1-color);
-        }
-
-        .data-row th > * {
-            opacity: 0.5;
-        }
-
-        .data-row td {
             padding: 8px 16px;
-            text-align: left;
-            background-color: var(--bg1-color);
         }
 
-        .data-row th:first-child, .data-row td:first-child {
+        .data-row:not(:last-child) > td {
+            border-bottom: 1px solid var(--content-divider-color);
+        }
+
+        .data-row:nth-child(2) > td:first-child {
             border-top-left-radius: $data-row-border-radius;
+        }
+
+        .data-row:nth-child(2) > td:last-child {
+            border-top-right-radius: $data-row-border-radius;
+        }
+
+        .data-row:last-child > td:first-child {
             border-bottom-left-radius: $data-row-border-radius;
         }
 
-        .data-row th:last-child, .data-row td:last-child {
-            border-top-right-radius: $data-row-border-radius;
+        .data-row:last-child > td:last-child {
             border-bottom-right-radius: $data-row-border-radius;
+        }
+
+        .data-table > tr > th {
+            text-align: center;
+            font-size: 88%;
+            line-height: 16px;
+            font-weight: 200;
+            padding: 8px 18px;
+            color: var(--content5-color);
+        }
+
+        .data-row > td {
+            text-align: center;
+            padding: 16px 18px;
+        }
+
+        .data-row > td:first-child {
+            font-weight: 600;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .data-row > td.rank-competitor {
+            text-align: left;
         }
 
         .data-row .index {
@@ -250,7 +270,7 @@
             max-width: 100vw;
 
             .data-table {
-                margin-top: 8px;
+                padding-top: 8px;
             }
 
             .section-content {

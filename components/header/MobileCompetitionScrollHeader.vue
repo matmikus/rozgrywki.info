@@ -31,7 +31,7 @@
                 if (this.$refs.shareMenuRef.visibility) {
                     this.$refs.shareMenuRef.close();
                 } else {
-                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, 56);
                 }
             }
         }
