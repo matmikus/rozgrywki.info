@@ -3,11 +3,7 @@
         <div v-for="stage in competition.stages" :key="stage.id" class="stage">
             <div v-for="container in stage.containers" :key="container.id" class="container">
                 <div class="container-name" v-show="container.name">
-                    <span>
-                        <component :is="container.type === 'cup' ? 'cupIcon' : 'rankingIcon'"
-                                   class="container-icon"></component>
-                        <span class="container-name-text">{{ container.name }}</span>
-                    </span>
+                    <span class="container-name-text">{{ container.name }}</span>
                 </div>
                 <template v-if="container.type === 'cup'">
                     <div v-html="getCupHtmlVisualization(container)">
@@ -15,47 +11,35 @@
                 </template>
                 <template v-if="container.type === 'group'">
                     <table class="data-table" cellspacing="0">
-                        <tr class="data-row">
+                        <tr>
                             <th class="rank-th rank-number-th"><span>Miejsce</span></th>
                             <th class="rank-th rank-competitor-th"><span>Drużyna</span></th>
-                            <th class="rank-th rank-games-th"><span>Mecze</span></th>
-                            <th class="rank-th rank-points-th"><span>Punkty</span></th>
-                            <th class="rank-th rank-points-th"><span>Bilans meczy</span></th>
-                            <th class="rank-th rank-points-th"><span>Bilans wyników</span></th>
+                            <th class="rank-th"><span>Mecze</span></th>
+                            <th class="rank-th"><span>Punkty</span></th>
+                            <th class="rank-th"><span>Bilans meczy</span></th>
+                            <th class="rank-th"><span>Bilans wyników</span></th>
                         </tr>
                         <tr v-for="competitor in container.ranking"
                             :key="competitor.id"
                             class="data-row">
                             <td>
-                                <div class="rank-number">
-                                    {{ competitor.rank }}
-                                </div>
+                                {{ competitor.rank }}.
+                            </td>
+                            <td class="rank-competitor">
+                                {{ competitor.name }}
                             </td>
                             <td>
-                                <div class="rank-competitor">
-                                    {{ competitor.name }}
-                                </div>
+                                {{ competitor.games }}
                             </td>
                             <td>
-                                <div class="rank-games">
-                                    {{ competitor.games }}
-                                </div>
+                                {{ competitor.points }}
                             </td>
                             <td>
-                                <div class="rank-points">
-                                    {{ competitor.points }}
-                                </div>
+                                {{ competitor.wins + '-' + (container.isDrawEnabled ?
+                                competitor.draws + '-' : '') + competitor.losts }}
                             </td>
                             <td>
-                                <div class="rank-points">
-                                    {{ competitor.wins + '-' + (container.isDrawEnabled ?
-                                    competitor.draws + '-' : '') + competitor.losts }}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="rank-points">
-                                    {{ competitor.results.wins }}:{{ competitor.results.losts }}
-                                </div>
+                                {{ competitor.results.wins }}:{{ competitor.results.losts }}
                             </td>
                         </tr>
                     </table>
@@ -257,8 +241,8 @@
                                          </div>
                                      </div>
                                      <div class="cup-game-connector-container">
-                                         <div class="cup-game-connector">&nbsp;</div>
-                                         <div class="cup-result">${this.getCupResult(competition.games[gameCounter], competition.isDouble ? competition.games[gameCounter + 1] : {})}</div>
+                                         <div class="cup-game-connector">&nbsp;&nbsp;</div>
+                                         <div class="cup-result">${this.getCupResult(competition.games[gameCounter], competition.isDouble ? competition.games[gameCounter + 1] : {})}<span class="cup-game-number">#${gameCounter+1}</span></div>
                                      </div>
                                  </div>`;
 
@@ -404,107 +388,90 @@
         overflow-x: hidden;
 
         .container-name {
-            opacity: 0.5;
-            padding-left: 8px;
-            padding-bottom: 4px;
-            font-weight: bolder;
+            padding-bottom: 8px;
+            padding-left: 4px;
+            font-weight: 500;
             height: 24px;
+            line-height: 19px;
+            color: var(--content1-color);
+            text-transform: uppercase;
         }
 
-        .container-icon {
-            opacity: 0.6;
-            fill: var(--content1-color);
-            width: 18px;
-            height: 18px;
-        }
-
-        .container-name > span {
+        .container-name-text {
             position: absolute;
             display: flex;
             align-items: center;
         }
 
-        .container-name-text {
-            padding-left: 8px;
-            padding-top: 2px;
-        }
-
         .container:not(:last-child), .stage:not(:last-child) {
-            margin-bottom: 12px;
+            margin-bottom: 32px;
         }
 
         .data-table {
             border-collapse: separate;
-            border-spacing: 0 2px;
+            border-radius: $data-row-border-radius;
         }
 
         .data-row {
-            padding: 4px 8px;
             white-space: nowrap;
         }
 
-        .data-row th {
-            padding: 0 8px;
+        .data-row > td {
             background-color: var(--bg1-color);
         }
 
-        .data-row td {
-            padding: 4px 8px;
-            background-color: var(--bg1-color);
+        .data-row:not(:last-child) > td {
+            border-bottom: 1px solid var(--content-divider-color);
         }
 
-        .data-row th:first-child, .data-row td:first-child {
+        .data-row:nth-child(2) > td:first-child {
             border-top-left-radius: $data-row-border-radius;
+        }
+
+        .data-row:nth-child(2) > td:last-child {
+            border-top-right-radius: $data-row-border-radius;
+        }
+
+        .data-row:last-child > td:first-child {
             border-bottom-left-radius: $data-row-border-radius;
         }
 
-        .data-row th:last-child, .data-row td:last-child {
-            border-top-right-radius: $data-row-border-radius;
+        .data-row:last-child > td:last-child {
             border-bottom-right-radius: $data-row-border-radius;
         }
 
         .rank-th {
-            font-weight: 300;
-            font-size: 80%;
-        }
-
-        .rank-th span {
-            opacity: 0.5;
+            text-align: center;
+            font-size: 88%;
+            line-height: 16px;
+            font-weight: 200;
+            padding: 8px 18px;
+            color: var(--content5-color);
         }
 
         .rank-number-th {
             text-align: left;
+            padding-left: 2px;
+            padding-right: 2px;
         }
 
         .rank-competitor-th {
             text-align: left;
         }
 
-        .rank-games-th {
+        .data-row > td {
             text-align: center;
+            padding: 16px 18px;
         }
 
-        .rank-points-th {
-            text-align: center;
+        .data-row > td:first-child {
+            font-weight: 600;
+            padding-left: 2px;
+            padding-right: 2px;
         }
 
-        .rank-number {
+        .data-row > td.rank-competitor {
             text-align: left;
-            font-family: 'Gudea';
-        }
-
-        .rank-competitor {
-            text-align: left;
-        }
-
-        .rank-games {
-            text-align: center;
-            font-family: 'Gudea';
-        }
-
-        .rank-points {
-            text-align: center;
-            font-family: 'Gudea';
         }
 
         .cup-container {
@@ -512,6 +479,7 @@
             background-color: var(--bg1-color);
             white-space: nowrap;
             border-radius: $data-row-border-radius;
+            padding: 16px;
         }
 
         .cup-round {
@@ -540,7 +508,7 @@
 
         .cup-game-connector {
             display: flex;
-            background-color: var(--bg2-color);
+            background-color: var(--cup-line-color);
             width: 5px;
             height: 50%;
         }
@@ -560,7 +528,7 @@
         }
 
         .cup-competitor-line {
-            background-color: var(--bg2-color);
+            background-color: var(--cup-line-color);
             height: 5px;
             width: 100%;
         }
@@ -575,6 +543,14 @@
             padding-right: 4px;
             direction: ltr;
             font-family: 'Gudea';
+        }
+
+        .cup-game-number {
+            font-weight: 500;
+            font-family: 'Roboto';
+            opacity: 0.4;
+            padding-right: 4px;
+            padding-left: 8px;
         }
 
         @media (max-width: 1000px) {

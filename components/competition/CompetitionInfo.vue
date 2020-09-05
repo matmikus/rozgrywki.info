@@ -225,18 +225,21 @@
     #competition-info-container {
         display: inline-block;
         max-width: calc(100vw - 32px);
+        background-color: var(--bg1-color);
+        border-radius: $data-row-border-radius;
 
         .data-row {
-            background-color: var(--bg1-color);
-            padding: 4px 8px;
+            margin: 16px 24px;
             flex: 1;
-            margin: 2px;
-            border-radius: $data-row-border-radius;
+            color: var(--content2-color);
         }
 
         .data-row__label {
             opacity: 0.5;
             font-size: 80%;
+            line-height: 1;
+            margin-bottom: 6px;
+            color: var(--content1-color);
         }
 
         .inline-container {
@@ -244,13 +247,13 @@
             flex-direction: row;
             flex-wrap: wrap;
             padding: 0 1px;
-            margin-top: -1px;
+            margin-top: -16px;
             margin-bottom: 1px;
         }
 
         .inline-container > * {
             flex: 1 1 auto;
-            margin: 1px;
+            margin: 16px 24px;
         }
 
         .data-row-competition-type {

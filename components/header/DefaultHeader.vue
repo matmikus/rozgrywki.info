@@ -81,7 +81,7 @@
         display: flex;
         align-items: center;
         height: 56px;
-        background-color: var(--bar-bg-color);
+        background-color: var(--bar1-bg-color);
         box-shadow: 0 2px 2px var(--header-shadow-color);
         z-index: 100;
 

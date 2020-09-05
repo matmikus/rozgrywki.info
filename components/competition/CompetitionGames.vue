@@ -3,44 +3,25 @@
         <div v-for="stage in competition.stages" :key="stage.id" class="stage">
             <div v-for="container in stage.containers" :key="container.id" class="container">
                 <div class="container-name" v-show="container.name">
-                    <span>
-                        <component :is="container.type === 'cup' ? 'cupIcon' : 'rankingIcon'"
-                                   class="container-icon"></component>
-                        <span class="container-name-text">{{ container.name }}</span>
-                    </span>
+                    <span>{{ container.name }}</span>
                 </div>
                 <div class="container-games">
                     <table class="data-table" cellspacing="0">
                         <tr v-for="game in container.games" :key="game.id" class="data-row">
-                            <td class="game-number-cell">
-                                <div class="game-number">
-                                    #{{ game.number }}
+                            <td class="game-number">#{{ game.number }}</td>
+                            <td class="game-competitors">{{ `${getCompetitorName(game.aCompetitor)} - ${getCompetitorName(game.bCompetitor)}` }}</td>
+                            <td>
+                                <div class="game-result" v-if="game.aResult != null && game.bResult != null">
+                                    {{ `${game.aResult}:${game.bResult}` }}
                                 </div>
                             </td>
                             <td>
-                                <div class="game-competitors">
-                                    <div v-html="getCompetitorName(game.aCompetitor)"></div>
-                                    <div v-html="getCompetitorName(game.bCompetitor)"></div>
-                                </div>
+                                <div class="game-date" v-if="game.date">{{ game.date }}</div>
                             </td>
                             <td>
-                                <div class="game-score"
-                                     v-if="game.aResult != null && game.bResult != null">{{
-                                    `${game.aResult}:${game.bResult}` }}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="game-details"
-                                     v-if="game.date || (game.aResult != null && game.bResult != null && game.details)">
-                                    <div class="score-details" :style="{ height: game.aResult != null && game.bResult != null && game.details ? '100%' : '0' }">
-                                        {{ game.aResult != null && game.bResult != null &&
-                                        game.details ?
-                                        `${game.aResult}:${game.bResult}` : '' }}
-                                        {{ game.details ? ` (${game.details})` : '' }}
-                                    </div>
-                                    <div class="game-date" :style="{ height: game.date ? '100%' : '0' }">
-                                        {{ game.date || '' }}
-                                    </div>
+                                <div class="game-details" v-if="game.aResult != null && game.bResult != null && game.details">
+                                    {{ `${game.aResult}:${game.bResult}` }}
+                                    {{ game.details ? ` (${game.details})` : '' }}
                                 </div>
                             </td>
                         </tr>
@@ -52,12 +33,8 @@
 </template>
 
 <script lang="ts">
-    import cupIcon from '@/assets/icons/graph.svg';
-    import rankingIcon from '@/assets/icons/format_list_numbered.svg';
-
     export default {
         props: ['mode'],
-        components: { cupIcon, rankingIcon },
         computed: {
             competition () {
                 return this.$store.state.competition;
@@ -65,7 +42,7 @@
         },
         methods: {
             getCompetitorName (competitorObj: { name: String } | null) {
-                return (competitorObj && competitorObj.name) || '&nbsp;';
+                return (competitorObj && competitorObj.name) || '?';
             }
         }
     };
@@ -77,107 +54,70 @@
         overflow-x: hidden;
 
         .container-name {
-            opacity: 0.5;
-            padding-left: 8px;
-            padding-bottom: 4px;
-            font-weight: bolder;
+            padding-bottom: 8px;
+            padding-left: 4px;
+            font-weight: 500;
             height: 24px;
+            line-height: 19px;
+            color: var(--content1-color);
+            text-transform: uppercase;
         }
 
-        .container-icon {
-            opacity: 0.6;
-            fill: var(--content1-color);
-            width: 18px;
-            height: 18px;
-        }
-
-        .container-name > span {
+        .container-name-text {
             position: absolute;
             display: flex;
             align-items: center;
         }
 
-        .container-name-text {
-            padding-left: 8px;
-            padding-top: 2px;
-        }
-
         .container:not(:last-child), .stage:not(:last-child) {
-            margin-bottom: 12px;
-        }
-
-        .game-number-cell {
-            vertical-align: top;
-        }
-
-        .game-number {
-            opacity: 0.5;
-            padding: 2px 12px 4px 4px;
-            font-family: 'Gudea';
-        }
-
-        .game-score {
-            padding: 0 16px;
-            font-family: 'Gudea';
-            font-weight: bold;
-            font-size: 110%;
+            margin-bottom: 32px;
         }
 
         .data-table {
             border-collapse: separate;
-            border-spacing: 0 2px;
+            background-color: var(--bg1-color);
+            border-radius: $data-row-border-radius;
         }
 
         .data-row {
-            padding: 4px 8px;
             white-space: nowrap;
-            background-color: var(--bg1-color);
         }
 
-        .data-row td {
-            background-color: var(--bg1-color);
+        .data-row:not(:last-child) > td {
+            border-bottom: 1px solid var(--content-divider-color);
         }
 
-        .data-row td:first-child {
-            border-top-left-radius: $data-row-border-radius;
-            border-bottom-left-radius: $data-row-border-radius;
-        }
-
-        .data-row td:last-child {
-            border-top-right-radius: $data-row-border-radius;
-            border-bottom-right-radius: $data-row-border-radius;
-        }
-
-        .game-date {
-            opacity: 0.5;
-            font-size: 90%;
-            line-height: 1.3;
-            text-align: left;
-            padding-right: 8px;
-            display: flex;
-            align-items: center;
-        }
-
-        .score-details {
-            opacity: 0.5;
-            text-align: left;
-            padding-right: 8px;
-            display: flex;
-            align-items: center;
-            font-family: 'Gudea';
-        }
-
-        .game-details {
-            height: 50px;
-            padding-top: 2px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        .game-number {
+            padding: 16px 18px;
+            font-weight: 500;
+            line-height: 19px;
+            color: var(--content4-color);
         }
 
         .game-competitors {
-            padding-top: 2px;
+            padding: 16px 18px;
+            line-height: 19px;
+            color: var(--content1-color);
+        }
+
+        .game-result {
+            padding: 16px 18px;
+            font-weight: 500;
+            font-size: 125%;
+            line-height: 23px;
+            color: var(--content2-color);
+        }
+
+        .game-date {
+            padding: 16px 18px;
+            line-height: 19px;
+            color: var(--content1-color);
+        }
+
+        .game-details {
+            padding: 16px 18px;
+            line-height: 19px;
+            color: var(--content1-color);
         }
 
         @media (max-width: 1000px) {

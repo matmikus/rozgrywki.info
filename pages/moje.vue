@@ -148,7 +148,6 @@
         padding-bottom: 16px;
         box-sizing: border-box;
         font-weight: 300;
-        letter-spacing: 1px;
         line-height: 24px;
         position: absolute;
         display: inline-block;
@@ -182,7 +181,6 @@
             display: flex;
             align-items: center;
             font-weight: 800;
-            letter-spacing: 2px;
             font-size: 120%;
             color: var(--main-color);
             line-height: 1;

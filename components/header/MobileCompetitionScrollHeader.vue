@@ -45,7 +45,7 @@
         display: flex;
         align-items: center;
         height: 56px;
-        background-color: var(--bar-bg-color);
+        background-color: var(--bar1-bg-color);
 
         .share-button {
             height: 24px;

@@ -61,8 +61,8 @@
         border-radius: 4px;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
         background-color: #fff;
-        color: var(--bar-bg-color);
-        fill: var(--bar-bg-color);
+        color: var(--bar1-bg-color);
+        fill: var(--bar1-bg-color);
 
         .menu-label, .menu-item {
             height: 48px;

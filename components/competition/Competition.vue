@@ -133,7 +133,6 @@
         padding-bottom: 16px;
         box-sizing: border-box;
         font-weight: 300;
-        letter-spacing: 1px;
         line-height: 24px;
         position: absolute;
 
@@ -167,7 +166,9 @@
         }
 
         .section-container {
-            padding: 32px 48px;
+            padding: 54px 16px 54px 90px;
+            box-sizing: border-box;
+
         }
 
         .section-container:not(:first-child) {
@@ -182,16 +183,16 @@
             display: flex;
             align-items: center;
             font-weight: 800;
-            letter-spacing: 2px;
-            font-size: 120%;
+            font-size: 113%;
             color: var(--main-color);
             line-height: 1;
-            margin-bottom: 8px;
+            margin-bottom: 24px;
         }
 
         .section-heading-icon {
             display: inline-flex;
-            margin-right: 12px;
+            margin-right: 18px;
+            margin-left: 2px;
         }
 
         .section-heading-icon > * {
@@ -204,11 +205,11 @@
             }
 
             .section-container {
-                padding: 16px 0;
+                padding: 32px 0;
             }
 
             .section-heading {
-                margin: 0 16px 8px 16px;
+                margin: 0 16px 24px 16px;
             }
         }
     }

@@ -87,7 +87,7 @@
         display: flex;
         align-items: center;
         overflow: hidden;
-        background-color: var(--bar-bg-color);
+        background-color: var(--bar2-bg-color);
 
         .nav-item {
             height: 100%;
@@ -116,6 +116,7 @@
 
         .active-bar-container {
             position: absolute;
+            top: 8px;
             left: 0;
             bottom: 0;
             width: 33%;
@@ -125,12 +126,12 @@
         }
 
         .active-bar-container.position-2 {
-            top: 72px;
+            top: 80px;
             left: 33%;
         }
 
         .active-bar-container.position-3 {
-            top: 144px;
+            top: 152px;
             left: 67%;
         }
 
@@ -143,6 +144,8 @@
         }
 
         @media not all and (orientation: landscape) {
+            padding-top: 0;
+
             .active-bar-container {
                 top: unset !important;
             }
@@ -154,6 +157,7 @@
             width: 80px;
             height: calc(100% - 56px);
             flex-direction: column;
+            padding-top: 8px;
 
             .nav-item {
                 flex: unset;
@@ -164,7 +168,7 @@
 
             .active-bar-container {
                 position: absolute;
-                top: 0;
+                top: 8px;
                 right: 0;
                 bottom: unset;
                 left: unset !important;
