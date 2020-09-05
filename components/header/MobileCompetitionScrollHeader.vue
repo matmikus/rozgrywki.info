@@ -31,7 +31,7 @@
                 if (this.$refs.shareMenuRef.visibility) {
                     this.$refs.shareMenuRef.close();
                 } else {
-                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, 56);
                 }
             }
         }
@@ -45,7 +45,7 @@
         display: flex;
         align-items: center;
         height: 56px;
-        background-color: var(--bar-bg-color);
+        background-color: var(--bar1-bg-color);
 
         .share-button {
             height: 24px;

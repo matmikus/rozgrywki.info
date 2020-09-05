@@ -55,7 +55,7 @@
                 if (this.$refs.accountMenuRef.visibility) {
                     this.$refs.accountMenuRef.close();
                 } else {
-                    this.$refs.accountMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.accountMenuRef.show(document.body.clientWidth - targetPositions.right, 56);
                 }
             },
             onShareButtonClick (event: any) {
@@ -64,7 +64,7 @@
                 if (this.$refs.shareMenuRef.visibility) {
                     this.$refs.shareMenuRef.close();
                 } else {
-                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, targetPositions.bottom + 4);
+                    this.$refs.shareMenuRef.show(document.body.clientWidth - targetPositions.right, 56);
                 }
             },
             onLogoClick () {
@@ -81,7 +81,8 @@
         display: flex;
         align-items: center;
         height: 56px;
-        background-color: var(--bar-bg-color);
+        background-color: var(--bar1-bg-color);
+        box-shadow: 0 2px 2px var(--header-shadow-color);
         z-index: 100;
 
         .logo, .color-mode-button, .account-button, .share-button {

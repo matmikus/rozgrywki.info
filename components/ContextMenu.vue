@@ -60,11 +60,13 @@
         position: absolute;
         border-radius: 4px;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-        background-color: #fff;
-        color: var(--bar-bg-color);
-        fill: var(--bar-bg-color);
+        background-color: var(--menu-bg-color);
+        color: var(--menu-color);
+        fill: var(--menu-color);
 
         .menu-label, .menu-item {
+            min-width: 208px;
+            box-sizing: border-box;
             height: 48px;
             padding: 0 16px;
             display: flex;
@@ -74,9 +76,15 @@
             overflow: hidden;
         }
 
+        .menu-item > svg {
+            margin-right: 12px;
+            margin-left: 8px;
+        }
+
         .menu-label {
-            color: rgba(37, 39, 77, 0.5);
+            color: var(--content1-color);
             cursor: default;
+            opacity: 0.7;
         }
 
         .menu-item {
@@ -91,7 +99,7 @@
         }
 
         .menu-item:hover {
-            background-color: var(--bar-txt-color);
+            background-color: var(--menu-hover-color);
             /*color: var(--bar-txt-color);*/
             /*fill: var(--bar-txt-color);*/
         }

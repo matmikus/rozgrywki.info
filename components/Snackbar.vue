@@ -51,6 +51,7 @@
         border-radius: 4px;
         min-height: 48px;
         cursor: pointer;
+        z-index: 100;
 
         .action {
             text-transform: uppercase;

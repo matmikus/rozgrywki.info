@@ -13,14 +13,16 @@
                     MOJE ROZGRYWKI
                 </div>
                 <div class="section-content">
-                    <div v-if="myCompetitions && myCompetitions.length === 0">Brak rozgrywek</div>
+                    <div v-if="myCompetitions && myCompetitions.length === 0" class="empty-data">
+                        Brak rozgrywek
+                    </div>
                     <table v-else class="data-table" cellspacing="0">
-                        <tr class="data-row">
+                        <tr>
                             <th></th>
-                            <th>Nazwa</th>
-                            <th>Utworzone</th>
-                            <th>Ostatnia aktualizacja</th>
-                            <th>Akcje</th>
+                            <th><span>Nazwa</span></th>
+                            <th><span>Utworzone</span></th>
+                            <th><span>Ostatnia aktualizacja</span></th>
+                            <th><span>Akcje</span></th>
                         </tr>
                         <tr v-for="(competition, index) in myCompetitions"
                             :key="competition.id"
@@ -47,14 +49,18 @@
                             </td>
                             <td>
                                 <div>
-                                    <div class="button" @click="routeToCompetition(competition.routeName)">PODGLĄD</div>
-                                    <div class="button">EDYCJA</div>
+                                    <div class="button"
+                                         @click="routeToCompetition(competition.routeName)">PODGLĄD
+                                    </div>
+                                    <div class="button"
+                                         @click="routeToEdit(competition.routeName)">EDYCJA
+                                    </div>
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="button bottom-button">DODAJ NOWE</div>
+                <div class="button bottom-button" @click="routeToEdit()">DODAJ NOWE</div>
             </div>
         </div>
     </div>
@@ -99,7 +105,9 @@
             const loginGreetings = this.$cookies.get('nuxt-login-greetings');
 
             if (!loginGreetings) {
-                this.$store.dispatch('showSnackbar', { message: `Witaj ${this.$auth.user.name}!` });
+                setTimeout(() => {
+                    this.$store.dispatch('showSnackbar', { message: `Witaj ${this.$auth.user.name}!` });
+                }, 500);
                 this.$cookies.set('nuxt-login-greetings', true);
             }
         },
@@ -125,6 +133,9 @@
             },
             routeToCompetition (routeName: string) {
                 this.$router.push(`/${routeName}`);
+            },
+            routeToEdit (routeName: string = '') {
+                this.$router.push(`/edycja/${routeName}`);
             }
         }
     };
@@ -137,7 +148,6 @@
         padding-bottom: 16px;
         box-sizing: border-box;
         font-weight: 300;
-        letter-spacing: 1px;
         line-height: 24px;
         position: absolute;
         display: inline-block;
@@ -145,7 +155,7 @@
 
         .error {
             text-align: center;
-            color: var(--content-txt-color);
+            color: var(--content1-color);
             padding-top: 32px;
         }
 
@@ -164,14 +174,13 @@
         }
 
         .section-heading, .section-content {
-            color: var(--content-txt-color);
+            color: var(--content1-color);
         }
 
         .section-heading {
             display: flex;
             align-items: center;
             font-weight: 800;
-            letter-spacing: 2px;
             font-size: 120%;
             color: var(--main-color);
             line-height: 1;
@@ -189,27 +198,61 @@
 
         .data-table {
             border-collapse: separate;
-            border-spacing: 0 2px;
-            margin-bottom: 16px;
-            margin-top: 16px;
+            border-radius: $data-row-border-radius;
+            padding-top: 24px;
+            padding-bottom: 24px;
         }
 
         .data-row {
-            padding: 4px 8px;
             white-space: nowrap;
-            background-color: var(--content-row-bg-color);
         }
 
-        .data-row th {
-            padding: 0 16px;
-            font-weight: 300;
-            font-size: 80%;
-            opacity: 0.5;
-            text-align: left;
-        }
-
-        .data-row td {
+        .data-row > td {
+            background-color: var(--bg1-color);
             padding: 8px 16px;
+        }
+
+        .data-row:not(:last-child) > td {
+            border-bottom: 1px solid var(--content-divider-color);
+        }
+
+        .data-row:nth-child(2) > td:first-child {
+            border-top-left-radius: $data-row-border-radius;
+        }
+
+        .data-row:nth-child(2) > td:last-child {
+            border-top-right-radius: $data-row-border-radius;
+        }
+
+        .data-row:last-child > td:first-child {
+            border-bottom-left-radius: $data-row-border-radius;
+        }
+
+        .data-row:last-child > td:last-child {
+            border-bottom-right-radius: $data-row-border-radius;
+        }
+
+        .data-table > tr > th {
+            text-align: center;
+            font-size: 88%;
+            line-height: 16px;
+            font-weight: 200;
+            padding: 8px 18px;
+            color: var(--content5-color);
+        }
+
+        .data-row > td {
+            text-align: center;
+            padding: 16px 18px;
+        }
+
+        .data-row > td:first-child {
+            font-weight: 600;
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+
+        .data-row > td.rank-competitor {
             text-align: left;
         }
 
@@ -217,11 +260,17 @@
             opacity: 0.5;
         }
 
+        .empty-data {
+            margin-bottom: 16px;
+            margin-top: 12px;
+            padding: 4px;
+        }
+
         @media (max-width: 1000px) {
             max-width: 100vw;
 
             .data-table {
-                margin-top: 8px;
+                padding-top: 8px;
             }
 
             .section-content {
@@ -247,6 +296,10 @@
 
             .data-row td {
                 padding: 8px;
+            }
+
+            .empty-data {
+                margin-top: 8px;
             }
         }
 
