@@ -39,8 +39,8 @@
                 this.$auth.loginWith('google', { params: { prompt: 'login' } });
             },
             onLogInFacebookClick (event: any) {
-                // this.$auth.loginWith('facebook', { params: { prompt: 'login' } });
-                this.$store.dispatch('showActionDialog', { heading: 'Przepraszamy', message: 'Logowanie przez facebook chwilowo niemożliwe. Weryfikacja nowych niekomercyjnych aplikacji przez facebook została wstrzymana przez koronawirusa.<br><br>Więcej informacji: <a target="_blank" href="https://developers.facebook.com/blog/post/2020/03/24/pausing-individual-verification/">https://developers.facebook.com/blog/post/2020/03/24/pausing-individual-verification/</a>', okText: 'OK' });
+                this.$auth.loginWith('facebook', { params: { prompt: 'login' } });
+                // this.$store.dispatch('showActionDialog', { heading: 'Przepraszamy', message: 'Logowanie przez facebook chwilowo niemożliwe. Weryfikacja nowych niekomercyjnych aplikacji przez facebook została wstrzymana przez koronawirusa.<br><br>Więcej informacji: <a target="_blank" href="https://developers.facebook.com/blog/post/2020/03/24/pausing-individual-verification/">https://developers.facebook.com/blog/post/2020/03/24/pausing-individual-verification/</a>', okText: 'OK' });
                 event.stopPropagation();
             },
             onLogOutClick () {
