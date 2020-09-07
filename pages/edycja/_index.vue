@@ -51,7 +51,7 @@
         }
 
         .floating-button-text {
-            color: var(--bar-txt-active);
+            color: #fff;
             width: 0;
             overflow: hidden;
             transition: width 250ms ease-in-out;
@@ -62,7 +62,7 @@
         }
 
         .floating-button-icon {
-            fill: var(--bar-txt-active);
+            fill: #fff;
             width: 32px;
             height: 32px;
         }

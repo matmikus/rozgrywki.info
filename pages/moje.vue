@@ -248,8 +248,6 @@
 
         .data-row > td:first-child {
             font-weight: 600;
-            padding-left: 2px;
-            padding-right: 2px;
         }
 
         .data-row > td.rank-competitor {
