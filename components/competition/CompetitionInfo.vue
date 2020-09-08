@@ -87,12 +87,16 @@
 
             </div>
         </div>
+        <competition-edit-cup v-if="mode === 'edit'"></competition-edit-cup>
         <competition-edit-group v-if="mode === 'edit'"></competition-edit-group>
+        <competition-edit-competitors v-if="mode === 'edit'"></competition-edit-competitors>
     </div>
 </template>
 
 <script lang="ts">
+    import CompetitionEditCompetitors from '@/components/competition/CompetitionEditCompetitors.vue';
     import CompetitionEditGroup from '@/components/competition/CompetitionEditGroup.vue';
+    import CompetitionEditCup from '@/components/competition/CompetitionEditCup.vue';
     import EditInputText from '@/components/competition/EditInputText.vue';
     import EditDataPicker from '@/components/competition/EditDataPicker.vue';
     import EditTextarea from '@/components/competition/EditTextarea.vue';
@@ -125,7 +129,7 @@
     export default {
         props: ['mode'],
         components: {
-            EditInputText, EditDataPicker, EditTextarea, EditSelect, CompetitionEditGroup
+            EditInputText, EditDataPicker, EditTextarea, EditSelect, CompetitionEditGroup, CompetitionEditCompetitors, CompetitionEditCup
         },
         computed: {
             competition () {
@@ -229,7 +233,7 @@
         border-radius: $data-row-border-radius;
 
         .data-row {
-            margin: 16px 24px;
+            margin: 20px 24px;
             flex: 1;
             color: var(--content2-color);
         }
@@ -253,7 +257,7 @@
 
         .inline-container > * {
             flex: 1 1 auto;
-            margin: 16px 24px;
+            margin: 20px 24px;
         }
 
         .data-row-competition-type {

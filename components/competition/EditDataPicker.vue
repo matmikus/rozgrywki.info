@@ -58,6 +58,15 @@
         }
     }
 
+    .light-mode {
+        #datepicker-container {
+            input:focus {
+                border: 1px solid black;
+                padding: 7px;
+            }
+        }
+    }
+
     .dark-mode {
         input[type="date"]::-webkit-calendar-picker-indicator {
             opacity: 0.7;

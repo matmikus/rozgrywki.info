@@ -3,11 +3,16 @@
         <template v-if="prefix">
             <div class="prefix-input-container">
                 <div class="prefix">{{ prefix }}</div>
-                <input class="input prefix-input" type="text" :placeholder="placeholder" v-model="inputValue"/>
+                <input class="input prefix-input"
+                       :type="type ? type : 'text'"
+                       :placeholder="placeholder"
+                       :max="max"
+                       :min="min"
+                       v-model="inputValue"/>
             </div>
         </template>
         <template v-else>
-            <input class="input" type="text" :placeholder="placeholder" v-model="inputValue"/>
+            <input class="input" :type="type ? type : 'text'" :max="max" :min="min" :placeholder="placeholder" v-model="inputValue"/>
         </template>
         <div class="info" :has-error="error">{{ info }}</div>
     </div>
@@ -15,7 +20,7 @@
 
 <script lang="ts">
     export default {
-        props: ['placeholder', 'defaultValue', 'info', 'prefix', 'validation-func'],
+        props: ['placeholder', 'defaultValue', 'info', 'prefix', 'validation-func', 'type', 'max', 'min'],
         data () {
             return {
                 inputValue: '',
@@ -57,6 +62,8 @@
             font-size: 12px;
             padding: 0 8px;
             opacity: 0.5;
+            line-height: 1;
+            margin-top: 6px;
         }
 
         .info[has-error] {
@@ -81,6 +88,15 @@
         .prefix-input {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+        }
+    }
+
+    .light-mode {
+        #input-container {
+            .input:focus {
+                border: 1px solid black;
+                padding: 7px;
+            }
         }
     }
 </style>

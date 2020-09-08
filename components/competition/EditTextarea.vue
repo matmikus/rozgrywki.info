@@ -49,7 +49,8 @@
             font-size: 12px;
             padding: 0 8px;
             opacity: 0.5;
-            margin-top: -6px;
+            line-height: 1;
+            margin-top: 0;
         }
 
         .info[has-error] {
@@ -74,6 +75,15 @@
         .prefix-input {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+        }
+    }
+
+    .light-mode {
+        #textarea-container {
+            .textarea:focus {
+                border: 1px solid black;
+                padding: 7px;
+            }
         }
     }
 </style>

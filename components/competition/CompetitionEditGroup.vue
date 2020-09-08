@@ -6,7 +6,7 @@
                     Remis
                 </div>
                 <div class="data-row__value">
-                    X
+                    <edit-input-check id="remis" label="Możliwy"></edit-input-check>
                 </div>
             </div>
             <div class="data-row">
@@ -14,7 +14,12 @@
                     Punkty za wygraną
                 </div>
                 <div class="data-row__value">
-                    X
+                    <edit-input-text :type="'number'"
+                                     :default-value="0"
+                                     :info="'Zakres 0-100'"
+                                     :min="0"
+                                     :max="100"
+                                     :validation-func="pointsValidatorFunc"></edit-input-text>
                 </div>
             </div>
             <div class="data-row">
@@ -22,7 +27,12 @@
                     Punkty za przegraną
                 </div>
                 <div class="data-row__value">
-                    X
+                    <edit-input-text :type="'number'"
+                                     :default-value="0"
+                                     :info="'Zakres 0-100'"
+                                     :min="0"
+                                     :max="100"
+                                     :validation-func="pointsValidatorFunc"></edit-input-text>
                 </div>
             </div>
             <div class="data-row">
@@ -30,11 +40,16 @@
                     Punkty za remis
                 </div>
                 <div class="data-row__value">
-                    X
+                    <edit-input-text :type="'number'"
+                                     :default-value="0"
+                                     :info="'Zakres 0-100'"
+                                     :min="0"
+                                     :max="100"
+                                     :validation-func="pointsValidatorFunc"></edit-input-text>
                 </div>
             </div>
         </div>
-        <div class="data-row">
+        <div class="data-row small-margin-top">
             <div class="data-row__label">
                 Kolejność elementów decydujących o miejscu (przeciągnij i upuść)
             </div>
@@ -61,10 +76,15 @@
 <script lang="ts">
     import draggable from 'vuedraggable';
     import MoveIcon from '@/assets/icons/move.svg';
+    import editInputText from '@/components/competition/EditInputText.vue';
+    import editInputCheck from '@/components/competition/EditInputCheck.vue';
+    import {
+        pointsValidator
+    } from '@/scripts/competitionFormValidator';
 
     export default {
         components: {
-            draggable, MoveIcon
+            draggable, MoveIcon, editInputText, editInputCheck
         },
         data () {
             return {
@@ -77,7 +97,8 @@
                     { property: 'rankResultsRatioOrder', name: 'Stosunek wyników' },
                     { property: 'rankGamesAmountOrder', name: 'Liczba rozegranych meczy' },
                     { property: 'rankDirectGameOrder', name: 'Bezpośredni mecz' }
-                ]
+                ],
+                pointsValidatorFunc: pointsValidator
             };
         }
     };
@@ -86,7 +107,7 @@
     #edit-group-container {
         .data-row {
             background-color: var(--bg1-color);
-            padding: 4px 8px;
+            padding: 0;
             flex: 1;
             margin: 2px;
             border-radius: $data-row-border-radius;
@@ -107,8 +128,8 @@
         }
 
         .inline-container > * {
-            flex: 1 1 auto;
-            margin: 1px;
+            /*flex: 1 1 auto;*/
+            /*margin: 1px;*/
         }
 
         .draggable-container {
@@ -141,6 +162,10 @@
 
         .sortable-ghost {
             color: var(--main-color);
+        }
+
+        .small-margin-top {
+            margin-top: 8px !important;
         }
     }
 </style>

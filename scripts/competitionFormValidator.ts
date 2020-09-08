@@ -13,3 +13,15 @@ export function competitionDescriptionValidator (value: string) {
 export function competitionCompetitorNameValidator (value: string) {
     return value.length > 2 && value.length < 41;
 }
+
+export function pointsValidator (value: string) {
+    return parseInt(value, 10) >= 0 && parseInt(value, 10) <= 100;
+}
+
+export function competitorsCountValidator (value: string) {
+    return parseInt(value, 10) >= 2 && parseInt(value, 10) <= 64;
+}
+
+export function competitorNameValidator (value: string) {
+    return parseInt(value, 10) >= 3 && parseInt(value, 10) <= 40;
+}
