@@ -50,8 +50,8 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker :default-value="competition.start"
-                                          :error-text="'Niepoprawny format daty'"></edit-data-picker>
+                        <edit-date-picker :default-value="competition.start"
+                                          :error-text="'Niepoprawna data'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.start }}</template>
                 </div>
@@ -62,8 +62,8 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker :default-value="competition.end"
-                                          :error-text="'Niepoprawny format daty'"></edit-data-picker>
+                        <edit-date-picker :default-value="competition.end"
+                                          :error-text="'Niepoprawny format daty'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.end }}</template>
                 </div>
@@ -98,7 +98,7 @@
     import CompetitionEditGroup from '@/components/competition/CompetitionEditGroup.vue';
     import CompetitionEditCup from '@/components/competition/CompetitionEditCup.vue';
     import EditInputText from '@/components/competition/EditInputText.vue';
-    import EditDataPicker from '@/components/competition/EditDataPicker.vue';
+    import EditDatePicker from '@/components/competition/EditDatePicker.vue';
     import EditTextarea from '@/components/competition/EditTextarea.vue';
     import EditSelect from '@/components/competition/EditSelect.vue';
     import {
@@ -129,7 +129,7 @@
     export default {
         props: ['mode'],
         components: {
-            EditInputText, EditDataPicker, EditTextarea, EditSelect, CompetitionEditGroup, CompetitionEditCompetitors, CompetitionEditCup
+            EditInputText, EditDatePicker, EditTextarea, EditSelect, CompetitionEditGroup, CompetitionEditCompetitors, CompetitionEditCup
         },
         computed: {
             competition () {
