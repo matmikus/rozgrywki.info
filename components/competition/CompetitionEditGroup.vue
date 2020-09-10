@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <div class="data-row small-margin-top">
+        <div class="data-row">
             <div class="data-row__label">
                 Kolejność elementów decydujących o miejscu (przeciągnij i upuść)
             </div>
@@ -127,11 +127,6 @@
             margin-bottom: -1px !important;
         }
 
-        .inline-container > * {
-            /*flex: 1 1 auto;*/
-            /*margin: 1px;*/
-        }
-
         .draggable-container {
             display: flex;
             margin-bottom: 4px;
@@ -162,10 +157,6 @@
 
         .sortable-ghost {
             color: var(--main-color);
-        }
-
-        .small-margin-top {
-            margin-top: 8px !important;
         }
     }
 </style>

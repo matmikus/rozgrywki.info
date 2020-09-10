@@ -1,6 +1,6 @@
 <template>
     <div id="edit-competitors">
-        <div class="data-row">
+        <div class="data-row" style="width: 50%">
             <div class="data-row__label">
                 Ilość uczestników
             </div>

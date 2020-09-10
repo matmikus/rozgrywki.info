@@ -51,7 +51,7 @@
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
                         <edit-date-picker :default-value="competition.start"
-                                          :error-text="'Niepoprawna data'"></edit-date-picker>
+                                          :info="'dd/mm/rrrr'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.start }}</template>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
                         <edit-date-picker :default-value="competition.end"
-                                          :error-text="'Niepoprawny format daty'"></edit-date-picker>
+                                          :info="'dd/mm/rrrr'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.end }}</template>
                 </div>
@@ -257,7 +257,7 @@
 
         .inline-container > * {
             flex: 1 1 auto;
-            margin: 20px 24px;
+            margin: 20px 24px 0 24px;
         }
 
         .data-row-competition-type {

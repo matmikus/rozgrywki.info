@@ -42,7 +42,7 @@
                             <td>
                                 <template v-if="mode === 'edit'">
                                     <div class="game-date-edit">
-                                        <edit-date-picker :errorText="'Niepoprawna data'"></edit-date-picker>
+                                        <edit-date-picker :info="'dd/mm/rrrr'"></edit-date-picker>
                                     </div>
                                 </template>
                                 <template v-else>
@@ -197,6 +197,7 @@
 
         .game-date-edit {
             margin-top: -1px;
+            padding: 16px 16px 4px 16px;
         }
 
         @media (max-width: 1000px) {
