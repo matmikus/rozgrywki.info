@@ -1,7 +1,7 @@
 <template>
     <div id="competition-container">
         <div v-if="error" class="error">Nie ma takich rozgrywek :(</div>
-        <template v-else-if="competition.name">
+        <template v-else-if="competition.name !== undefined">
             <div id="info-section" class="section-container">
                 <div class="section-heading">
                     <div class="section-heading-icon">
@@ -96,6 +96,8 @@
             getCompetition (result: any) {
                 if (result.length === 1) {
                     this.$store.dispatch('setCompetition', { competition: result[0], mode: this.mode });
+                } else if (result.length === 0 && this.mode === 'edit') {
+                    this.$store.dispatch('setEmptyCompetition');
                 } else {
                     this.error = true;
                 }

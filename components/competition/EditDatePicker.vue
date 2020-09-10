@@ -2,7 +2,7 @@
     <div id="datepicker-container">
         <input type="date"
                v-model="newValue">
-        <div class="info" :has-error="error">{{ info }}</div>
+        <div class="info">{{ info }}</div>
     </div>
 </template>
 
@@ -51,11 +51,6 @@
             opacity: 0.5;
             line-height: 1;
             margin-top: 6px;
-        }
-
-        .info[has-error] {
-            color: #ff0000;
-            opacity: 1;
         }
     }
 

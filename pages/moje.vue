@@ -54,7 +54,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="button bottom-button" @click="routeToEdit()">DODAJ NOWE</div>
+                <div class="button bottom-button" @click="routeToEdit('nowe')">DODAJ NOWE</div>
             </div>
         </div>
     </div>

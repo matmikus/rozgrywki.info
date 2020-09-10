@@ -5,6 +5,7 @@ export const state = () => ({
     },
     competitionScrollingDown: false,
     competition: {},
+    competitionEditLock: {},
     competitionSummary: {
         name: '',
         iconName: ''
@@ -86,6 +87,44 @@ export const mutations = {
         }
 
         state.competition.fullRoute = `www.rozgrywki.info/${data.competition.routeName}`;
+    },
+    setEmptyCompetition (state: any) {
+        state.competition = {
+            description: '',
+            end: '',
+            name: '',
+            routeName: '',
+            stages: [{
+                    promotionCount: null,
+                    sequenceNumber: 1,
+                    containers: [{
+                        awayGoalsRule: null,
+                        drawPoints: null,
+                        games: [],
+                        isDouble: false,
+                        isDoubleEliminationCup: false,
+                        isDrawEnabled: false,
+                        loserPoints: null,
+                        name: null,
+                        onePointLoserPoints: null,
+                        onePointsWinnerPoints: null,
+                        rankDirectGameOrder: 5,
+                        rankGamesAmountOrder: 4,
+                        rankGamesRatioOrder: 2,
+                        rankPointsOrder: 1,
+                        rankResultsRatioOrder: 3,
+                        size: 2,
+                        type: undefined,
+                        winnerPoints: null
+                    }],
+                }],
+            start: '',
+            updatedAt: ''
+        };
+
+        state.competitionSummary.name = 'PODGLĄD';
+        state.competitionSummary.iconName = 'cupIcon';
+        state.competitionEditLock = false;
     },
     setContentRefs (state: any, refs: any) {
         state.infoContentEl = refs.infoContentEl;
@@ -172,6 +211,9 @@ export const actions = {
     },
     setCompetition (context: any, data: any) {
         context.commit('setCompetition', data);
+    },
+    setEmptyCompetition (context: any) {
+        context.commit('setEmptyCompetition');
     },
     setContentRefs (context: any, refs: any) {
         context.commit('setContentRefs', refs);
