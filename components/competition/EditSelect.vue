@@ -1,6 +1,6 @@
 <template>
     <div id="select-container">
-        <select @change="changeValue($event)" v-model="selected">
+        <select @change="changeValue($event)" v-model="selected" :disabled="disabled">
             <option v-for="option in options"
                     :value="option.value"
                     :key="option.value"
@@ -13,7 +13,7 @@
 
 <script lang="ts">
     export default {
-        props: ['options', 'defaultValue'],
+        props: ['options', 'defaultValue', 'disabled'],
         data () {
             return {
                 selected: undefined

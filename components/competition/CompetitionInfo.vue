@@ -29,7 +29,7 @@
                 <template v-else>{{ competition.fullRoute }}</template>
             </div>
         </div>
-        <div class="data-row">
+        <div class="data-row" style="margin-bottom: 0">
             <div class="data-row__label">
                 Opis
             </div>
@@ -76,6 +76,7 @@
                 <template v-if="mode === 'edit'">
                     <div class="data-row__value competition-type additional-bottom-space">
                         <edit-select :options="competitionTypes"
+                                     :disabled="competitionEditLock"
                                      :default-value="getCompetitionTypeValue(competition)"></edit-select>
                     </div>
                 </template>
@@ -87,8 +88,8 @@
 
             </div>
         </div>
-        <competition-edit-cup v-if="mode === 'edit'"></competition-edit-cup>
-        <competition-edit-group v-if="mode === 'edit'"></competition-edit-group>
+        <competition-edit-cup v-if="mode === 'edit' && competitionType === 'cup'"></competition-edit-cup>
+        <competition-edit-group v-if="mode === 'edit' && competitionType === 'group'"></competition-edit-group>
         <competition-edit-competitors v-if="mode === 'edit'"></competition-edit-competitors>
     </div>
 </template>
@@ -134,6 +135,12 @@
         computed: {
             competition () {
                 return this.$store.state.competition;
+            },
+            competitionType () {
+                return this.$store.state.competition.stages[0].containers[0].type;
+            },
+            competitionEditLock () {
+                return this.$store.state.competitionEditLock;
             }
         },
         data () {
@@ -231,6 +238,7 @@
         max-width: calc(100vw - 32px);
         background-color: var(--bg1-color);
         border-radius: $data-row-border-radius;
+        padding-bottom: 16px;
 
         .data-row {
             margin: 20px 24px;
@@ -251,7 +259,6 @@
             flex-direction: row;
             flex-wrap: wrap;
             padding: 0 1px;
-            margin-top: -16px;
             margin-bottom: 1px;
         }
 

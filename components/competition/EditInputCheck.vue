@@ -1,17 +1,20 @@
 <template>
     <div id="input-check-container">
-        <input type="checkbox" :id="id"/>
+        <input type="checkbox" :id="id" @change="$emit('value-changed', inputValue)" v-model="inputValue"/>
         <label :for="id">{{ label }}</label>
     </div>
 </template>
 
 <script lang="ts">
     export default {
-        props: ['id', 'label'],
+        props: ['id', 'label', 'default-value'],
         data () {
             return {
-
+                inputValue: undefined
             }
+        },
+        mounted () {
+            this.inputValue = this.defaultValue;
         }
     }
 </script>

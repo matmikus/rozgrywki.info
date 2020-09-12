@@ -5,7 +5,7 @@ export const state = () => ({
     },
     competitionScrollingDown: false,
     competition: {},
-    competitionEditLock: {},
+    competitionEditLock: true,
     competitionSummary: {
         name: '',
         iconName: ''
@@ -87,6 +87,7 @@ export const mutations = {
         }
 
         state.competition.fullRoute = `www.rozgrywki.info/${data.competition.routeName}`;
+        state.competitionEditLock = true;
     },
     setEmptyCompetition (state: any) {
         state.competition = {
@@ -107,7 +108,7 @@ export const mutations = {
                         loserPoints: null,
                         name: null,
                         onePointLoserPoints: null,
-                        onePointsWinnerPoints: null,
+                        onePointWinnerPoints: null,
                         rankDirectGameOrder: 5,
                         rankGamesAmountOrder: 4,
                         rankGamesRatioOrder: 2,
@@ -142,6 +143,35 @@ export const mutations = {
             name: '',
             iconName: ''
         };
+    },
+    setCompetitionAwayGoalsRule (state: any, value: boolean) {
+        state.competition.stages[0].containers[0].awayGoalsRule = value;
+    },
+    setCompetitionDrawEnabled (state: any, value: boolean) {
+        state.competition.stages[0].containers[0].isDrawEnabled = value;
+    },
+    setCompetitionWinnerPoints (state: any, value: number) {
+        state.competition.stages[0].containers[0].winnerPoints = value;
+    },
+    setCompetitionLoserPoints (state: any, value: number) {
+        state.competition.stages[0].containers[0].loserPoints = value;
+    },
+    setCompetitionDrawPoints (state: any, value: number) {
+        state.competition.stages[0].containers[0].drawPoints = value;
+    },
+    setCompetitionOnePointWinnerPoints (state: any, value: number) {
+        state.competition.stages[0].containers[0].onePointWinnerPoints = value;
+    },
+    setCompetitionOnePointLoserPoints (state: any, value: number) {
+        state.competition.stages[0].containers[0].onePointLoserPoints = value;
+    },
+    setCompetitionRankOrder (state: any, orderArr: any) {
+        for (const el of orderArr) {
+            state.competition.stages[0].containers[0][el.property] = orderArr.indexOf(el) + 1;
+        }
+    },
+    setCompetitionSize (state: any, size: number) {
+        state.competition.stages[0].containers[0].size = size;
     }
 };
 
@@ -217,5 +247,32 @@ export const actions = {
     },
     setContentRefs (context: any, refs: any) {
         context.commit('setContentRefs', refs);
+    },
+    setCompetitionAwayGoalsRule (context: any, value: boolean) {
+        context.commit('setCompetitionAwayGoalsRule', value);
+    },
+    setCompetitionDrawEnabled (context: any, value: boolean) {
+        context.commit('setCompetitionDrawEnabled', value);
+    },
+    setCompetitionWinnerPoints (context: any, value: number) {
+        context.commit('setCompetitionWinnerPoints', value);
+    },
+    setCompetitionLoserPoints (context: any, value: number) {
+        context.commit('setCompetitionLoserPoints', value);
+    },
+    setCompetitionDrawPoints (context: any, value: number) {
+        context.commit('setCompetitionDrawPoints', value);
+    },
+    setCompetitionOnePointWinnerPoints (context: any, value: number) {
+        context.commit('setCompetitionOnePointWinnerPoints', value);
+    },
+    setCompetitionOnePointLoserPoints (context: any, value: number) {
+        context.commit('setCompetitionOnePointLoserPoints', value);
+    },
+    setCompetitionRankOrder (context: any, orderArr: any) {
+        context.commit('setCompetitionRankOrder', orderArr);
+    },
+    setCompetitionSize (context: any, size: number) {
+        context.commit('setCompetitionSize', size);
     }
 };

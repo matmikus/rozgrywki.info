@@ -6,7 +6,10 @@
                     Remis
                 </div>
                 <div class="data-row__value">
-                    <edit-input-check id="remis" label="Możliwy"></edit-input-check>
+                    <edit-input-check id="remis"
+                                      label="Możliwy"
+                                      v-on:value-changed="onDrawEnabledChanged"
+                                      :default-value="isDrawEnabled"></edit-input-check>
                 </div>
             </div>
             <div class="data-row">
@@ -15,7 +18,8 @@
                 </div>
                 <div class="data-row__value">
                     <edit-input-text :type="'number'"
-                                     :default-value="0"
+                                     v-on:value-changed="onWinnerPointsChanged"
+                                     :default-value="winnerPoints"
                                      :info="'Zakres 0-100'"
                                      :min="0"
                                      :max="100"
@@ -28,7 +32,36 @@
                 </div>
                 <div class="data-row__value">
                     <edit-input-text :type="'number'"
-                                     :default-value="0"
+                                     v-on:value-changed="onLoserPointsChanged"
+                                     :default-value="loserPoints"
+                                     :info="'Zakres 0-100'"
+                                     :min="0"
+                                     :max="100"
+                                     :validation-func="pointsValidatorFunc"></edit-input-text>
+                </div>
+            </div>
+            <div class="data-row">
+                <div class="data-row__label">
+                    Punkty za wygraną z różnicą 1
+                </div>
+                <div class="data-row__value">
+                    <edit-input-text :type="'number'"
+                                     v-on:value-changed="onOnePointWinnerPointsChanged"
+                                     :default-value="onePointWinnerPoints"
+                                     :info="'Zakres 0-100'"
+                                     :min="0"
+                                     :max="100"
+                                     :validation-func="pointsValidatorFunc"></edit-input-text>
+                </div>
+            </div>
+            <div class="data-row">
+                <div class="data-row__label">
+                    Punkty za przegraną z różnicą 1
+                </div>
+                <div class="data-row__value">
+                    <edit-input-text :type="'number'"
+                                     v-on:value-changed="onOnePointLoserPointsChanged"
+                                     :default-value="onePointLoserPoints"
                                      :info="'Zakres 0-100'"
                                      :min="0"
                                      :max="100"
@@ -41,10 +74,12 @@
                 </div>
                 <div class="data-row__value">
                     <edit-input-text :type="'number'"
-                                     :default-value="0"
+                                     v-on:value-changed="onDrawPointsChanged"
+                                     :default-value="drawPoints"
                                      :info="'Zakres 0-100'"
                                      :min="0"
                                      :max="100"
+                                     :disabled="!isDrawEnabled"
                                      :validation-func="pointsValidatorFunc"></edit-input-text>
                 </div>
             </div>
@@ -56,6 +91,7 @@
             <div class="data-row__value">
                 <div class="draggable-container">
                     <draggable v-model="orderArray"
+                               v-on:change="onOrderChanged"
                                group="people"
                                @start="drag=true"
                                @end="drag=false">
@@ -88,18 +124,83 @@
         },
         data () {
             return {
-                orderArray: [
-                    { property: 'rankPointsOrder', name: 'Liczba punktów' },
-                    {
-                        property: 'rankGamesRatioOrder',
-                        name: 'Stosunek meczy wygranych do przegranych'
-                    },
-                    { property: 'rankResultsRatioOrder', name: 'Stosunek wyników' },
-                    { property: 'rankGamesAmountOrder', name: 'Liczba rozegranych meczy' },
-                    { property: 'rankDirectGameOrder', name: 'Bezpośredni mecz' }
-                ],
+                orderArray: [],
                 pointsValidatorFunc: pointsValidator
             };
+        },
+        computed: {
+            isDrawEnabled () {
+                return this.$store.state.competition.stages[0].containers[0].isDrawEnabled;
+            },
+            winnerPoints () {
+                return this.$store.state.competition.stages[0].containers[0].winnerPoints;
+            },
+            loserPoints () {
+                return this.$store.state.competition.stages[0].containers[0].loserPoints;
+            },
+            drawPoints () {
+                return this.$store.state.competition.stages[0].containers[0].drawPoints;
+            },
+            onePointWinnerPoints () {
+                return this.$store.state.competition.stages[0].containers[0].onePointWinnerPoints;
+            },
+            onePointLoserPoints () {
+                return this.$store.state.competition.stages[0].containers[0].onePointLoserPoints;
+            }
+        },
+        methods: {
+            onDrawEnabledChanged (value: boolean) {
+                this.$store.dispatch('setCompetitionDrawEnabled', value);
+            },
+            onWinnerPointsChanged (value: number) {
+                this.$store.dispatch('setCompetitionWinnerPoints', value);
+            },
+            onLoserPointsChanged (value: number) {
+                this.$store.dispatch('setCompetitionLoserPoints', value);
+            },
+            onDrawPointsChanged (value: number) {
+                this.$store.dispatch('setCompetitionDrawPoints', value);
+            },
+            onOnePointWinnerPointsChanged (value: number) {
+                this.$store.dispatch('setCompetitionOnePointWinnerPoints', value);
+            },
+            onOnePointLoserPointsChanged (value: number) {
+                this.$store.dispatch('setCompetitionOnePointLoserPoints', value);
+            },
+            onOrderChanged () {
+                this.$store.dispatch('setCompetitionRankOrder', this.orderArray);
+            }
+        },
+        mounted () {
+            const rankPointsOrder = this.$store.state.competition.stages[0].containers[0].rankPointsOrder;
+            const rankGamesRatioOrder = this.$store.state.competition.stages[0].containers[0].rankGamesRatioOrder;
+            const rankResultsRatioOrder = this.$store.state.competition.stages[0].containers[0].rankResultsRatioOrder;
+            const rankGamesAmountOrder = this.$store.state.competition.stages[0].containers[0].rankGamesAmountOrder;
+            const rankDirectGameOrder = this.$store.state.competition.stages[0].containers[0].rankDirectGameOrder;
+
+            let order = new Array(5);
+            order[rankPointsOrder - 1] = {
+                property: 'rankPointsOrder',
+                name: 'Liczba punktów'
+            };
+            order[rankGamesRatioOrder - 1] = {
+                property: 'rankGamesRatioOrder',
+                name: 'Stosunek meczy wygranych do przegranych'
+            };
+            order[rankResultsRatioOrder - 1] = {
+                property: 'rankResultsRatioOrder',
+                name: 'Stosunek wyników'
+            };
+            order[rankGamesAmountOrder - 1] = {
+                property: 'rankGamesAmountOrder',
+                name: 'Liczba rozegranych meczy'
+            };
+            order[rankDirectGameOrder - 1] = {
+                property: 'rankDirectGameOrder',
+                name: 'Bezpośredni mecz'
+            };
+
+            this.orderArray = order;
         }
     };
 </script>

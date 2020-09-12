@@ -1,11 +1,11 @@
 <template>
-    <div id="edit-cup">
+    <div id="edit-cup-container">
         <div class="data-row">
             <div class="data-row__label">
                 Przy równych wynikach
             </div>
             <div class="data-row__value">
-                <edit-input-check id="wyjazd-podwojnie" label="Zdobycz na wyjeździe liczy się podwójnie"></edit-input-check>
+                <edit-input-check id="wyjazd-podwojnie" label="Zdobycz na wyjeździe liczy się podwójnie" v-on:value-changed="onInputValueChanged" :default-value="awayGoalsRule"></edit-input-check>
             </div>
         </div>
     </div>
@@ -17,13 +17,22 @@
         components: {
             editInputCheck
         },
-        data () {
-            return {};
+        computed: {
+            awayGoalsRule () {
+                return this.$store.state.competition.stages[0].containers[0].awayGoalsRule;
+            }
+        },
+        methods: {
+            onInputValueChanged (value: boolean) {
+                this.$store.dispatch('setCompetitionAwayGoalsRule', value);
+            }
         }
     };
 </script>
 <style lang="scss">
-    #edit-group-container {
+    #edit-cup-container {
+        margin-top: 24px;
+
         .data-row {
             background-color: var(--bg1-color);
             padding: 0;

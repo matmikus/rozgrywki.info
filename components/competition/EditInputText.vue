@@ -4,15 +4,24 @@
             <div class="prefix-input-container">
                 <div class="prefix">{{ prefix }}</div>
                 <input class="input prefix-input"
+                       @change="$emit('value-changed', inputValue)"
                        :type="type ? type : 'text'"
                        :placeholder="placeholder"
                        :max="max"
                        :min="min"
+                       :disabled="disabled"
                        v-model="inputValue"/>
             </div>
         </template>
         <template v-else>
-            <input class="input" :type="type ? type : 'text'" :max="max" :min="min" :placeholder="placeholder" v-model="inputValue"/>
+            <input class="input"
+                   @change="$emit('value-changed', inputValue)"
+                   :type="type ? type : 'text'"
+                   :max="max"
+                   :min="min"
+                   :disabled="disabled"
+                   :placeholder="placeholder"
+                   v-model="inputValue"/>
         </template>
         <div class="info" :has-error="error">{{ info }}</div>
     </div>
@@ -20,7 +29,7 @@
 
 <script lang="ts">
     export default {
-        props: ['placeholder', 'defaultValue', 'info', 'prefix', 'validation-func', 'type', 'max', 'min'],
+        props: ['placeholder', 'defaultValue', 'info', 'prefix', 'validation-func', 'type', 'max', 'min', 'disabled'],
         data () {
             return {
                 inputValue: '',
@@ -88,6 +97,10 @@
         .prefix-input {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+        }
+
+        [disabled] {
+            opacity: 0.5;
         }
     }
 

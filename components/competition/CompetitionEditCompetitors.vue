@@ -6,10 +6,12 @@
             </div>
             <div class="data-row__value">
                 <edit-input-text :type="'number'"
-                                 :default-value="2"
                                  :info="'Zakres 2-64'"
                                  :min="2"
                                  :max="64"
+                                 v-on:value-changed="onSizeChanged"
+                                 :default-value="size"
+                                 :disabled="competitionEditLock"
                                  :validation-func="competitorsCountValidatorFunc"></edit-input-text>
             </div>
         </div>
@@ -37,10 +39,40 @@
         },
         data () {
             return {
-                competitorsList: ['', ''],
+                competitorsList: [],
                 competitorNameValidatorFunc: competitorNameValidator,
                 competitorsCountValidatorFunc: competitorsCountValidator
             };
+        },
+        computed: {
+            size () {
+                return this.$store.state.competition.stages[0].containers[0].size;
+            },
+            competitionEditLock () {
+                return this.$store.state.competitionEditLock;
+            }
+        },
+        methods: {
+            onSizeChanged (value: number) {
+                this.$store.dispatch('setCompetitionSize', value);
+            },
+            createNewCompetitiorsList (count: number) {
+                const arr = [];
+
+                for (let i = 0; i < count; i++) {
+                    arr.push('');
+                }
+
+                this.competitorsList = arr;
+            }
+        },
+        watch: {
+            size (value: number) {
+                this.createNewCompetitiorsList(value);
+            }
+        },
+        mounted () {
+            this.createNewCompetitiorsList(this.size);
         }
     };
 </script>
