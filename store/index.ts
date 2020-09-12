@@ -1,3 +1,5 @@
+import { getGroupRanking } from '@/scripts/getGroupRanking';
+
 export const state = () => ({
     bar: {
         position: 1,
@@ -89,6 +91,34 @@ export const mutations = {
         state.competition.fullRoute = `www.rozgrywki.info/${data.competition.routeName}`;
         state.competitionEditLock = true;
     },
+    setCompetitionGroupRanking (state: any) {
+        for (const stage of state.competition.stages) {
+            for (const container of stage.containers) {
+                if (container.type === 'group') {
+                    container.ranking = getGroupRanking(container);
+                }
+            }
+        }
+    },
+    setCompetitionCompetitorsFromGames (state: any) {
+        for (const stage of state.competition.stages) {
+            for (const container of stage.containers) {
+                let competitors: any = [];
+
+                for (const game of container.games) {
+                    if (competitors.find((el: any) => el.id === game.aCompetitor.id) === undefined) {
+                        competitors.push({ id: game.aCompetitor.id, name: game.aCompetitor.name });
+                    }
+
+                    if (competitors.find((el: any) => el.id === game.bCompetitor.id) === undefined) {
+                        competitors.push({ id: game.bCompetitor.id, name: game.bCompetitor.name });
+                    }
+                }
+
+                container.competitors = competitors.sort((a: any, b: any) => a.id - b.id);
+            }
+        }
+    },
     setEmptyCompetition (state: any) {
         state.competition = {
             description: '',
@@ -100,6 +130,7 @@ export const mutations = {
                     sequenceNumber: 1,
                     containers: [{
                         awayGoalsRule: null,
+                        competitors: [{ name: '' }, { name: '' }],
                         drawPoints: null,
                         games: [],
                         isDouble: false,
@@ -241,6 +272,8 @@ export const actions = {
     },
     setCompetition (context: any, data: any) {
         context.commit('setCompetition', data);
+        context.commit('setCompetitionGroupRanking');
+        context.commit('setCompetitionCompetitorsFromGames');
     },
     setEmptyCompetition (context: any) {
         context.commit('setEmptyCompetition');
@@ -274,5 +307,8 @@ export const actions = {
     },
     setCompetitionSize (context: any, size: number) {
         context.commit('setCompetitionSize', size);
+    },
+    setCompetitionGroupRanking (context: any) {
+        context.commit('setCompetitionGroupRanking');
     }
 };

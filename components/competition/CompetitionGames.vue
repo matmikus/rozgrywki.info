@@ -138,6 +138,7 @@
 
         .data-row {
             white-space: nowrap;
+            height: 58px;
         }
 
         .data-row:not(:last-child) > td {

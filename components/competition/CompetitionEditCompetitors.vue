@@ -20,8 +20,10 @@
                 Uczestnicy
             </div>
             <div class="data-row__value">
-                <div v-for="item in competitorsList">
-                    <edit-input-text :validation-func="competitorNameValidatorFunc"></edit-input-text>
+                <div v-for="(item, index) in competitorsList">
+                    <edit-input-text :validation-func="competitorNameValidatorFunc"
+                                     :default-value="item.name"
+                                     v-on:value-changed="onCompetitorNameChanged(index, $event)"></edit-input-text>
                 </div>
             </div>
         </div>
@@ -39,7 +41,6 @@
         },
         data () {
             return {
-                competitorsList: [],
                 competitorNameValidatorFunc: competitorNameValidator,
                 competitorsCountValidatorFunc: competitorsCountValidator
             };
@@ -50,29 +51,23 @@
             },
             competitionEditLock () {
                 return this.$store.state.competitionEditLock;
+            },
+            competitorsList () {
+                return this.$store.state.competition.stages[0].containers[0].competitors;
             }
         },
         methods: {
             onSizeChanged (value: number) {
                 this.$store.dispatch('setCompetitionSize', value);
             },
-            createNewCompetitiorsList (count: number) {
-                const arr = [];
-
-                for (let i = 0; i < count; i++) {
-                    arr.push('');
-                }
-
-                this.competitorsList = arr;
+            onCompetitorNameChanged (index: number, value: string) {
+                // this.$store.dispatch('setCompetitorName', { index: index, name: value });//TODO zrobic w storze + update meczy + update tabeli i drabinki
             }
         },
         watch: {
             size (value: number) {
-                this.createNewCompetitiorsList(value);
+                // this.$store.dispatch('setEmptyCompetitorsList', value);//TODO zrobic w storze
             }
-        },
-        mounted () {
-            this.createNewCompetitiorsList(this.size);
         }
     };
 </script>
