@@ -20,9 +20,11 @@
                 Uczestnicy
             </div>
             <div class="data-row__value">
-                <div v-for="(item, index) in competitorsList">
+                <div v-for="(item, index) in competitorsList" class="competitor">
                     <edit-input-text :validation-func="competitorNameValidatorFunc"
                                      :default-value="item.name"
+                                     :info="'3-40 znaków i nie może się powtarzać'"
+                                     ref="competitorName"
                                      v-on:value-changed="onCompetitorNameChanged(index, $event)"></edit-input-text>
                 </div>
             </div>
@@ -41,7 +43,6 @@
         },
         data () {
             return {
-                competitorNameValidatorFunc: competitorNameValidator,
                 competitorsCountValidatorFunc: competitorsCountValidator
             };
         },
@@ -61,18 +62,43 @@
                 this.$store.dispatch('setCompetitionSize', value);
             },
             onCompetitorNameChanged (index: number, value: string) {
-                // this.$store.dispatch('setCompetitorName', { index: index, name: value });//TODO zrobic w storze + update meczy + update tabeli i drabinki
+                this.$store.dispatch('setCompetitorName', { index: index, name: value });
+            },
+            competitorNameValidatorFunc (name: string) {
+                this.checkDuplicates();
+
+                return competitorNameValidator(name);
+            },
+            checkDuplicates () {
+                this.$refs.competitorName.forEach((el: any) => {
+                    if (el.inputValue.length > 2) {
+                        el.error = false;
+                    }
+                });
+
+                for (let nameInput of this.$refs.competitorName) {
+                    if (nameInput.inputValue.length === 0) {
+                        continue;
+                    }
+
+                    if (this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue).length > 1) {
+                        this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue).forEach((el: any) => {
+                            el.error = true;
+                        });
+                    }
+                }
+
             }
         },
         watch: {
             size (value: number) {
-                // this.$store.dispatch('setEmptyCompetitorsList', value);//TODO zrobic w storze
+                this.$store.dispatch('setEmptyCompetitorsList', value);
             }
         }
     };
 </script>
 <style lang="scss">
-    #edit-group-container {
+    #edit-competitors {
         .data-row {
             background-color: var(--bg1-color);
             padding: 0;
@@ -84,6 +110,14 @@
         .data-row__label {
             opacity: 0.5;
             font-size: 80%;
+        }
+
+        .competitor {
+            margin-bottom: 8px;
+        }
+
+        .competitor:last-child {
+            margin-bottom: -16px;
         }
     }
 </style>

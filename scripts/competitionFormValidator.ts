@@ -23,7 +23,7 @@ export function competitorsCountValidator (value: string) {
 }
 
 export function competitorNameValidator (value: string) {
-    return parseInt(value, 10) >= 3 && parseInt(value, 10) <= 40;
+    return value.length >= 3 && value.length <= 40;
 }
 
 export function gameResultDetailsValidatorFunction (value: string) {

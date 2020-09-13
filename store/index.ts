@@ -106,11 +106,11 @@ export const mutations = {
                 let competitors: any = [];
 
                 for (const game of container.games) {
-                    if (competitors.find((el: any) => el.id === game.aCompetitor.id) === undefined) {
+                    if (game.aCompetitor !== null && competitors.find((el: any) => el.id === game.aCompetitor.id) === undefined) {
                         competitors.push({ id: game.aCompetitor.id, name: game.aCompetitor.name });
                     }
 
-                    if (competitors.find((el: any) => el.id === game.bCompetitor.id) === undefined) {
+                    if (game.bCompetitor !== null && competitors.find((el: any) => el.id === game.bCompetitor.id) === undefined) {
                         competitors.push({ id: game.bCompetitor.id, name: game.bCompetitor.name });
                     }
                 }
@@ -130,7 +130,7 @@ export const mutations = {
                     sequenceNumber: 1,
                     containers: [{
                         awayGoalsRule: null,
-                        competitors: [{ name: '' }, { name: '' }],
+                        competitors: [{ name: '', tempId: 0 }, { name: '', tempId: 1 }],
                         drawPoints: null,
                         games: [],
                         isDouble: false,
@@ -203,6 +203,32 @@ export const mutations = {
     },
     setCompetitionSize (state: any, size: number) {
         state.competition.stages[0].containers[0].size = size;
+    },
+    setCompetitorName (state: any, data: any) {
+        state.competition.stages[0].containers[0].competitors[data.index].name = data.name;
+
+        const id = state.competition.stages[0].containers[0].competitors[data.index].id;
+
+        state.competition.stages[0].containers[0].games.forEach((game: any) => {
+            if (game.aCompetitor !== null && game.aCompetitor.id === id) {
+                game.aCompetitor.name = data.name;
+            } else if (game.bCompetitor !== null && game.bCompetitor.id === id) {
+                game.bCompetitor.name = data.name;
+            }
+        });
+    },
+    setEmptyCompetitorsList (state: any, size: number) {
+        let arr: any = [];
+
+        for (let i = 0; i < size; i++) {
+            arr.push({ name: '', tempId: i });
+        }
+
+        for (let i = 0; i < arr.length && i < state.competition.stages[0].containers[0].competitors.length; i++) {
+            arr[i].name = state.competition.stages[0].containers[0].competitors[i].name;
+        }
+
+        state.competition.stages[0].containers[0].competitors = arr;
     }
 };
 
@@ -310,5 +336,11 @@ export const actions = {
     },
     setCompetitionGroupRanking (context: any) {
         context.commit('setCompetitionGroupRanking');
+    },
+    setCompetitorName (context: any, data: any) {
+        context.commit('setCompetitorName', data);
+    },
+    setEmptyCompetitorsList (context: any, size: number) {
+        context.commit('setEmptyCompetitorsList', size);
     }
 };
