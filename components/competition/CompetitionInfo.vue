@@ -7,6 +7,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-input-text :placeholder="'Nazwa'"
+                                     v-on:value-changed="onNameChanged"
                                      :default-value="competition.name"
                                      :info="'3-60 znaków'"
                                      :validation-func="competitionNameValidatorFunc"></edit-input-text>
@@ -21,6 +22,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-input-text :placeholder="'Ścieżka'"
+                                     v-on:value-changed="onRouteNameChanged"
                                      :default-value="competition.routeName"
                                      :info="'5-40 znaków'"
                                      :prefix="'www.rozgrywki.info/'"
@@ -36,6 +38,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-textarea :placeholder="'Opis'"
+                                   v-on:value-changed="onDescriptionChanged"
                                    :default-value="competition.description"
                                    :info="'0-1000 znaków'"
                                    :validation-func="competitionDescriptionValidatorFunc"></edit-textarea>
@@ -51,6 +54,7 @@
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
                         <edit-date-picker :default-value="competition.start"
+                                          v-on:value-changed="onStartDateChanged"
                                           :info="'dd/mm/rrrr'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.start }}</template>
@@ -63,6 +67,7 @@
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
                         <edit-date-picker :default-value="competition.end"
+                                          v-on:value-changed="onEndDateChanged"
                                           :info="'dd/mm/rrrr'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.end }}</template>
@@ -77,6 +82,7 @@
                     <div class="data-row__value competition-type additional-bottom-space">
                         <edit-select :options="competitionTypes"
                                      :disabled="competitionEditLock"
+                                     v-on:value-changed="onTypeChanged"
                                      :default-value="getCompetitionTypeValue(competition)"></edit-select>
                     </div>
                 </template>
@@ -227,6 +233,34 @@
                 }
 
                 return '';
+            },
+            onNameChanged (value: string) {
+                this.$store.dispatch('setCompetitionName', value);
+            },
+            onRouteNameChanged (value: string) {
+                this.$store.dispatch('setCompetitionRouteName', value);
+            },
+            onDescriptionChanged (value: string) {
+                this.$store.dispatch('setCompetitionDescription', value);
+            },
+            onStartDateChanged (value: string) {
+                this.$store.dispatch('setCompetitionStartDate', value);
+            },
+            onEndDateChanged (value: string) {
+                this.$store.dispatch('setCompetitionEndDate', value);
+            },
+            onTypeChanged (value: string) {
+                const keys = Object.keys(COMPETITION_TYPE_VALUES);
+                let type = '';
+
+                for (let i = 0; i < keys.length; i++) {
+                    if (COMPETITION_TYPE_VALUES[keys[i]] === value) {
+                        type = keys[i];
+                    }
+                }
+
+                this.$store.dispatch('setCompetitionType', type === 'cupSingle' || type === 'cupDouble' ? 'cup' : 'group');
+                this.$store.dispatch('setCompetitionIsDouble', type === 'cupDouble' || type === 'groupDouble');
             }
         }
     };

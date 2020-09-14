@@ -1,6 +1,7 @@
 <template>
     <div id="datepicker-container">
         <input type="date"
+               @change="$emit('value-changed', newValue)"
                v-model="newValue">
         <div class="info">{{ info }}</div>
     </div>

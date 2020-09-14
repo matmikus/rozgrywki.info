@@ -229,6 +229,27 @@ export const mutations = {
         }
 
         state.competition.stages[0].containers[0].competitors = arr;
+    },
+    setCompetitionName (state: any, value: string) {
+        state.competition.name = value;
+    },
+    setCompetitionRouteName (state: any, value: string) {
+        state.competition.routeName = value;
+    },
+    setCompetitionDescription (state: any, value: string) {
+        state.competition.description = value;
+    },
+    setCompetitionStartDate (state: any, value: string) {
+        state.competition.start = value;
+    },
+    setCompetitionEndDate (state: any, value: string) {
+        state.competition.end = value;
+    },
+    setCompetitionType (state: any, value: string) {
+        state.competition.stages[0].containers[0].type = value;
+    },
+    setCompetitionIsDouble (state: any, value: boolean) {
+        state.competition.stages[0].containers[0].isDouble = value;
     }
 };
 
@@ -342,5 +363,26 @@ export const actions = {
     },
     setEmptyCompetitorsList (context: any, size: number) {
         context.commit('setEmptyCompetitorsList', size);
+    },
+    setCompetitionName (context: any, value: string) {
+        context.commit('setCompetitionName', value);
+    },
+    setCompetitionRouteName (context: any, value: string) {
+        context.commit('setCompetitionRouteName', value);
+    },
+    setCompetitionDescription (context: any, value: string) {
+        context.commit('setCompetitionDescription', value);
+    },
+    setCompetitionStartDate (context: any, value: string) {
+        context.commit('setCompetitionStartDate', value);
+    },
+    setCompetitionEndDate (context: any, value: string) {
+        context.commit('setCompetitionEndDate', value);
+    },
+    setCompetitionType (context: any, value: string) {
+        context.commit('setCompetitionType', value);
+    },
+    setCompetitionIsDouble (context: any, value: boolean) {
+        context.commit('setCompetitionIsDouble', value);
     }
 };

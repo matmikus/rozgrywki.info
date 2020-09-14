@@ -3,6 +3,10 @@ export function getCupHtmlVisualization (competition: any) {
         return 'Brak podglądu drabinki brazylijskiej';
     }
 
+    if (competition.games.length === 0) {
+        return 'Brak wygenerowanych meczów';
+    }
+
     const roundsAmount = Math.sqrt(competition.size);
     let currentRoundSize = competition.size;
     let gameCounter = 0;

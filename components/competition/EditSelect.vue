@@ -25,6 +25,7 @@
         methods: {
             changeValue (event: any) {
                 this.selected = parseInt(event.target.options[event.target.options.selectedIndex].value, 10);
+                this.$emit('value-changed', this.selected);
             }
         }
     };

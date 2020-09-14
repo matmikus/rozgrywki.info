@@ -1,6 +1,6 @@
 <template>
     <div id="textarea-container">
-        <textarea class="textarea" :placeholder="placeholder" v-model="textareaValue"></textarea>
+        <textarea class="textarea" :placeholder="placeholder" v-model="textareaValue" @change="$emit('value-changed', textareaValue)"></textarea>
         <div class="info" :has-error="error">{{ info }}</div>
     </div>
 </template>

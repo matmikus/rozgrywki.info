@@ -22,6 +22,7 @@
                                                          :min="0"
                                                          :max="1000"
                                                          :placeholder="'Wynik'"
+                                                         :default-value="game.aResult"
                                                          class="game-result-edit-left"></edit-input-text>
                                         <div class="game-result-divider">:</div>
                                         <edit-input-text :validation-func="gameResultValidatorFunc"
@@ -29,6 +30,7 @@
                                                          :type="'number'"
                                                          :min="0"
                                                          :placeholder="'Wynik'"
+                                                         :default-value="game.bResult"
                                                          :max="1000"></edit-input-text>
                                     </div>
                                 </template>
@@ -42,7 +44,7 @@
                             <td>
                                 <template v-if="mode === 'edit'">
                                     <div class="game-date-edit">
-                                        <edit-date-picker :info="'dd/mm/rrrr'"></edit-date-picker>
+                                        <edit-date-picker :info="'dd/mm/rrrr'" :default-value="game.date"></edit-date-picker>
                                     </div>
                                 </template>
                                 <template v-else>
@@ -54,6 +56,7 @@
                                     <div class="game-details-edit">
                                         <edit-input-text :validation-func="gameResultDetailsValidatorFunc"
                                                          :info="'0-40 znaków'"
+                                                         :default-value="game.details"
                                                          :placeholder="'Szczegółowy wynik'"></edit-input-text>
                                     </div>
                                 </template>
