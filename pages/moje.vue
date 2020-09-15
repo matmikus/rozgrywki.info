@@ -19,10 +19,10 @@
                     <table v-else class="data-table" cellspacing="0">
                         <tr>
                             <th></th>
-                            <th><span>Nazwa</span></th>
-                            <th><span>Utworzone</span></th>
-                            <th><span>Ostatnia aktualizacja</span></th>
-                            <th><span>Akcje</span></th>
+                            <th>Nazwa</th>
+                            <th>Utworzone</th>
+                            <th>Ostatnia aktualizacja</th>
+                            <th>Akcje</th>
                         </tr>
                         <tr v-for="(competition, index) in myCompetitions"
                             :key="competition.id"
@@ -32,20 +32,14 @@
                                     #{{ index + 1 }}
                                 </div>
                             </td>
-                            <td>
-                                <div>
-                                    {{ competition.name }}
-                                </div>
+                            <td class="competition-name">
+                                {{ competition.name }}
                             </td>
                             <td>
-                                <div>
-                                    {{ getNiceDate(competition.createdAt) }}
-                                </div>
+                                {{ getNiceDate(competition.createdAt) }}
                             </td>
                             <td>
-                                <div>
-                                    {{ getNiceDateTime(competition.updatedAt) }}
-                                </div>
+                                {{ getNiceDateTime(competition.updatedAt) }}
                             </td>
                             <td>
                                 <div>
@@ -60,7 +54,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="button bottom-button" @click="routeToEdit()">DODAJ NOWE</div>
+                <div class="button bottom-button" @click="routeToEdit('nowe')">DODAJ NOWE</div>
             </div>
         </div>
     </div>
@@ -248,11 +242,9 @@
 
         .data-row > td:first-child {
             font-weight: 600;
-            padding-left: 2px;
-            padding-right: 2px;
         }
 
-        .data-row > td.rank-competitor {
+        .data-row > td.competition-name {
             text-align: left;
         }
 

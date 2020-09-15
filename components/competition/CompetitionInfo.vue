@@ -7,6 +7,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-input-text :placeholder="'Nazwa'"
+                                     v-on:value-changed="onNameChanged"
                                      :default-value="competition.name"
                                      :info="'3-60 znaków'"
                                      :validation-func="competitionNameValidatorFunc"></edit-input-text>
@@ -21,6 +22,7 @@
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-input-text :placeholder="'Ścieżka'"
+                                     v-on:value-changed="onRouteNameChanged"
                                      :default-value="competition.routeName"
                                      :info="'5-40 znaków'"
                                      :prefix="'www.rozgrywki.info/'"
@@ -29,13 +31,14 @@
                 <template v-else>{{ competition.fullRoute }}</template>
             </div>
         </div>
-        <div class="data-row">
+        <div class="data-row" style="margin-bottom: 0">
             <div class="data-row__label">
                 Opis
             </div>
             <div class="data-row__value">
                 <template v-if="mode === 'edit'">
                     <edit-textarea :placeholder="'Opis'"
+                                   v-on:value-changed="onDescriptionChanged"
                                    :default-value="competition.description"
                                    :info="'0-1000 znaków'"
                                    :validation-func="competitionDescriptionValidatorFunc"></edit-textarea>
@@ -50,8 +53,9 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker :default-value="competition.start"
-                                          :error-text="'Niepoprawny format daty'"></edit-data-picker>
+                        <edit-date-picker :default-value="competition.start"
+                                          v-on:value-changed="onStartDateChanged"
+                                          :info="'dd/mm/rrrr'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.start }}</template>
                 </div>
@@ -62,8 +66,9 @@
                 </div>
                 <div class="data-row__value">
                     <template v-if="mode === 'edit'">
-                        <edit-data-picker :default-value="competition.end"
-                                          :error-text="'Niepoprawny format daty'"></edit-data-picker>
+                        <edit-date-picker :default-value="competition.end"
+                                          v-on:value-changed="onEndDateChanged"
+                                          :info="'dd/mm/rrrr'"></edit-date-picker>
                     </template>
                     <template v-else>{{ competition.end }}</template>
                 </div>
@@ -76,6 +81,8 @@
                 <template v-if="mode === 'edit'">
                     <div class="data-row__value competition-type additional-bottom-space">
                         <edit-select :options="competitionTypes"
+                                     :disabled="competitionEditLock"
+                                     v-on:value-changed="onTypeChanged"
                                      :default-value="getCompetitionTypeValue(competition)"></edit-select>
                     </div>
                 </template>
@@ -87,14 +94,18 @@
 
             </div>
         </div>
-        <competition-edit-group v-if="mode === 'edit'"></competition-edit-group>
+        <competition-edit-cup v-if="mode === 'edit' && competitionType === 'cup'"></competition-edit-cup>
+        <competition-edit-group v-if="mode === 'edit' && competitionType === 'group'"></competition-edit-group>
+        <competition-edit-competitors v-if="mode === 'edit'"></competition-edit-competitors>
     </div>
 </template>
 
 <script lang="ts">
+    import CompetitionEditCompetitors from '@/components/competition/CompetitionEditCompetitors.vue';
     import CompetitionEditGroup from '@/components/competition/CompetitionEditGroup.vue';
+    import CompetitionEditCup from '@/components/competition/CompetitionEditCup.vue';
     import EditInputText from '@/components/competition/EditInputText.vue';
-    import EditDataPicker from '@/components/competition/EditDataPicker.vue';
+    import EditDatePicker from '@/components/competition/EditDatePicker.vue';
     import EditTextarea from '@/components/competition/EditTextarea.vue';
     import EditSelect from '@/components/competition/EditSelect.vue';
     import {
@@ -125,11 +136,17 @@
     export default {
         props: ['mode'],
         components: {
-            EditInputText, EditDataPicker, EditTextarea, EditSelect, CompetitionEditGroup
+            EditInputText, EditDatePicker, EditTextarea, EditSelect, CompetitionEditGroup, CompetitionEditCompetitors, CompetitionEditCup
         },
         computed: {
             competition () {
                 return this.$store.state.competition;
+            },
+            competitionType () {
+                return this.$store.state.competition.stages[0].containers[0].type;
+            },
+            competitionEditLock () {
+                return this.$store.state.competitionEditLock;
             }
         },
         data () {
@@ -216,6 +233,34 @@
                 }
 
                 return '';
+            },
+            onNameChanged (value: string) {
+                this.$store.dispatch('setCompetitionName', value);
+            },
+            onRouteNameChanged (value: string) {
+                this.$store.dispatch('setCompetitionRouteName', value);
+            },
+            onDescriptionChanged (value: string) {
+                this.$store.dispatch('setCompetitionDescription', value);
+            },
+            onStartDateChanged (value: string) {
+                this.$store.dispatch('setCompetitionStartDate', value);
+            },
+            onEndDateChanged (value: string) {
+                this.$store.dispatch('setCompetitionEndDate', value);
+            },
+            onTypeChanged (value: string) {
+                const keys = Object.keys(COMPETITION_TYPE_VALUES);
+                let type = '';
+
+                for (let i = 0; i < keys.length; i++) {
+                    if (COMPETITION_TYPE_VALUES[keys[i]] === value) {
+                        type = keys[i];
+                    }
+                }
+
+                this.$store.dispatch('setCompetitionType', type === 'cupSingle' || type === 'cupDouble' ? 'cup' : 'group');
+                this.$store.dispatch('setCompetitionIsDouble', type === 'cupDouble' || type === 'groupDouble');
             }
         }
     };
@@ -227,9 +272,10 @@
         max-width: calc(100vw - 32px);
         background-color: var(--bg1-color);
         border-radius: $data-row-border-radius;
+        padding-bottom: 16px;
 
         .data-row {
-            margin: 16px 24px;
+            margin: 20px 24px;
             flex: 1;
             color: var(--content2-color);
         }
@@ -247,13 +293,12 @@
             flex-direction: row;
             flex-wrap: wrap;
             padding: 0 1px;
-            margin-top: -16px;
             margin-bottom: 1px;
         }
 
         .inline-container > * {
             flex: 1 1 auto;
-            margin: 16px 24px;
+            margin: 20px 24px 0 24px;
         }
 
         .data-row-competition-type {

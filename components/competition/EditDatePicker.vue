@@ -1,19 +1,18 @@
 <template>
     <div id="datepicker-container">
         <input type="date"
+               @change="$emit('value-changed', newValue)"
                v-model="newValue">
-        <div class="date-error" v-if="error">{{ errorText }}</div>
-        <div class="spacer" v-else></div>
+        <div class="info">{{ info }}</div>
     </div>
 </template>
 
 <script lang="ts">
     export default {
-        props: ['defaultValue', 'errorText'],
+        props: ['defaultValue', 'info'],
         data () {
             return {
-                newValue: undefined,
-                error: false
+                newValue: undefined
             };
         },
         mounted () {
@@ -47,14 +46,21 @@
             color: black;
         }
 
-        .date-error {
+        .info {
             font-size: 12px;
             padding: 0 8px;
-            color: #ff0000;
+            opacity: 0.5;
+            line-height: 1;
+            margin-top: 6px;
         }
+    }
 
-        .spacer {
-            height: 4px;
+    .light-mode {
+        #datepicker-container {
+            input:focus {
+                border: 1px solid black;
+                padding: 7px;
+            }
         }
     }
 

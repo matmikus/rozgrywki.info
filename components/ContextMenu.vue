@@ -100,8 +100,6 @@
 
         .menu-item:hover {
             background-color: var(--menu-hover-color);
-            /*color: var(--bar-txt-color);*/
-            /*fill: var(--bar-txt-color);*/
         }
 
         .menu-item > *:not(:first-child) {

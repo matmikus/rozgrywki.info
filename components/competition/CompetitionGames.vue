@@ -3,26 +3,70 @@
         <div v-for="stage in competition.stages" :key="stage.id" class="stage">
             <div v-for="container in stage.containers" :key="container.id" class="container">
                 <div class="container-name" v-show="container.name">
-                    <span>{{ container.name }}</span>
+                    <span class="container-name-text">{{ container.name }}</span>
                 </div>
                 <div class="container-games">
                     <table class="data-table" cellspacing="0">
                         <tr v-for="game in container.games" :key="game.id" class="data-row">
                             <td class="game-number">#{{ game.number }}</td>
-                            <td class="game-competitors">{{ `${getCompetitorName(game.aCompetitor)} - ${getCompetitorName(game.bCompetitor)}` }}</td>
-                            <td>
-                                <div class="game-result" v-if="game.aResult != null && game.bResult != null">
-                                    {{ `${game.aResult}:${game.bResult}` }}
-                                </div>
+                            <td class="game-competitors">
+                                {{ `${getCompetitorName(game.aCompetitor)} -
+                                ${getCompetitorName(game.bCompetitor)}` }}
                             </td>
                             <td>
-                                <div class="game-date" v-if="game.date">{{ game.date }}</div>
+                                <template v-if="mode === 'edit'">
+                                    <div class="game-result-edit">
+                                        <edit-input-text :validation-func="gameResultValidatorFunc"
+                                                         :info="'Zakres 0-1000'"
+                                                         :type="'number'"
+                                                         :min="0"
+                                                         :max="1000"
+                                                         :placeholder="'Wynik'"
+                                                         :default-value="game.aResult"
+                                                         class="game-result-edit-left"></edit-input-text>
+                                        <div class="game-result-divider">:</div>
+                                        <edit-input-text :validation-func="gameResultValidatorFunc"
+                                                         :info="'Zakres 0-1000'"
+                                                         :type="'number'"
+                                                         :min="0"
+                                                         :placeholder="'Wynik'"
+                                                         :default-value="game.bResult"
+                                                         :max="1000"></edit-input-text>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="game-result"
+                                         v-if="game.aResult != null && game.bResult != null">
+                                        {{ `${game.aResult}:${game.bResult}` }}
+                                    </div>
+                                </template>
                             </td>
                             <td>
-                                <div class="game-details" v-if="game.aResult != null && game.bResult != null && game.details">
-                                    {{ `${game.aResult}:${game.bResult}` }}
-                                    {{ game.details ? ` (${game.details})` : '' }}
-                                </div>
+                                <template v-if="mode === 'edit'">
+                                    <div class="game-date-edit">
+                                        <edit-date-picker :info="'dd/mm/rrrr'" :default-value="game.date"></edit-date-picker>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="game-date" v-if="game.date">{{ game.date }}</div>
+                                </template>
+                            </td>
+                            <td>
+                                <template v-if="mode === 'edit'">
+                                    <div class="game-details-edit">
+                                        <edit-input-text :validation-func="gameResultDetailsValidatorFunc"
+                                                         :info="'0-40 znaków'"
+                                                         :default-value="game.details"
+                                                         :placeholder="'Szczegółowy wynik'"></edit-input-text>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="game-details"
+                                         v-if="game.aResult != null && game.bResult != null && game.details">
+                                        {{ `${game.aResult}:${game.bResult}` }}
+                                        {{ game.details ? ` (${game.details})` : '' }}
+                                    </div>
+                                </template>
                             </td>
                         </tr>
                     </table>
@@ -33,8 +77,24 @@
 </template>
 
 <script lang="ts">
+    import EditInputText from '@/components/competition/EditInputText.vue';
+    import EditDatePicker from '@/components/competition/EditDatePicker.vue';
+    import {
+        gameResultValidatorFunction,
+        gameResultDetailsValidatorFunction
+    } from '@/scripts/competitionFormValidator';
+
     export default {
         props: ['mode'],
+        components: {
+            EditInputText, EditDatePicker
+        },
+        data () {
+            return {
+                gameResultValidatorFunc: gameResultValidatorFunction,
+                gameResultDetailsValidatorFunc: gameResultDetailsValidatorFunction
+            }
+        },
         computed: {
             competition () {
                 return this.$store.state.competition;
@@ -81,6 +141,7 @@
 
         .data-row {
             white-space: nowrap;
+            height: 58px;
         }
 
         .data-row:not(:last-child) > td {
@@ -118,6 +179,29 @@
             padding: 16px 18px;
             line-height: 19px;
             color: var(--content1-color);
+        }
+
+        .game-result-edit {
+            display: flex;
+            padding: 16px 16px 4px 16px;
+        }
+
+        .game-details-edit {
+            padding: 16px 16px 4px 16px;
+            min-width: 200px;
+        }
+
+        .game-result-divider {
+            padding: 5px 4px 4px 4px;
+        }
+
+        .game-result-edit-left {
+            direction: rtl;
+        }
+
+        .game-date-edit {
+            margin-top: -1px;
+            padding: 16px 16px 4px 16px;
         }
 
         @media (max-width: 1000px) {

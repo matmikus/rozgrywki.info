@@ -3,11 +3,25 @@
         <template v-if="prefix">
             <div class="prefix-input-container">
                 <div class="prefix">{{ prefix }}</div>
-                <input class="input prefix-input" type="text" :placeholder="placeholder" v-model="inputValue"/>
+                <input class="input prefix-input"
+                       @change="$emit('value-changed', inputValue)"
+                       :type="type ? type : 'text'"
+                       :placeholder="placeholder"
+                       :max="max"
+                       :min="min"
+                       :disabled="disabled"
+                       v-model="inputValue"/>
             </div>
         </template>
         <template v-else>
-            <input class="input" type="text" :placeholder="placeholder" v-model="inputValue"/>
+            <input class="input"
+                   @change="$emit('value-changed', inputValue)"
+                   :type="type ? type : 'text'"
+                   :max="max"
+                   :min="min"
+                   :disabled="disabled"
+                   :placeholder="placeholder"
+                   v-model="inputValue"/>
         </template>
         <div class="info" :has-error="error">{{ info }}</div>
     </div>
@@ -15,7 +29,7 @@
 
 <script lang="ts">
     export default {
-        props: ['placeholder', 'defaultValue', 'info', 'prefix', 'validation-func'],
+        props: ['placeholder', 'defaultValue', 'info', 'prefix', 'validation-func', 'type', 'max', 'min', 'disabled'],
         data () {
             return {
                 inputValue: '',
@@ -57,6 +71,8 @@
             font-size: 12px;
             padding: 0 8px;
             opacity: 0.5;
+            line-height: 1;
+            margin-top: 6px;
         }
 
         .info[has-error] {
@@ -81,6 +97,19 @@
         .prefix-input {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+        }
+
+        [disabled] {
+            opacity: 0.5;
+        }
+    }
+
+    .light-mode {
+        #input-container {
+            .input:focus {
+                border: 1px solid black;
+                padding: 7px;
+            }
         }
     }
 </style>

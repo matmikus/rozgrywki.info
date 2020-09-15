@@ -91,15 +91,20 @@ body {
 .button {
     text-transform: uppercase;
     border-radius: 4px;
-    color: var(--bar-txt-color);
+    color: white;
     padding: 2px 8px;
     display: inline-flex;
     font-weight: 500;
     font-size: 12px;
-    background-color: var(--bar1-bg-color);
+    background-color: var(--button-bg-color);
     cursor: pointer;
 }
 
 .button:hover {
-    color: var(--bar-txt-active);
+    background-color: #1e88e5;
+    color: #fff;
+}
+
+input {
+    height: 36px;
 }
