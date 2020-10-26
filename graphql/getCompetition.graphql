@@ -20,7 +20,6 @@ query ($route: String) {
                 size
                 type
                 winnerPoints
-                awayGoalsRule
                 rankPointsOrder
                 rankGamesRatioOrder
                 rankResultsRatioOrder

@@ -129,7 +129,6 @@ export const mutations = {
                     promotionCount: null,
                     sequenceNumber: 1,
                     containers: [{
-                        awayGoalsRule: null,
                         competitors: [{ name: '', tempId: 0 }, { name: '', tempId: 1 }],
                         drawPoints: null,
                         games: [],
@@ -174,9 +173,6 @@ export const mutations = {
             name: '',
             iconName: ''
         };
-    },
-    setCompetitionAwayGoalsRule (state: any, value: boolean) {
-        state.competition.stages[0].containers[0].awayGoalsRule = value;
     },
     setCompetitionDrawEnabled (state: any, value: boolean) {
         state.competition.stages[0].containers[0].isDrawEnabled = value;
@@ -335,9 +331,6 @@ export const actions = {
     },
     setContentRefs (context: any, refs: any) {
         context.commit('setContentRefs', refs);
-    },
-    setCompetitionAwayGoalsRule (context: any, value: boolean) {
-        context.commit('setCompetitionAwayGoalsRule', value);
     },
     setCompetitionDrawEnabled (context: any, value: boolean) {
         context.commit('setCompetitionDrawEnabled', value);

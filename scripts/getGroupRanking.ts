@@ -119,7 +119,7 @@ export function getGroupRanking (container: any) {
             competitors[i].rank = i + 1;
         }
     }
-console.log(competitors)
+
     return competitors;
 }
 

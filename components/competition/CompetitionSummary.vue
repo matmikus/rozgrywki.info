@@ -193,6 +193,7 @@
         .cup-game-container {
             display: flex;
             flex: 1;
+            position: relative;
         }
 
         .cup-game-connector-container {
@@ -236,7 +237,7 @@
         }
 
         .cup-result {
-            padding-right: 4px;
+            padding-right: 12px;
             direction: ltr;
             font-family: 'Gudea';
         }
@@ -245,8 +246,9 @@
             font-weight: 500;
             font-family: 'Roboto';
             opacity: 0.4;
-            padding-right: 4px;
-            padding-left: 8px;
+            position: absolute;
+            left: 16px;
+            padding-top: 1px;
         }
 
         @media (max-width: 1000px) {
