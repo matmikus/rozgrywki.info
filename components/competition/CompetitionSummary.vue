@@ -66,6 +66,14 @@
             return {
                 getCupHtmlVisualization: getCupHtmlVisualization
             }
+        },
+        watch: {
+            competition: {
+                deep: true,
+                handler () {
+                    this.$forceUpdate();
+                }
+            }
         }
     };
 </script>

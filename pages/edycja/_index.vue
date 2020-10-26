@@ -24,6 +24,10 @@
         methods: {
             onSaveClick () {
                 console.log('zapis');
+                // TODO:
+                // 1. walidacja,
+                // 2. sprawdzenie czy puchar i ustawienie uczestnika nastepnego meczu,
+                // 3. request z zapisem obslużony
             }
         }
     };

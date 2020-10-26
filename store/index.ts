@@ -250,6 +250,14 @@ export const mutations = {
     },
     setCompetitionIsDouble (state: any, value: boolean) {
         state.competition.stages[0].containers[0].isDouble = value;
+    },
+    setCompetitionResultData (state: any, data: any) {
+        if (!data || !data.id) {
+            return false;
+        }
+
+        const game = state.competition.stages[0].containers[0].games.find((el: any) => el.id === data.id);
+        Object.assign(game, data);
     }
 };
 
@@ -336,21 +344,27 @@ export const actions = {
     },
     setCompetitionWinnerPoints (context: any, value: number) {
         context.commit('setCompetitionWinnerPoints', value);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionLoserPoints (context: any, value: number) {
         context.commit('setCompetitionLoserPoints', value);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionDrawPoints (context: any, value: number) {
         context.commit('setCompetitionDrawPoints', value);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionOnePointWinnerPoints (context: any, value: number) {
         context.commit('setCompetitionOnePointWinnerPoints', value);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionOnePointLoserPoints (context: any, value: number) {
         context.commit('setCompetitionOnePointLoserPoints', value);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionRankOrder (context: any, orderArr: any) {
         context.commit('setCompetitionRankOrder', orderArr);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionSize (context: any, size: number) {
         context.commit('setCompetitionSize', size);
@@ -384,5 +398,9 @@ export const actions = {
     },
     setCompetitionIsDouble (context: any, value: boolean) {
         context.commit('setCompetitionIsDouble', value);
+    },
+    setCompetitionResultData (context: any, data: any) {
+        context.commit('setCompetitionResultData', data);
+        context.commit('setCompetitionGroupRanking');
     }
 };

@@ -29,6 +29,7 @@ query ($route: String) {
                 onePointWinnerPoints
                 onePointLoserPoints
                 games (order_by: {number: asc}) {
+                    id
                     aResult
                     bResult
                     date
