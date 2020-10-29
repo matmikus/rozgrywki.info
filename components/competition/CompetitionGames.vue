@@ -24,6 +24,7 @@
                                                          :placeholder="'Wynik'"
                                                          :default-value="game.aResult"
                                                          v-on:value-changed="onAResultChanged($event, game.id)"
+                                                         :disabled="game.aCompetitor === null || game.bCompetitor === null"
                                                          class="game-result-edit-left"></edit-input-text>
                                         <div class="game-result-divider">:</div>
                                         <edit-input-text :validation-func="gameResultValidatorFunc"
@@ -33,6 +34,7 @@
                                                          :placeholder="'Wynik'"
                                                          :default-value="game.bResult"
                                                          v-on:value-changed="onBResultChanged($event, game.id)"
+                                                         :disabled="game.aCompetitor === null || game.bCompetitor === null"
                                                          :max="1000"></edit-input-text>
                                     </div>
                                 </template>

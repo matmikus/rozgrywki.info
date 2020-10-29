@@ -126,29 +126,29 @@ export const mutations = {
             name: '',
             routeName: '',
             stages: [{
-                    promotionCount: null,
-                    sequenceNumber: 1,
-                    containers: [{
-                        competitors: [{ name: '', tempId: 0 }, { name: '', tempId: 1 }],
-                        drawPoints: null,
-                        games: [],
-                        isDouble: false,
-                        isDoubleEliminationCup: false,
-                        isDrawEnabled: false,
-                        loserPoints: null,
-                        name: null,
-                        onePointLoserPoints: null,
-                        onePointWinnerPoints: null,
-                        rankDirectGameOrder: 5,
-                        rankGamesAmountOrder: 4,
-                        rankGamesRatioOrder: 2,
-                        rankPointsOrder: 1,
-                        rankResultsRatioOrder: 3,
-                        size: 2,
-                        type: undefined,
-                        winnerPoints: null
-                    }],
+                promotionCount: null,
+                sequenceNumber: 1,
+                containers: [{
+                    competitors: [{ name: '', tempId: 0 }, { name: '', tempId: 1 }],
+                    drawPoints: null,
+                    games: [],
+                    isDouble: false,
+                    isDoubleEliminationCup: false,
+                    isDrawEnabled: false,
+                    loserPoints: null,
+                    name: null,
+                    onePointLoserPoints: null,
+                    onePointWinnerPoints: null,
+                    rankDirectGameOrder: 5,
+                    rankGamesAmountOrder: 4,
+                    rankGamesRatioOrder: 2,
+                    rankPointsOrder: 1,
+                    rankResultsRatioOrder: 3,
+                    size: 2,
+                    type: undefined,
+                    winnerPoints: null
                 }],
+            }],
             start: '',
             updatedAt: ''
         };
@@ -253,6 +253,24 @@ export const mutations = {
         }
 
         const game = state.competition.stages[0].containers[0].games.find((el: any) => el.id === data.id);
+
+        if (state.competition.stages[0].containers[0].type === 'cup') {
+            // byly 2 wyniki rozne, a teraz nie ma jednego lub sa rowne:
+            if (game.aResult !== null && game.bResult !== null && game.aResult !== game.bResult && (data.aResult === null || data.bResult === null || game.aResult === data.bResult || game.bResult === data.aResult)) {
+                console.log('przypadek 1: rekurencyjne usuwanie')
+            }
+            // byly 2 wyniki rozne, a teraz sa 2 wyniki rozne ale inny wygrany:
+            else if (game.aResult !== null && game.bResult !== null && game.aResult !== game.bResult && (
+                (data.aResult != null && data.aResult !== game.bResult && ((game.aResult / game.bResult) > 1) !== ((data.aResult / game.bResult) > 1)) ||
+                (data.bResult != null && data.bResult !== game.aResult && ((game.aResult / game.bResult) > 1) !== ((game.aResult / data.bResult) > 1)))) {
+                console.log('przypadek 3: rekurencyjne dodawanie')
+            }
+            // nie bylo 2 wynikow roznych, a teraz sa:
+            else if (((game.aResult === null && game.bResult !== null || game.aResult !== null && game.bResult === null) || game.aResult !== null && game.bResult !== null && game.aResult === game.bResult) && ((data.aResult != null && game.bResult !== null && data.aResult !== game.bResult) || (data.bResult != null && game.aResult !== null && data.bResult !== game.aResult))) {
+                console.log('przypadek 2: rekurencyjne dodawanie')
+            }
+        }
+
         Object.assign(game, data);
     }
 };

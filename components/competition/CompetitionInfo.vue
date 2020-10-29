@@ -171,7 +171,7 @@
                         disabled: true
                     },
                     {
-                        value: 'doubleEliminationCup',
+                        value: COMPETITION_TYPE_VALUES.doubleEliminationCup,
                         text: COMPETITION_TYPE_NAMES.doubleEliminationCup,
                         disabled: true
                     }
