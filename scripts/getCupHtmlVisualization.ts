@@ -34,7 +34,7 @@ export function getCupHtmlVisualization (competition: any) {
                                      </div>
                                      <div class="cup-game-connector-container">
                                          <div class="cup-game-connector">&nbsp;&nbsp;</div>
-                                         <div class="cup-result">${getCupResult(competition.games[gameCounter])}<span class="cup-game-number">#${gameCounter + 1}</span></div>
+                                         <div class="cup-result"><span>&nbsp;${getCupResult(competition.games[gameCounter])}</span><span class="cup-game-number">#${gameCounter + 1}</span></div>
                                      </div>
                                  </div>`;
 
@@ -68,7 +68,7 @@ function getCompetitorName (competitorObj: { name: String } | null) {
 function getCupResult (game: any) {
     let result = '';
 
-    if (game.aResult != null && game.bResult != null) {
+    if (game.aResult != null && game.bResult != null && game.aCompetitor != null && game.bCompetitor != null) {
         result = `${game.aResult}:${game.bResult}`;
     }
 

@@ -253,25 +253,94 @@ export const mutations = {
         }
 
         const game = state.competition.stages[0].containers[0].games.find((el: any) => el.id === data.id);
+        Object.assign(game, data);
 
         if (state.competition.stages[0].containers[0].type === 'cup') {
+            const getNextGameNumber = (gameNumber: number) => {
+                let cupSize = 2;
+                while (cupSize < state.competition.stages[0].containers[0].size) {
+                    cupSize *= 2;
+                }
+
+                let round = 1;
+                let currentRound = cupSize / 2;
+                let previousRound = 0;
+                while (gameNumber > currentRound) {
+                    round++;
+                    previousRound = currentRound;
+                    currentRound += cupSize / Math.pow(2, round);
+                }
+
+                const gameNumberInRound = gameNumber - previousRound;
+                const nextGameNumber = Math.ceil(gameNumberInRound / 2) + currentRound;
+                return nextGameNumber === cupSize ? null : nextGameNumber;
+            };
+
+            const setCupGameWinner = (gameNumber: number) => {
+                let winner;
+                const game = state.competition.stages[0].containers[0].games.find((el: any) => el.number === gameNumber)
+                if (game.aResult == null || game.bResult == null || game.aResult === game.bResult) {
+                    return;
+                } else if (game.aResult > game.bResult) {
+                    winner = game.aCompetitor;
+                } else if (game.bResult > game.aResult) {
+                    winner = game.bCompetitor;
+                }
+
+                const isEven = gameNumber % 2 === 0;
+                let nextGameNumber = getNextGameNumber(gameNumber);
+
+                while (nextGameNumber !== null) {
+                    let nextGame = state.competition.stages[0].containers[0].games.find((el: any) => el.number === nextGameNumber);
+                    if (isEven) {
+                        nextGame.bCompetitor = winner;
+                    } else {
+                        nextGame.aCompetitor = winner;
+                    }
+
+                    if (nextGame.aResult == null || nextGame.bResult == null || nextGame.aResult === nextGame.bResult) {
+                        break;
+                    } else if (nextGame.aResult > nextGame.bResult) {
+                        winner = nextGame.aCompetitor;
+                    } else if (nextGame.bResult > nextGame.aResult) {
+                        winner = nextGame.bCompetitor;
+                    }
+
+                    nextGameNumber = getNextGameNumber(nextGameNumber);
+                }
+            };
+
+            const resetCupGameWinner = (gameNumber: number) => {
+                const isEven = gameNumber % 2 === 0;
+                let nextGameNumber = getNextGameNumber(gameNumber);
+
+                while (nextGameNumber !== null) {
+                    let nextGame = state.competition.stages[0].containers[0].games.find((el: any) => el.number === nextGameNumber)
+
+                    if (isEven) {
+                        nextGame.bCompetitor = null;
+                    } else {
+                        nextGame.aCompetitor = null;
+                    }
+
+                    nextGameNumber = getNextGameNumber(nextGameNumber);
+                }
+            };
+
             // byly 2 wyniki rozne, a teraz nie ma jednego lub sa rowne:
             if (game.aResult !== null && game.bResult !== null && game.aResult !== game.bResult && (data.aResult === null || data.bResult === null || game.aResult === data.bResult || game.bResult === data.aResult)) {
-                console.log('przypadek 1: rekurencyjne usuwanie')
+                resetCupGameWinner(game.number);
             }
             // byly 2 wyniki rozne, a teraz sa 2 wyniki rozne ale inny wygrany:
-            else if (game.aResult !== null && game.bResult !== null && game.aResult !== game.bResult && (
-                (data.aResult != null && data.aResult !== game.bResult && ((game.aResult / game.bResult) > 1) !== ((data.aResult / game.bResult) > 1)) ||
-                (data.bResult != null && data.bResult !== game.aResult && ((game.aResult / game.bResult) > 1) !== ((game.aResult / data.bResult) > 1)))) {
-                console.log('przypadek 3: rekurencyjne dodawanie')
+            else if (game.aResult !== null && game.bResult !== null && game.aResult !== game.bResult && ((data.aResult != null && data.aResult !== game.bResult && ((game.aResult / game.bResult) > 1) !== ((data.aResult / game.bResult) > 1)) || (data.bResult != null && data.bResult !== game.aResult && ((game.aResult / game.bResult) > 1) !== ((game.aResult / data.bResult) > 1)))) {
+                setCupGameWinner(game.number);
             }
             // nie bylo 2 wynikow roznych, a teraz sa:
             else if (((game.aResult === null && game.bResult !== null || game.aResult !== null && game.bResult === null) || game.aResult !== null && game.bResult !== null && game.aResult === game.bResult) && ((data.aResult != null && game.bResult !== null && data.aResult !== game.bResult) || (data.bResult != null && game.aResult !== null && data.bResult !== game.aResult))) {
-                console.log('przypadek 2: rekurencyjne dodawanie')
+                // TODO warunek powyzszy nie trybi
+                setCupGameWinner(game.number);
             }
         }
-
-        Object.assign(game, data);
     }
 };
 

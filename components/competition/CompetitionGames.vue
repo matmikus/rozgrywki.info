@@ -40,7 +40,7 @@
                                 </template>
                                 <template v-else>
                                     <div class="game-result"
-                                         v-if="game.aResult != null && game.bResult != null">
+                                         v-if="game.aResult != null && game.bResult != null && game.aCompetitor != null && game.bCompetitor != null">
                                         {{ `${game.aResult}:${game.bResult}` }}
                                     </div>
                                 </template>
@@ -69,7 +69,7 @@
                                 </template>
                                 <template v-else>
                                     <div class="game-details"
-                                         v-if="game.aResult != null && game.bResult != null && game.details">
+                                         v-if="game.aResult != null && game.bResult != null && game.details && game.aCompetitor != null && game.bCompetitor != null">
                                         {{ `${game.aResult}:${game.bResult}` }}
                                         {{ game.details ? ` (${game.details})` : '' }}
                                     </div>
