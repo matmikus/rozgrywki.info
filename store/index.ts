@@ -253,7 +253,6 @@ export const mutations = {
         }
 
         const game = state.competition.stages[0].containers[0].games.find((el: any) => el.id === data.id);
-        Object.assign(game, data);
 
         if (state.competition.stages[0].containers[0].type === 'cup') {
             const getNextGameNumber = (gameNumber: number) => {
@@ -279,6 +278,7 @@ export const mutations = {
             const setCupGameWinner = (gameNumber: number) => {
                 let winner;
                 const game = state.competition.stages[0].containers[0].games.find((el: any) => el.number === gameNumber)
+
                 if (game.aResult == null || game.bResult == null || game.aResult === game.bResult) {
                     return;
                 } else if (game.aResult > game.bResult) {
@@ -326,21 +326,23 @@ export const mutations = {
                     nextGameNumber = getNextGameNumber(nextGameNumber);
                 }
             };
-
             // byly 2 wyniki rozne, a teraz nie ma jednego lub sa rowne:
             if (game.aResult !== null && game.bResult !== null && game.aResult !== game.bResult && (data.aResult === null || data.bResult === null || game.aResult === data.bResult || game.bResult === data.aResult)) {
                 resetCupGameWinner(game.number);
             }
             // byly 2 wyniki rozne, a teraz sa 2 wyniki rozne ale inny wygrany:
             else if (game.aResult !== null && game.bResult !== null && game.aResult !== game.bResult && ((data.aResult != null && data.aResult !== game.bResult && ((game.aResult / game.bResult) > 1) !== ((data.aResult / game.bResult) > 1)) || (data.bResult != null && data.bResult !== game.aResult && ((game.aResult / game.bResult) > 1) !== ((game.aResult / data.bResult) > 1)))) {
+                Object.assign(game, data);
                 setCupGameWinner(game.number);
             }
             // nie bylo 2 wynikow roznych, a teraz sa:
-            else if (((game.aResult === null && game.bResult !== null || game.aResult !== null && game.bResult === null) || game.aResult !== null && game.bResult !== null && game.aResult === game.bResult) && ((data.aResult != null && game.bResult !== null && data.aResult !== game.bResult) || (data.bResult != null && game.aResult !== null && data.bResult !== game.aResult))) {
-                // TODO warunek powyzszy nie trybi
+            else if (((game.aResult === null && game.bResult !== null || game.aResult !== null && game.bResult === null) || (game.aResult !== null && game.bResult !== null && game.aResult === game.bResult)) && ((data.aResult != null && game.bResult !== null && data.aResult !== game.bResult) || (data.bResult != null && game.aResult !== null && data.bResult !== game.aResult))) {
+                Object.assign(game, data);
                 setCupGameWinner(game.number);
             }
         }
+
+        Object.assign(game, data);
     }
 };
 
