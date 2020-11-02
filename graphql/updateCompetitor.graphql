@@ -1,0 +1,1 @@
+#update_competitors(where: {id: {_eq: 10}}, _set: {name: ""})

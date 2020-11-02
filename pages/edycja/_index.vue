@@ -11,6 +11,7 @@
 <script lang="ts">
     import Competition from '@/components/competition/Competition.vue';
     import SaveIcon from '@/assets/icons/save.svg';
+    import updateCompetition from '@/graphql/updateCompetition.graphql';
 
     export default {
         middleware: ['authenticated', 'resetCompetition'],
@@ -26,8 +27,9 @@
                 console.log('zapis');
                 // TODO:
                 // 1. walidacja,
-                // 2. sprawdzenie czy puchar i ustawienie uczestnika nastepnego meczu,
-                // 3. request z zapisem obslużony
+                // 2. request z zapisem obslużony
+
+
             }
         }
     };

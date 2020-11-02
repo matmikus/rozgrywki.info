@@ -1,0 +1,1 @@
+#update_games(where: {id: {_eq: 10}}, _set: {aCompetitorId: 10, aResult: "", bCompetitorId: 10, bResult: "", date: "", details: ""})
