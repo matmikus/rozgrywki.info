@@ -86,18 +86,7 @@ module.exports = {
     ],
     apollo: {
         clientConfigs: {
-            default: {
-                httpEndpoint: process.env.GRAPHQL_ENDPOINT,
-                httpLinkOptions: {
-                    credentials: 'same-origin'
-                },
-                tokenName: 'authToken',
-                defaultOptions: {
-                    $query: {
-                        fetchPolicy: 'network-only'
-                    }
-                }
-            }
+            default: '~/plugins/apollo-client.js'
         },
         authenticationType: ''
     },

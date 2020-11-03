@@ -1,1 +1,21 @@
-#update_containers(where: {id: {_eq: 10}}, _set: {drawPoints: "", isDrawEnabled: false, loserPoints: "", winnerPoints: "", onePointLoserPoints: "", onePointWinnerPoints: "", rankDirectGameOrder: "", rankGamesAmountOrder: "", rankGamesRatioOrder: "", rankPointsOrder: "", rankResultsRatioOrder: ""})
+mutation ($id: Int, $drawPoints: smallint, $isDrawEnabled: Boolean, $loserPoints: smallint, $winnerPoints: smallint, $onePointLoserPoints: smallint, $onePointWinnerPoints: smallint, $rankDirectGameOrder: smallint, $rankGamesAmountOrder: smallint, $rankGamesRatioOrder: smallint, $rankPointsOrder: smallint, $rankResultsRatioOrder: smallint) {
+    updateContainer: update_containers(
+        where: {
+            id: {_eq: $id}
+        },
+        _set: {
+            drawPoints: $drawPoints,
+            isDrawEnabled: $isDrawEnabled,
+            loserPoints: $loserPoints,
+            winnerPoints: $winnerPoints,
+            onePointLoserPoints: $onePointLoserPoints,
+            onePointWinnerPoints: $onePointWinnerPoints,
+            rankDirectGameOrder: $rankDirectGameOrder,
+            rankGamesAmountOrder: $rankGamesAmountOrder,
+            rankGamesRatioOrder: $rankGamesRatioOrder,
+            rankPointsOrder: $rankPointsOrder,
+            rankResultsRatioOrder: $rankResultsRatioOrder
+        }){
+        affected_rows
+    }
+}

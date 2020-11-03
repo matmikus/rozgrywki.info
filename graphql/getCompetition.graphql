@@ -1,5 +1,6 @@
 query ($route: String) {
     getCompetition: competitions(where: {routeName: {_eq: $route}, _and: {visible: {_eq: true}}}) {
+        id
         name
         createdAt
         updatedAt
@@ -11,6 +12,7 @@ query ($route: String) {
             promotionCount
             sequenceNumber
             containers (order_by: {id: asc}) {
+                id
                 name
                 drawPoints
                 isDouble

@@ -12,6 +12,9 @@
     import Competition from '@/components/competition/Competition.vue';
     import SaveIcon from '@/assets/icons/save.svg';
     import updateCompetition from '@/graphql/updateCompetition.graphql';
+    import updateContainer from '@/graphql/updateContainer.graphql';
+    import updateCompetitor from '@/graphql/updateCompetitor.graphql';
+    import updateGame from '@/graphql/updateGame.graphql';
 
     export default {
         middleware: ['authenticated', 'resetCompetition'],
@@ -20,16 +23,93 @@
         computed: {
             isScrolling () {
                 return this.$store.state.competitionScrollingDown;
+            },
+            competition () {
+                return this.$store.state.competition;
             }
         },
         methods: {
-            onSaveClick () {
-                console.log('zapis');
-                // TODO:
-                // 1. walidacja,
-                // 2. request z zapisem obslużony
+            async onSaveClick () {
+                if (!this.isFormValidate()) {
+                    console.log('%cbłąd walidacji', 'color: red')
+                    return;
+                }
 
+                this.updateCompetition().then(() => this.updateContainer()).then(() => this.updateCompetitors());
+            },
+            isFormValidate () {
+                return true;// TODO WALIDACJA
+            },
+            updateCompetition () {
+                const competition = this.competition;
 
+                return this.$apollo.mutate({
+                    mutation: updateCompetition,
+                    variables: {
+                        id: competition.id,
+                        description: competition.description,
+                        end: competition.end,
+                        name: competition.name,
+                        routeName: competition.routeName,
+                        start: competition.start
+                    }
+                });
+            },
+            updateContainer () {
+                const container = this.competition.stages[0].containers[0];
+
+                return this.$apollo.mutate({
+                    mutation: updateContainer,
+                    variables: {
+                        id: container.id,
+                        drawPoints: container.drawPoints,
+                        isDrawEnabled: container.isDrawEnabled,
+                        loserPoints: container.loserPoints,
+                        winnerPoints: container.winnerPoints,
+                        onePointLoserPoints: container.onePointLoserPoints,
+                        onePointWinnerPoints: container.onePointWinnerPoints,
+                        rankDirectGameOrder: container.rankDirectGameOrder,
+                        rankGamesAmountOrder: container.rankGamesAmountOrder,
+                        rankGamesRatioOrder: container.rankGamesRatioOrder,
+                        rankPointsOrder: container.rankPointsOrder,
+                        rankResultsRatioOrder: container.rankResultsRatioOrder
+                    }
+                });
+            },
+            updateCompetitors () {
+                const arr = [];
+
+                for (let competitor of this.competition.stages[0].containers[0].competitors) {
+                    arr.push(this.$apollo.mutate({
+                        mutation: updateCompetitor,
+                        variables: {
+                            id: competitor.id,
+                            name: competitor.name
+                        }
+                    }));
+                }
+
+                return Promise.all(arr);
+            },
+            updateGames () {
+                const arr = [];
+
+                for (let game of this.competition.stages[0].containers[0].games) {
+                    arr.push(this.$apollo.mutate({
+                        mutation: updateGame,
+                        variables: {
+                            id: game.id,
+                            aCompetitorId: game.aCompetitorId,
+                            bCompetitorId: game.bCompetitorId,
+                            aResult: game.aResult,
+                            bResult: game.bResult,
+                            date: game.date,
+                            details: game.details
+                        }
+                    }));
+                }
+
+                return Promise.all(arr);
             }
         }
     };

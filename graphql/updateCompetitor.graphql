@@ -1,1 +1,11 @@
-#update_competitors(where: {id: {_eq: 10}}, _set: {name: ""})
+mutation ($id: Int, $name: String) {
+    updateCompetitor: update_competitors(
+        where: {
+            id: {_eq: $id}
+        },
+        _set: {
+            name: $name
+        }){
+        affected_rows
+    }
+}
