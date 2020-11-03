@@ -35,7 +35,7 @@
                     return;
                 }
 
-                this.updateCompetition().then(() => this.updateContainer()).then(() => this.updateCompetitors());
+                this.updateCompetition().then(() => this.updateContainer()).then(() => this.updateCompetitors()).then(() => this.updateGames());
             },
             isFormValidate () {
                 return true;// TODO WALIDACJA
@@ -99,8 +99,8 @@
                         mutation: updateGame,
                         variables: {
                             id: game.id,
-                            aCompetitorId: game.aCompetitorId,
-                            bCompetitorId: game.bCompetitorId,
+                            aCompetitorId: game.aCompetitor !== null ? game.aCompetitor.id : null,
+                            bCompetitorId: game.bCompetitor !== null ? game.bCompetitor.id : null,
                             aResult: game.aResult,
                             bResult: game.bResult,
                             date: game.date,
