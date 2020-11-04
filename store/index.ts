@@ -1,4 +1,5 @@
 import { getGroupRanking } from '@/scripts/getGroupRanking';
+import { generateGamesForContainer } from '@/scripts/generateGames';
 
 export const state = () => ({
     bar: {
@@ -343,6 +344,9 @@ export const mutations = {
         }
 
         Object.assign(game, data);
+    },
+    createCompetitionGames (state: any) {
+        state.competition.stages[0].containers[0].games = generateGamesForContainer(state.competition.stages[0].containers[0]);
     }
 };
 
@@ -450,6 +454,10 @@ export const actions = {
     },
     setCompetitionSize (context: any, size: number) {
         context.commit('setCompetitionSize', size);
+
+        if (!this.state.competitionEditLock) {
+            context.commit('createCompetitionGames');
+        }
     },
     setCompetitionGroupRanking (context: any) {
         context.commit('setCompetitionGroupRanking');
@@ -477,9 +485,17 @@ export const actions = {
     },
     setCompetitionType (context: any, value: string) {
         context.commit('setCompetitionType', value);
+
+        if (!this.state.competitionEditLock) {
+            context.commit('createCompetitionGames');
+        }
     },
     setCompetitionIsDouble (context: any, value: boolean) {
         context.commit('setCompetitionIsDouble', value);
+
+        if (!this.state.competitionEditLock) {
+            context.commit('createCompetitionGames');
+        }
     },
     setCompetitionResultData (context: any, data: any) {
         context.commit('setCompetitionResultData', data);

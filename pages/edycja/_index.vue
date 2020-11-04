@@ -34,6 +34,9 @@
             },
             competition () {
                 return this.$store.state.competition;
+            },
+            isNew () {
+                return !this.$store.state.competitionEditLock;
             }
         },
         data () {
@@ -43,6 +46,11 @@
         },
         methods: {
             async onSaveClick () {
+                if (this.isNew) {
+                    console.log('zapis nowego')//TODO
+                    return;
+                }
+
                 this.$store.dispatch('closeSnackbar');
                 this.saving = true;
 
