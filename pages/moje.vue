@@ -64,6 +64,7 @@
     import getMyCompetitions from '@/graphql/getMyCompetitions.graphql';
     import loader from '@/components/Loader.vue';
     import listIcon from '@/assets/icons/list.svg';
+    import { getUserId } from '@/scripts/getUserId.ts';
 
     export default {
         layout: 'simple',
@@ -84,7 +85,7 @@
                 query: getMyCompetitions,
                 variables () {
                     return {
-                        userId: this.getUserId()
+                        userId: getUserId(this)
                     };
                 }
             }
@@ -106,19 +107,6 @@
             }
         },
         methods: {
-            getUserId () {
-                const strategy = this.$auth.strategy.name;
-
-                if (strategy === 'google') {
-                    return `google-${this.$auth.user.sub}`;
-                }
-
-                if (strategy === 'facebook') {
-                    return `facebook-${this.$auth.user.id}`;
-                }
-
-                return '';
-            },
             getNiceDateTime (dateTime: string) {
                 return this.$dayjs(dateTime).format('DD-MM-YYYY HH:mm:ss');
             },

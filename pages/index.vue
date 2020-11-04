@@ -46,7 +46,8 @@
                     </div>
                     <div>
                         <div class="type-name">Puchar podwójnej eliminacji</div>
-                        <div class="type-description">(sytem brazylijski)</div>
+                        <!--<div class="type-description">(sytem brazylijski)</div>-->
+                        <div class="type-description">(w&nbsp;przygotowaniu)</div>
                     </div>
                 </div>
                 <div class="type-container">
@@ -55,8 +56,8 @@
                     </div>
                     <div>
                         <div class="type-name">Mieszane</div>
-                        <div class="type-description">(etapy składające się z poprzednich rodzajów)
-                        </div>
+                        <!--<div class="type-description">(etapy składające się z poprzednich rodzajów)</div>-->
+                        <div class="type-description">(w&nbsp;przygotowaniu)</div>
                     </div>
                 </div>
             </div>
@@ -69,7 +70,7 @@
                         Punkty za wygraną / przegraną / remis (jeśli umożliwiony)
                     </li>
                     <li>
-                        Opcjonalnie mecz i rewanż w pucharze, runda rewanżowa w systemie każdy z
+                        Runda rewanżowa w systemie każdy z
                         każdym
                     </li>
                     <li>

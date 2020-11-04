@@ -1,0 +1,15 @@
+mutation ($id: Int, $description: String, $end: date, $name: String, $routeName: String, $start: date) {
+    updateCompetition: update_competitions(
+        where: {
+            id: {_eq: $id}
+        },
+        _set: {
+            description: $description,
+            end: $end,
+            name: $name,
+            routeName: $routeName,
+            start: $start
+        }){
+        affected_rows
+    }
+}

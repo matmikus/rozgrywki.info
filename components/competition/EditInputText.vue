@@ -41,6 +41,14 @@
         },
         watch: {
             inputValue (newValue: string) {
+                if (this.type === 'number' && newValue !== null && newValue !== '') {
+                    this.inputValue = parseInt(this.inputValue, 10);
+                }
+
+                if (newValue === '') {
+                    this.inputValue = null;
+                }
+
                 this.error = !this.validationFunc(newValue);
             }
         }

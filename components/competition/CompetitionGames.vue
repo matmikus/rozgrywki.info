@@ -23,6 +23,8 @@
                                                          :max="1000"
                                                          :placeholder="'Wynik'"
                                                          :default-value="game.aResult"
+                                                         v-on:value-changed="onAResultChanged($event, game.id)"
+                                                         :disabled="game.aCompetitor === null || game.bCompetitor === null"
                                                          class="game-result-edit-left"></edit-input-text>
                                         <div class="game-result-divider">:</div>
                                         <edit-input-text :validation-func="gameResultValidatorFunc"
@@ -31,12 +33,14 @@
                                                          :min="0"
                                                          :placeholder="'Wynik'"
                                                          :default-value="game.bResult"
+                                                         v-on:value-changed="onBResultChanged($event, game.id)"
+                                                         :disabled="game.aCompetitor === null || game.bCompetitor === null"
                                                          :max="1000"></edit-input-text>
                                     </div>
                                 </template>
                                 <template v-else>
                                     <div class="game-result"
-                                         v-if="game.aResult != null && game.bResult != null">
+                                         v-if="game.aResult != null && game.bResult != null && game.aCompetitor != null && game.bCompetitor != null">
                                         {{ `${game.aResult}:${game.bResult}` }}
                                     </div>
                                 </template>
@@ -44,7 +48,9 @@
                             <td>
                                 <template v-if="mode === 'edit'">
                                     <div class="game-date-edit">
-                                        <edit-date-picker :info="'dd/mm/rrrr'" :default-value="game.date"></edit-date-picker>
+                                        <edit-date-picker :info="'dd/mm/rrrr'"
+                                                          v-on:value-changed="onDateChanged($event, game.id)"
+                                                          :default-value="game.date"></edit-date-picker>
                                     </div>
                                 </template>
                                 <template v-else>
@@ -57,12 +63,13 @@
                                         <edit-input-text :validation-func="gameResultDetailsValidatorFunc"
                                                          :info="'0-40 znaków'"
                                                          :default-value="game.details"
+                                                         v-on:value-changed="onDetailsChanged($event, game.id)"
                                                          :placeholder="'Szczegółowy wynik'"></edit-input-text>
                                     </div>
                                 </template>
                                 <template v-else>
                                     <div class="game-details"
-                                         v-if="game.aResult != null && game.bResult != null && game.details">
+                                         v-if="game.aResult != null && game.bResult != null && game.details && game.aCompetitor != null && game.bCompetitor != null">
                                         {{ `${game.aResult}:${game.bResult}` }}
                                         {{ game.details ? ` (${game.details})` : '' }}
                                     </div>
@@ -103,6 +110,27 @@
         methods: {
             getCompetitorName (competitorObj: { name: String } | null) {
                 return (competitorObj && competitorObj.name) || '?';
+            },
+            onAResultChanged (value: number, gameId: number) {
+                this.$store.dispatch('setCompetitionResultData', {
+                    id: gameId,
+                    aResult: value
+                });
+            },
+            onBResultChanged (value: number, gameId: number) {
+                this.$store.dispatch('setCompetitionResultData', {
+                    id: gameId,
+                    bResult: value
+                });
+            },
+            onDateChanged (value: number, gameId: number) {
+                this.$store.dispatch('setCompetitionResultData', { id: gameId, date: value });
+            },
+            onDetailsChanged (value: number, gameId: number) {
+                this.$store.dispatch('setCompetitionResultData', {
+                    id: gameId,
+                    details: value
+                });
             }
         }
     };

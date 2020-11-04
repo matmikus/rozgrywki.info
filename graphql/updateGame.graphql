@@ -1,0 +1,16 @@
+mutation ($id: Int, $aCompetitorId: Int, $bCompetitorId: Int, $aResult: smallint, $bResult: smallint, $date: date, $details: String) {
+    updateGame: update_games(
+        where: {
+            id: {_eq: $id}
+        },
+        _set: {
+            aCompetitorId: $aCompetitorId,
+            bCompetitorId: $bCompetitorId,
+            aResult: $aResult,
+            bResult: $bResult,
+            date: $date,
+            details: $details
+        }){
+        affected_rows
+    }
+}

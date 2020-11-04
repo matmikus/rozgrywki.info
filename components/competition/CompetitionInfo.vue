@@ -94,7 +94,6 @@
 
             </div>
         </div>
-        <competition-edit-cup v-if="mode === 'edit' && competitionType === 'cup'"></competition-edit-cup>
         <competition-edit-group v-if="mode === 'edit' && competitionType === 'group'"></competition-edit-group>
         <competition-edit-competitors v-if="mode === 'edit'"></competition-edit-competitors>
     </div>
@@ -103,7 +102,6 @@
 <script lang="ts">
     import CompetitionEditCompetitors from '@/components/competition/CompetitionEditCompetitors.vue';
     import CompetitionEditGroup from '@/components/competition/CompetitionEditGroup.vue';
-    import CompetitionEditCup from '@/components/competition/CompetitionEditCup.vue';
     import EditInputText from '@/components/competition/EditInputText.vue';
     import EditDatePicker from '@/components/competition/EditDatePicker.vue';
     import EditTextarea from '@/components/competition/EditTextarea.vue';
@@ -126,7 +124,6 @@
     };
     const COMPETITION_TYPE_VALUES: any = {
         cupSingle: 1,
-        cupDouble: 2,
         groupSingle: 3,
         groupDouble: 4,
         mixed: 5,
@@ -136,7 +133,7 @@
     export default {
         props: ['mode'],
         components: {
-            EditInputText, EditDatePicker, EditTextarea, EditSelect, CompetitionEditGroup, CompetitionEditCompetitors, CompetitionEditCup
+            EditInputText, EditDatePicker, EditTextarea, EditSelect, CompetitionEditGroup, CompetitionEditCompetitors
         },
         computed: {
             competition () {
@@ -161,10 +158,6 @@
                         text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.single
                     },
                     {
-                        value: COMPETITION_TYPE_VALUES.cupDouble,
-                        text: COMPETITION_TYPE_NAMES.cup + COMPETITION_VOLUME_NAMES.double
-                    },
-                    {
                         value: COMPETITION_TYPE_VALUES.groupSingle,
                         text: COMPETITION_TYPE_NAMES.group + COMPETITION_VOLUME_NAMES.single
                     },
@@ -178,7 +171,7 @@
                         disabled: true
                     },
                     {
-                        value: 'doubleEliminationCup',
+                        value: COMPETITION_TYPE_VALUES.doubleEliminationCup,
                         text: COMPETITION_TYPE_NAMES.doubleEliminationCup,
                         disabled: true
                     }
@@ -225,11 +218,11 @@
                 }
 
                 if (competitionData.stages[0].containers[0].type === 'group') {
-                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES.groupDouble : COMPETITION_TYPE_VALUES.groupSingle;
+                    return competitionData.stages[0].containers[0].isDouble ? COMPETITION_TYPE_VALUES.groupDouble : COMPETITION_TYPE_VALUES.groupSingle;
                 }
 
                 if (competitionData.stages[0].containers[0].type === 'cup') {
-                    return competitionData.stages[0].containers[0].isDoubleEliminationCup ? COMPETITION_TYPE_VALUES.cupDouble : COMPETITION_TYPE_VALUES.cupSingle;
+                    return COMPETITION_TYPE_VALUES.cupSingle;
                 }
 
                 return '';
@@ -259,8 +252,8 @@
                     }
                 }
 
-                this.$store.dispatch('setCompetitionType', type === 'cupSingle' || type === 'cupDouble' ? 'cup' : 'group');
-                this.$store.dispatch('setCompetitionIsDouble', type === 'cupDouble' || type === 'groupDouble');
+                this.$store.dispatch('setCompetitionType', type === 'cupSingle' ? 'cup' : 'group');
+                this.$store.dispatch('setCompetitionIsDouble', type === 'groupDouble');
             }
         }
     };
