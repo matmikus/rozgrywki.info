@@ -71,13 +71,13 @@
             },
             checkDuplicates () {
                 this.$refs.competitorName.forEach((el: any) => {
-                    if (el.inputValue.length > 2) {
+                    if (el.inputValue != undefined && el.inputValue.length > 2) {
                         el.error = false;
                     }
                 });
 
                 for (let nameInput of this.$refs.competitorName) {
-                    if (nameInput.inputValue.length === 0) {
+                    if (nameInput.inputValue == undefined || nameInput.inputValue.length === 0) {
                         continue;
                     }
 

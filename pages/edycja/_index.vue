@@ -1,14 +1,22 @@
 <template>
     <div id="edit-container">
-        <competition :route-name-param-name="'index'" :mode="'edit'"></competition>
-        <div class="floating-button" :is-scrolling="isScrolling" @click="onSaveClick">
+        <competition v-if="!saving"
+                     :route-name-param-name="'index'"
+                     :mode="'edit'"
+                     ref="competitionContainer"></competition>
+        <div v-if="!saving"
+             class="floating-button"
+             :is-scrolling="isScrolling"
+             @click="onSaveClick">
             <save-icon class="floating-button-icon"></save-icon>
             <div class="floating-button-text">ZAPISZ</div>
         </div>
+        <loader v-if="saving"></loader>
     </div>
 </template>
 
 <script lang="ts">
+    import loader from '@/components/Loader.vue';
     import Competition from '@/components/competition/Competition.vue';
     import SaveIcon from '@/assets/icons/save.svg';
     import updateCompetition from '@/graphql/updateCompetition.graphql';
@@ -19,7 +27,7 @@
     export default {
         middleware: ['authenticated', 'resetCompetition'],
         layout: 'competition',
-        components: { Competition, SaveIcon },
+        components: { Competition, SaveIcon, loader },
         computed: {
             isScrolling () {
                 return this.$store.state.competitionScrollingDown;
@@ -28,17 +36,45 @@
                 return this.$store.state.competition;
             }
         },
+        data () {
+            return {
+                saving: false
+            }
+        },
         methods: {
             async onSaveClick () {
-                if (!this.isFormValidate()) {
-                    console.log('%cbłąd walidacji', 'color: red')
+                this.$store.dispatch('closeSnackbar');
+                this.saving = true;
+
+                if (this.hasFormErrors()) {
+                    this.saving = false;
+                    this.$store.dispatch('showSnackbar', {
+                        message: 'Niepoprawne dane. Popraw formularz.',
+                        actionText: 'OK'
+                    });
+
                     return;
                 }
 
-                this.updateCompetition().then(() => this.updateContainer()).then(() => this.updateCompetitors()).then(() => this.updateGames());
+                this.updateCompetition()
+                    .then(() => this.updateContainer())
+                    .then(() => this.updateCompetitors())
+                    .then(() => this.updateGames())
+                    .then(() => this.onSaveSuccess(true))
+                    .catch(() => this.onSaveSuccess(false));
             },
-            isFormValidate () {
-                return true;// TODO WALIDACJA
+            hasFormErrors () {
+                const getErrors = (component: any) => {
+                    if (component.$children === undefined || component.$children.length === 0) {
+                        return [component.error];
+                    } else {
+                        const arr = component.$children;
+
+                        return arr.map((el: any) => getErrors(el));
+                    }
+                };
+
+                return getErrors(this.$refs.competitionContainer).flat(999).includes(true);
             },
             updateCompetition () {
                 const competition = this.competition;
@@ -110,6 +146,22 @@
                 }
 
                 return Promise.all(arr);
+            },
+            onSaveSuccess (success: Boolean) {
+                this.saving = false;
+
+                setTimeout(() => {
+                    if (success) {
+                        this.$store.dispatch('showSnackbar', {
+                            message: 'Zapisano pomyślnie!'
+                        });
+                    } else {
+                        this.$store.dispatch('showSnackbar', {
+                            message: 'Wystąpił błąd podczas zapisu.',
+                            actionText: 'OK'
+                        });
+                    }
+                }, 200);
             }
         }
     };

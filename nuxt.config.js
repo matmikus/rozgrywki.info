@@ -88,6 +88,11 @@ module.exports = {
         clientConfigs: {
             default: '~/plugins/apollo-client.js'
         },
+        defaultOptions: {
+            $query: {
+                fetchPolicy: 'no-cache'
+            }
+        },
         authenticationType: ''
     },
     webfontloader: {
