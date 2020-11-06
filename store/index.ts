@@ -130,7 +130,7 @@ export const mutations = {
                 promotionCount: null,
                 sequenceNumber: 1,
                 containers: [{
-                    competitors: [{ name: '', tempId: 0 }, { name: '', tempId: 1 }],
+                    competitors: [{ name: '', id: 0 }, { name: '', id: 1 }],
                     drawPoints: null,
                     games: [],
                     isDouble: false,
@@ -218,11 +218,7 @@ export const mutations = {
         let arr: any = [];
 
         for (let i = 0; i < size; i++) {
-            arr.push({ name: '', tempId: i });
-        }
-
-        for (let i = 0; i < arr.length && i < state.competition.stages[0].containers[0].competitors.length; i++) {
-            arr[i].name = state.competition.stages[0].containers[0].competitors[i].name;
+            arr.push({ name: '', id: i });
         }
 
         state.competition.stages[0].containers[0].competitors = arr;
@@ -345,8 +341,8 @@ export const mutations = {
 
         Object.assign(game, data);
     },
-    createCompetitionGames (state: any) {
-        state.competition.stages[0].containers[0].games = generateGamesForContainer(state.competition.stages[0].containers[0]);
+    createCompetitionGames (state: any, data: any) {
+        state.competition.stages[0].containers[0].games = generateGamesForContainer(state.competition.stages[0].containers[0], data);
     }
 };
 
@@ -454,19 +450,14 @@ export const actions = {
     },
     setCompetitionSize (context: any, size: number) {
         context.commit('setCompetitionSize', size);
-
-        if (!this.state.competitionEditLock) {
-            context.commit('createCompetitionGames');
-        }
+        context.commit('setEmptyCompetitorsList', size);
+        context.commit('createCompetitionGames', { size: size });
     },
     setCompetitionGroupRanking (context: any) {
         context.commit('setCompetitionGroupRanking');
     },
     setCompetitorName (context: any, data: any) {
         context.commit('setCompetitorName', data);
-    },
-    setEmptyCompetitorsList (context: any, size: number) {
-        context.commit('setEmptyCompetitorsList', size);
     },
     setCompetitionName (context: any, value: string) {
         context.commit('setCompetitionName', value);
@@ -483,19 +474,10 @@ export const actions = {
     setCompetitionEndDate (context: any, value: string) {
         context.commit('setCompetitionEndDate', value);
     },
-    setCompetitionType (context: any, value: string) {
-        context.commit('setCompetitionType', value);
-
-        if (!this.state.competitionEditLock) {
-            context.commit('createCompetitionGames');
-        }
-    },
-    setCompetitionIsDouble (context: any, value: boolean) {
-        context.commit('setCompetitionIsDouble', value);
-
-        if (!this.state.competitionEditLock) {
-            context.commit('createCompetitionGames');
-        }
+    setCompetitionTypeAndDouble (context: any, data: { type: string, isDouble: boolean }) {
+        context.commit('setCompetitionType', data.type);
+        context.commit('setCompetitionIsDouble', data.isDouble);
+        context.commit('createCompetitionGames', data);
     },
     setCompetitionResultData (context: any, data: any) {
         context.commit('setCompetitionResultData', data);

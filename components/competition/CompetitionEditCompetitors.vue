@@ -60,6 +60,13 @@
         methods: {
             onSizeChanged (value: number) {
                 this.$store.dispatch('setCompetitionSize', value);
+
+                this.$refs.competitorName.forEach((el: any) => {
+                    el.inputValue = '';
+                    setTimeout(() => {
+                        el.error = false;
+                    }, 1);
+                });
             },
             onCompetitorNameChanged (index: number, value: string) {
                 this.$store.dispatch('setCompetitorName', { index: index, name: value });
@@ -88,11 +95,6 @@
                     }
                 }
 
-            }
-        },
-        watch: {
-            size (value: number) {
-                this.$store.dispatch('setEmptyCompetitorsList', value);
             }
         }
     };

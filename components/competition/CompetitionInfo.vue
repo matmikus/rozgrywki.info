@@ -252,8 +252,7 @@
                     }
                 }
 
-                this.$store.dispatch('setCompetitionType', type === 'cupSingle' ? 'cup' : 'group');
-                this.$store.dispatch('setCompetitionIsDouble', type === 'groupDouble');
+                this.$store.dispatch('setCompetitionTypeAndDouble', { type: type === 'cupSingle' ? 'cup' : 'group', isDouble: type === 'groupDouble' });
             }
         }
     };
