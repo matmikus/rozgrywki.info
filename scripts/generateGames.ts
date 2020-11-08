@@ -56,7 +56,6 @@ export function generateGamesForContainer (container: any, data: any) {
             if (games[i].aCompetitor === null) setCupGameWiner(cupSize, games, games[i].number, games[i].bCompetitor);
             else if (games[i].bCompetitor === null) setCupGameWiner(cupSize, games, games[i].number, games[i].aCompetitor);
         }
-
     } else if (type === 'group') {
         games = getBergerTable(competitors);
 
@@ -75,7 +74,6 @@ export function generateGamesForContainer (container: any, data: any) {
 
             games = games.concat(secondRound);
         }
-
     }
 
     return games;
@@ -111,6 +109,9 @@ function getBergerTable (competitors: any[]) {
         el.bResult = null;
         el.details = null;
         el.date = null;
+        el.id = el.number;
+
+        return el;
     });
 }
 
@@ -161,5 +162,6 @@ function getNextGameNumber (cupSize: number, gameNumber: number) {
 
     const gameNumberInRound = gameNumber - previousRound;
     const nextGameNumber = Math.ceil(gameNumberInRound / 2) + currentRound;
+
     return nextGameNumber === cupSize ? null : nextGameNumber;
 }

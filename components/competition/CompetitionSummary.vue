@@ -52,7 +52,6 @@
 <script lang="ts">
     import cupIcon from '@/assets/icons/graph.svg';
     import rankingIcon from '@/assets/icons/format_list_numbered.svg';
-    import { getGroupRanking } from '@/scripts/getGroupRanking';
     import { getCupHtmlVisualization } from '@/scripts/getCupHtmlVisualization';
 
     export default {

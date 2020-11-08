@@ -269,6 +269,7 @@ export const mutations = {
 
                 const gameNumberInRound = gameNumber - previousRound;
                 const nextGameNumber = Math.ceil(gameNumberInRound / 2) + currentRound;
+
                 return nextGameNumber === cupSize ? null : nextGameNumber;
             };
 
@@ -452,6 +453,7 @@ export const actions = {
         context.commit('setCompetitionSize', size);
         context.commit('setEmptyCompetitorsList', size);
         context.commit('createCompetitionGames', { size: size });
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionGroupRanking (context: any) {
         context.commit('setCompetitionGroupRanking');
@@ -478,6 +480,7 @@ export const actions = {
         context.commit('setCompetitionType', data.type);
         context.commit('setCompetitionIsDouble', data.isDouble);
         context.commit('createCompetitionGames', data);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionResultData (context: any, data: any) {
         context.commit('setCompetitionResultData', data);
