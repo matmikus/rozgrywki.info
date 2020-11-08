@@ -48,6 +48,7 @@
             async onSaveClick () {
                 if (this.isNew) {
                     console.log('zapis nowego')//TODO
+                    console.log(this.hasFormErrors())
                     return;
                 }
 

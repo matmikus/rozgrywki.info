@@ -6,6 +6,7 @@
                     <span class="container-name-text">{{ container.name }}</span>
                 </div>
                 <div class="container-games">
+                    <div v-if="isEmpty">Mecze wygenerują się po wybraniu parametrów.</div>
                     <table class="data-table" cellspacing="0">
                         <tr v-for="game in container.games" :key="game.id" class="data-row">
                             <td class="game-number">#{{ game.number }}</td>
@@ -105,6 +106,9 @@
         computed: {
             competition () {
                 return this.$store.state.competition;
+            },
+            isEmpty () {
+                return this.$store.state.competition.stages[0].containers[0].games.length === 0;
             }
         },
         methods: {
