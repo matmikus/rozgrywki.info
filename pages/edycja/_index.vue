@@ -23,6 +23,8 @@
     import updateContainer from '@/graphql/updateContainer.graphql';
     import updateCompetitor from '@/graphql/updateCompetitor.graphql';
     import updateGame from '@/graphql/updateGame.graphql';
+    import insertCompetition from '@/graphql/insertCompetition.graphql';
+    import { getUserId } from '@/scripts/getUserId.ts';
 
     export default {
         middleware: ['authenticated', 'resetCompetition'],
@@ -46,12 +48,6 @@
         },
         methods: {
             async onSaveClick () {
-                if (this.isNew) {
-                    console.log('zapis nowego')//TODO
-                    console.log(this.hasFormErrors())
-                    return;
-                }
-
                 this.$store.dispatch('closeSnackbar');
                 this.saving = true;
 
@@ -61,6 +57,22 @@
                         message: 'Niepoprawne dane. Popraw formularz.',
                         actionText: 'OK'
                     });
+
+                    return;
+                }
+
+                if (this.isNew) {
+                    console.log('zapis nowego')
+                    return;
+                    //TODO: walidacja zeby nie puszczalo z pustymi wartosciami
+                    //TODO: zapis kolejnych rzeczy
+                    //TODO: czyszczenie zapisanych gdy coś nie tak
+                    this.insertCompetition()
+                        .then((res: any) => this.insertStage(res.data.insertCompetition.returning[0].id))
+                        .then(() => {
+                            this.onSaveSuccess(true);
+                        })
+                        .catch(() => this.onSaveSuccess(false));
 
                     return;
                 }
@@ -155,6 +167,33 @@
                 }
 
                 return Promise.all(arr);
+            },
+            insertCompetition () {
+                const competition = this.competition;
+
+                return this.$apollo.mutate({
+                    mutation: insertCompetition,
+                    variables: {
+                        description: competition.description,
+                        end: competition.end,
+                        name: competition.name,
+                        routeName: competition.routeName,
+                        start: competition.start,
+                        userId: getUserId(this)
+                    }
+                });
+            },
+            insertStage (competitionId: number) {
+                console.log(`insertStage(competitiorId=${competitionId})`)
+            },
+            insertContainer (stageId: number) {
+
+            },
+            insertCompetitors (containerId: number) {
+
+            },
+            insertGames (containerId: number) {
+
             },
             onSaveSuccess (success: Boolean) {
                 this.saving = false;
