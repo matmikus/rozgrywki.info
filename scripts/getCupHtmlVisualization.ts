@@ -7,8 +7,13 @@ export function getCupHtmlVisualization (competition: any) {
         return 'Brak wygenerowanych meczów';
     }
 
-    const roundsAmount = Math.sqrt(competition.size);
-    let currentRoundSize = competition.size;
+    let cupSize = 2;
+    while (cupSize < competition.competitors.length) {
+        cupSize *= 2;
+    }
+
+    const roundsAmount = Math.log2(cupSize);
+    let currentRoundSize = cupSize;
     let gameCounter = 0;
     let html = '<div class="cup-container">';
 
