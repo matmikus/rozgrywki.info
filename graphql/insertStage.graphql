@@ -1,0 +1,8 @@
+mutation ($competitionId: Int) {
+    insertStage: insert_stages(
+        objects: {
+            competitionId: $competitionId
+        }){
+        returning { id }
+    }
+}

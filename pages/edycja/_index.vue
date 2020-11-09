@@ -62,17 +62,34 @@
                 }
 
                 if (this.isNew) {
-                    console.log('zapis nowego')
-                    return;
-                    //TODO: walidacja zeby nie puszczalo z pustymi wartosciami
+                    if (this.hasEmptyValues()) {
+                        this.saving = false;
+                        this.$store.dispatch('showSnackbar', {
+                            message: 'Uzupełnij wszystkie pola formularza.',
+                            actionText: 'OK'
+                        });
+
+                        return;
+                    }
+
                     //TODO: zapis kolejnych rzeczy
-                    //TODO: czyszczenie zapisanych gdy coś nie tak
+                    let competitionId: number;
                     this.insertCompetition()
-                        .then((res: any) => this.insertStage(res.data.insertCompetition.returning[0].id))
+                        .then((res: any) => {
+                            competitionId = res.data.insertCompetition.returning[0].id;
+                            return this.insertStage(competitionId);
+                        })
+                        // .then((res: any) => this.insertContainer(res.data.insertStage.returning[0].id))
+                        // .then((res: any) => this.insertCompetitors(res.data.insertContainer.returning[0].id))
+                        // .then((res: any) => this.insertCompetitors(res.data.insertContainer.returning[0].id))
                         .then(() => {
                             this.onSaveSuccess(true);
                         })
-                        .catch(() => this.onSaveSuccess(false));
+                        .catch(() => {
+                            //TODO: czyszczenie zapisanych gdy coś nie tak
+                            console.log('dupa, do usuniecia competitionId ' + competitionId + ' i wszystko z nim powiazane')
+                            this.onSaveSuccess(false);
+                        });
 
                     return;
                 }
@@ -96,6 +113,19 @@
                 };
 
                 return getErrors(this.$refs.competitionContainer).flat(999).includes(true);
+            },
+            hasEmptyValues () {
+                const getValues = (component: any) => {
+                    if (component.$children === undefined || component.$children.length === 0) {
+                        return [component.inputValue === '' || component.newValue === '' || component.selected === ''];
+                    } else {
+                        const arr = component.$children;
+
+                        return arr.map((el: any) => getValues(el));
+                    }
+                };
+
+                return getValues(this.$refs.competitionContainer).flat(999).includes(true);
             },
             updateCompetition () {
                 const competition = this.competition;
@@ -185,6 +215,8 @@
             },
             insertStage (competitionId: number) {
                 console.log(`insertStage(competitiorId=${competitionId})`)
+
+                throw new Error();
             },
             insertContainer (stageId: number) {
 

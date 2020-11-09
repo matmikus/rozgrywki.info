@@ -131,15 +131,15 @@ export const mutations = {
                 sequenceNumber: 1,
                 containers: [{
                     competitors: [{ name: '', id: 0 }, { name: '', id: 1 }],
-                    drawPoints: null,
+                    drawPoints: 0,
                     games: [],
                     isDouble: false,
                     isDoubleEliminationCup: false,
                     isDrawEnabled: false,
-                    loserPoints: null,
+                    loserPoints: 0,
                     name: null,
-                    onePointLoserPoints: null,
-                    onePointWinnerPoints: null,
+                    onePointLoserPoints: 0,
+                    onePointWinnerPoints: 0,
                     rankDirectGameOrder: 5,
                     rankGamesAmountOrder: 4,
                     rankGamesRatioOrder: 2,
@@ -147,7 +147,7 @@ export const mutations = {
                     rankResultsRatioOrder: 3,
                     size: 2,
                     type: undefined,
-                    winnerPoints: null
+                    winnerPoints: 0
                 }],
             }],
             start: '',

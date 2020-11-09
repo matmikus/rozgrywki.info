@@ -1,0 +1,5 @@
+mutation ($id: Int) {
+  deleteCompetition: delete_competitions(where:  {id: {_eq: $id}}){
+    affected_rows
+  }
+}

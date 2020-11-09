@@ -82,7 +82,10 @@ export function getGroupRanking (container: any) {
                 accumulator.points += container.loserPoints;
                 accumulator.losts += 1;
             } else {
-                accumulator.points += container.drawPoints;
+                if (container.isDrawEnabled) {
+                    accumulator.points += container.drawPoints;
+                }
+
                 accumulator.draws += 1;
             }
 

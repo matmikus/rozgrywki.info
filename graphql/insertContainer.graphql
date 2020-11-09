@@ -1,0 +1,15 @@
+mutation ($stageId: Int, $type: text, $size: smallint, $isDouble: boolean, $winnerPoints: smallint, $loserPoints: smallint, $drawPoints: smallint, $isDrawEnabled: boolean) {
+    insertContainer: insert_containers(
+        objects: {
+            stageId: $stageId,
+            type: $type,
+            size: $size,
+            isDouble: $isDouble,
+            winnerPoints: $winnerPoints,
+            loserPoints: $loserPoints,
+            drawPoints: $drawPoints,
+            isDrawEnabled: $isDrawEnabled
+        }){
+        returning { id }
+    }
+}
