@@ -1,0 +1,5 @@
+mutation ($containerId: Int) {
+  deleteGame: delete_games(where:  {containerId: {_eq: $containerId}}){
+    affected_rows
+  }
+}

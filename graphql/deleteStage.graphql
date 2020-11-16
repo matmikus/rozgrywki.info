@@ -1,0 +1,5 @@
+mutation ($competitionId: Int) {
+  deleteStage: delete_stages(where:  {competitionId: {_eq: $competitionId}}){
+    affected_rows
+  }
+}

@@ -130,16 +130,16 @@ export const mutations = {
                 promotionCount: null,
                 sequenceNumber: 1,
                 containers: [{
-                    competitors: [{ name: '', tempId: 0 }, { name: '', tempId: 1 }],
-                    drawPoints: null,
+                    competitors: [{ name: '', id: 0 }, { name: '', id: 1 }],
+                    drawPoints: 0,
                     games: [],
                     isDouble: false,
                     isDoubleEliminationCup: false,
                     isDrawEnabled: false,
-                    loserPoints: null,
+                    loserPoints: 0,
                     name: null,
-                    onePointLoserPoints: null,
-                    onePointWinnerPoints: null,
+                    onePointLoserPoints: 0,
+                    onePointWinnerPoints: 0,
                     rankDirectGameOrder: 5,
                     rankGamesAmountOrder: 4,
                     rankGamesRatioOrder: 2,
@@ -147,7 +147,7 @@ export const mutations = {
                     rankResultsRatioOrder: 3,
                     size: 2,
                     type: undefined,
-                    winnerPoints: null
+                    winnerPoints: 0
                 }],
             }],
             start: '',
@@ -218,11 +218,7 @@ export const mutations = {
         let arr: any = [];
 
         for (let i = 0; i < size; i++) {
-            arr.push({ name: '', tempId: i });
-        }
-
-        for (let i = 0; i < arr.length && i < state.competition.stages[0].containers[0].competitors.length; i++) {
-            arr[i].name = state.competition.stages[0].containers[0].competitors[i].name;
+            arr.push({ name: '', id: i });
         }
 
         state.competition.stages[0].containers[0].competitors = arr;
@@ -273,6 +269,7 @@ export const mutations = {
 
                 const gameNumberInRound = gameNumber - previousRound;
                 const nextGameNumber = Math.ceil(gameNumberInRound / 2) + currentRound;
+
                 return nextGameNumber === cupSize ? null : nextGameNumber;
             };
 
@@ -345,8 +342,8 @@ export const mutations = {
 
         Object.assign(game, data);
     },
-    createCompetitionGames (state: any) {
-        state.competition.stages[0].containers[0].games = generateGamesForContainer(state.competition.stages[0].containers[0]);
+    createCompetitionGames (state: any, data: any) {
+        state.competition.stages[0].containers[0].games = generateGamesForContainer(state.competition.stages[0].containers[0], data);
     }
 };
 
@@ -454,19 +451,15 @@ export const actions = {
     },
     setCompetitionSize (context: any, size: number) {
         context.commit('setCompetitionSize', size);
-
-        if (!this.state.competitionEditLock) {
-            context.commit('createCompetitionGames');
-        }
+        context.commit('setEmptyCompetitorsList', size);
+        context.commit('createCompetitionGames', { size: size });
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionGroupRanking (context: any) {
         context.commit('setCompetitionGroupRanking');
     },
     setCompetitorName (context: any, data: any) {
         context.commit('setCompetitorName', data);
-    },
-    setEmptyCompetitorsList (context: any, size: number) {
-        context.commit('setEmptyCompetitorsList', size);
     },
     setCompetitionName (context: any, value: string) {
         context.commit('setCompetitionName', value);
@@ -483,19 +476,11 @@ export const actions = {
     setCompetitionEndDate (context: any, value: string) {
         context.commit('setCompetitionEndDate', value);
     },
-    setCompetitionType (context: any, value: string) {
-        context.commit('setCompetitionType', value);
-
-        if (!this.state.competitionEditLock) {
-            context.commit('createCompetitionGames');
-        }
-    },
-    setCompetitionIsDouble (context: any, value: boolean) {
-        context.commit('setCompetitionIsDouble', value);
-
-        if (!this.state.competitionEditLock) {
-            context.commit('createCompetitionGames');
-        }
+    setCompetitionTypeAndDouble (context: any, data: { type: string, isDouble: boolean }) {
+        context.commit('setCompetitionType', data.type);
+        context.commit('setCompetitionIsDouble', data.isDouble);
+        context.commit('createCompetitionGames', data);
+        context.commit('setCompetitionGroupRanking');
     },
     setCompetitionResultData (context: any, data: any) {
         context.commit('setCompetitionResultData', data);

@@ -1,0 +1,5 @@
+mutation ($containerId: Int) {
+  deleteCompetitor: delete_competitors(where:  {containerId: {_eq: $containerId}}){
+    affected_rows
+  }
+}

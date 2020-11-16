@@ -1,0 +1,15 @@
+mutation ($containerId: Int, $number: Int, $aCompetitorId: Int, $bCompetitorId: Int, $aResult: smallint, $bResult: smallint, $date: date, $details: String) {
+    insertGame: insert_games(
+        objects: {
+            containerId: $containerId,
+            number: $number,
+            aCompetitorId: $aCompetitorId,
+            bCompetitorId: $bCompetitorId,
+            aResult: $aResult,
+            bResult: $bResult,
+            date: $date,
+            details: $details
+        }){
+        returning { id }
+    }
+}

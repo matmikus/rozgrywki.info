@@ -1,0 +1,5 @@
+mutation ($stageId: Int) {
+  deleteContainer: delete_containers(where:  {stageId: {_eq: $stageId}}){
+    affected_rows
+  }
+}

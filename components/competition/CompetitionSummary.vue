@@ -5,6 +5,7 @@
                 <div class="container-name" v-show="container.name">
                     <span class="container-name-text">{{ container.name }}</span>
                 </div>
+                <div v-if="isEmpty">Podgląd wygeneruje się po wybraniu parametrów.</div>
                 <template v-if="container.type === 'cup'">
                     <div v-html="getCupHtmlVisualization(container)">
                     </div>
@@ -52,7 +53,6 @@
 <script lang="ts">
     import cupIcon from '@/assets/icons/graph.svg';
     import rankingIcon from '@/assets/icons/format_list_numbered.svg';
-    import { getGroupRanking } from '@/scripts/getGroupRanking';
     import { getCupHtmlVisualization } from '@/scripts/getCupHtmlVisualization';
 
     export default {
@@ -60,6 +60,9 @@
         computed: {
             competition () {
                 return this.$store.state.competition;
+            },
+            isEmpty () {
+                return this.$store.state.competition.stages[0].containers[0].games.length === 0;
             }
         },
         data () {
