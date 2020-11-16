@@ -1,5 +1,5 @@
 mutation ($competitionId: Int) {
-  deleteCompetitor: delete_competitors(where:  {competitionId: {_eq: $competitionId}}){
+  deleteStage: delete_stages(where:  {competitionId: {_eq: $competitionId}}){
     affected_rows
   }
 }

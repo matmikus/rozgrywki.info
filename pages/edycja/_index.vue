@@ -24,7 +24,16 @@
     import updateCompetitor from '@/graphql/updateCompetitor.graphql';
     import updateGame from '@/graphql/updateGame.graphql';
     import insertCompetition from '@/graphql/insertCompetition.graphql';
-    import { getUserId } from '@/scripts/getUserId.ts';
+    import insertCompetitor from '@/graphql/insertCompetitor.graphql';
+    import insertContainer from '@/graphql/insertContainer.graphql';
+    import insertStage from '@/graphql/insertStage.graphql';
+    import insertGame from '@/graphql/insertGame.graphql';
+    import deleteCompetition from '@/graphql/deleteCompetition.graphql';
+    import deleteCompetitor from '@/graphql/deleteCompetitor.graphql';
+    import deleteContainer from '@/graphql/deleteContainer.graphql';
+    import deleteGame from '@/graphql/deleteGame.graphql';
+    import deleteStage from '@/graphql/deleteStage.graphql';
+    import { getUserId, getUserData } from '@/scripts/getUserId.ts';
 
     export default {
         middleware: ['authenticated', 'resetCompetition'],
@@ -43,7 +52,8 @@
         },
         data () {
             return {
-                saving: false
+                saving: false,
+                gamesCopy: []
             }
         },
         methods: {
@@ -72,22 +82,33 @@
                         return;
                     }
 
-                    //TODO: zapis kolejnych rzeczy
                     let competitionId: number;
+                    let containerId: number;
+                    let stageId: number;
+
                     this.insertCompetition()
                         .then((res: any) => {
                             competitionId = res.data.insertCompetition.returning[0].id;
                             return this.insertStage(competitionId);
                         })
-                        // .then((res: any) => this.insertContainer(res.data.insertStage.returning[0].id))
-                        // .then((res: any) => this.insertCompetitors(res.data.insertContainer.returning[0].id))
-                        // .then((res: any) => this.insertCompetitors(res.data.insertContainer.returning[0].id))
-                        .then(() => {
-                            this.onSaveSuccess(true);
+                        .then((res: any) => {
+                            stageId = res.data.insertStage.returning[0].id;
+                            return this.insertContainer(stageId);
                         })
+                        .then((res: any) => {
+                            containerId = res.data.insertContainer.returning[0].id;
+
+                            return this.insertCompetitors(containerId);
+                        })
+                        .then(() => this.insertGames(containerId))
+                        .then(() => this.onSaveSuccess(true))
                         .catch(() => {
-                            //TODO: czyszczenie zapisanych gdy coś nie tak
-                            console.log('dupa, do usuniecia competitionId ' + competitionId + ' i wszystko z nim powiazane')
+                            this.deleteGame(containerId)
+                                .then(() => this.deleteCompetitor(containerId))
+                                .then(() => this.deleteContainer(stageId))
+                                .then(() => this.deleteStage(competitionId))
+                                .then(() => this.deleteCompetition(competitionId));
+
                             this.onSaveSuccess(false);
                         });
 
@@ -209,23 +230,152 @@
                         name: competition.name,
                         routeName: competition.routeName,
                         start: competition.start,
-                        userId: getUserId(this)
+                        userId: getUserId(this),
+                        userData: getUserData(this)
                     }
                 });
             },
             insertStage (competitionId: number) {
-                console.log(`insertStage(competitiorId=${competitionId})`)
-
-                throw new Error();
+                return this.$apollo.mutate({
+                    mutation: insertStage,
+                    variables: {
+                        competitionId: competitionId
+                    }
+                });
             },
             insertContainer (stageId: number) {
+                const container = this.competition.stages[0].containers[0];
 
+                return this.$apollo.mutate({
+                    mutation: insertContainer,
+                    variables: {
+                        stageId: stageId,
+                        type: container.type,
+                        size: container.size,
+                        isDouble: container.isDouble,
+                        winnerPoints: container.winnerPoints,
+                        loserPoints: container.loserPoints,
+                        drawPoints: container.drawPoints,
+                        isDrawEnabled: container.isDrawEnabled,
+                        onePointWinnerPoints: container.onePointWinnerPoints,
+                        onePointLoserPoints: container.onePointLoserPoints,
+                        rankPointsOrder: container.rankPointsOrder,
+                        rankGamesRatioOrder: container.rankGamesRatioOrder,
+                        rankResultsRatioOrder: container.rankResultsRatioOrder,
+                        rankGamesAmountOrder: container.rankGamesAmountOrder,
+                        rankDirectGameOrder: container.rankDirectGameOrder
+                    }
+                });
             },
             insertCompetitors (containerId: number) {
+                this.gamesCopy = JSON.parse(JSON.stringify(this.competition.stages[0].containers[0].games));
+                const arr = [];
 
+                for (let competitor of this.competition.stages[0].containers[0].competitors) {
+                    arr.push(this.$apollo.mutate({
+                        mutation: insertCompetitor,
+                        variables: {
+                            containerId: containerId,
+                            name: competitor.name
+                        }
+                    }).then((res: any) => this.setCompetitorsRealId(res.data.insertCompetitor.returning[0])));
+                }
+
+                return Promise.all(arr);
+            },
+            setCompetitorsRealId (data: any) {
+                this.gamesCopy.map((el: any) => {
+                    if (el.aCompetitor !== null && el.aCompetitor.name === data.name) {
+                        el.aCompetitor.id = data.id;
+                    } else if (el.bCompetitor !== null && el.bCompetitor.name === data.name) {
+                        el.bCompetitor.id = data.id;
+                    }
+
+                    return el;
+                });
+
+                return Promise.resolve(true);
             },
             insertGames (containerId: number) {
+                const arr = [];
 
+                for (let game of this.gamesCopy) {
+                    arr.push(this.$apollo.mutate({
+                        mutation: insertGame,
+                        variables: {
+                            containerId: containerId,
+                            number: game.number,
+                            aCompetitorId: game.aCompetitor ? game.aCompetitor.id : null,
+                            bCompetitorId: game.bCompetitor ? game.bCompetitor.id : null,
+                            aResult: game.aResult,
+                            bResult: game.bResult,
+                            date: game.date,
+                            details: game.details
+                        }
+                    }));
+                }
+
+                return Promise.all(arr);
+            },
+            deleteCompetition (competitionId: number) {
+                if (!competitionId) {
+                    return Promise.resolve(false);
+                }
+
+                return this.$apollo.mutate({
+                    mutation: deleteCompetition,
+                    variables: {
+                        id: competitionId
+                    }
+                });
+            },
+            deleteCompetitor (containerId: number) {
+                if (!containerId) {
+                    return Promise.resolve(false);
+                }
+
+                return this.$apollo.mutate({
+                    mutation: deleteCompetitor,
+                    variables: {
+                        containerId: containerId
+                    }
+                });
+            },
+            deleteContainer (stageId: number) {
+                if (!stageId) {
+                    return Promise.resolve(false);
+                }
+
+                return this.$apollo.mutate({
+                    mutation: deleteContainer,
+                    variables: {
+                        stageId: stageId
+                    }
+                });
+            },
+            deleteGame (containerId: number) {
+                if (!containerId) {
+                    return Promise.resolve(false);
+                }
+
+                return this.$apollo.mutate({
+                    mutation: deleteGame,
+                    variables: {
+                        containerId: containerId
+                    }
+                });
+            },
+            deleteStage (competitionId: number) {
+                if (!competitionId) {
+                    return Promise.resolve(false);
+                }
+
+                return this.$apollo.mutate({
+                    mutation: deleteStage,
+                    variables: {
+                        competitionId: competitionId
+                    }
+                });
             },
             onSaveSuccess (success: Boolean) {
                 this.saving = false;

@@ -1,4 +1,4 @@
-mutation ($userId: String, $description: String, $end: date, $name: String, $routeName: String, $start: date) {
+mutation ($userId: String, $description: String, $end: date, $name: String, $routeName: String, $start: date, $userData: String) {
     insertCompetition: insert_competitions(
         objects: {
             userId: $userId,
@@ -6,7 +6,8 @@ mutation ($userId: String, $description: String, $end: date, $name: String, $rou
             end: $end,
             name: $name,
             routeName: $routeName,
-            start: $start
+            start: $start,
+            userData: $userData
         }){
         returning { id }
     }

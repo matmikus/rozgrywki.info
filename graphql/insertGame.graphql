@@ -1,4 +1,4 @@
-mutation ($containerId: Int, $number: Int, $aCompetitorId: Int, $bCompetitorId: Int, $aResult: smallint, $bResult: smallint, $date: date, $details: text) {
+mutation ($containerId: Int, $number: Int, $aCompetitorId: Int, $bCompetitorId: Int, $aResult: smallint, $bResult: smallint, $date: date, $details: String) {
     insertGame: insert_games(
         objects: {
             containerId: $containerId,

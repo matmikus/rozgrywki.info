@@ -1,9 +1,9 @@
-mutation ($containerId: Int, $name: text) {
+mutation ($containerId: Int, $name: String) {
     insertCompetitor: insert_competitors(
         objects: {
             containerId: $containerId,
             name: $name
         }){
-        returning { id }
+        returning { id, name }
     }
 }

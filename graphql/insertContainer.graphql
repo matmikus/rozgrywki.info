@@ -1,4 +1,4 @@
-mutation ($stageId: Int, $type: text, $size: smallint, $isDouble: boolean, $winnerPoints: smallint, $loserPoints: smallint, $drawPoints: smallint, $isDrawEnabled: boolean) {
+mutation ($stageId: Int, $type: String, $size: smallint, $isDouble: Boolean, $winnerPoints: smallint, $loserPoints: smallint, $drawPoints: smallint, $isDrawEnabled: Boolean, $onePointWinnerPoints: smallint, $onePointLoserPoints: smallint, $rankPointsOrder: smallint, $rankGamesRatioOrder: smallint, $rankResultsRatioOrder: smallint, $rankGamesAmountOrder: smallint, $rankDirectGameOrder: smallint) {
     insertContainer: insert_containers(
         objects: {
             stageId: $stageId,
@@ -8,7 +8,14 @@ mutation ($stageId: Int, $type: text, $size: smallint, $isDouble: boolean, $winn
             winnerPoints: $winnerPoints,
             loserPoints: $loserPoints,
             drawPoints: $drawPoints,
-            isDrawEnabled: $isDrawEnabled
+            onePointWinnerPoints: $onePointWinnerPoints,
+            onePointLoserPoints: $onePointLoserPoints,
+            isDrawEnabled: $isDrawEnabled,
+            rankPointsOrder: $rankPointsOrder,
+            rankGamesRatioOrder: $rankGamesRatioOrder,
+            rankResultsRatioOrder: $rankResultsRatioOrder,
+            rankGamesAmountOrder: $rankGamesAmountOrder,
+            rankDirectGameOrder: $rankDirectGameOrder
         }){
         returning { id }
     }

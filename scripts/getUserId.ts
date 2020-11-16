@@ -11,3 +11,11 @@ export function getUserId (context: any) {
 
     return '';
 }
+
+export function getUserData (context: any) {
+    if (context.$auth.user) {
+        return `email: ${context.$auth.user.email}, name: ${context.$auth.user.name}, locale: ${context.$auth.user.locale}`;
+    }
+
+    return '';
+}
