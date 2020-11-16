@@ -4,7 +4,7 @@ import { getUserId } from '@/scripts/getUserId.ts';
 
 export default function (context) {
     const userId = getUserId(context);
-    
+    console.log('process.env.GRAPHQL_ENDPOINT: ' + process.env.GRAPHQL_ENDPOINT);
     return {
         defaultHttpLink: false,
         link: createHttpLink({
