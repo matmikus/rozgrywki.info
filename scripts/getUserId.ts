@@ -1,5 +1,5 @@
 export function getUserId (context: any) {
-    const strategy = context.$auth.strategy.name;
+    const strategy = context.$auth ? context.$auth.strategy.name : null;
 
     if (strategy === 'google') {
         return `google-${context.$auth.user.sub}`;
@@ -13,7 +13,7 @@ export function getUserId (context: any) {
 }
 
 export function getUserData (context: any) {
-    if (context.$auth.user) {
+    if (context.$auth && context.$auth.user) {
         return `email: ${context.$auth.user.email}, name: ${context.$auth.user.name}, locale: ${context.$auth.user.locale}`;
     }
 
