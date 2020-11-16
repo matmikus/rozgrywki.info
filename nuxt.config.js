@@ -162,6 +162,6 @@ module.exports = {
         watch: ['nuxt.config.js']
     },
     env: {
-        AUTH0_DOMAIN: process.env.AUTH0_DOMAIN
+        GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT
     }
 };
