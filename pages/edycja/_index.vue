@@ -33,6 +33,7 @@
     import deleteContainer from '@/graphql/deleteContainer.graphql';
     import deleteGame from '@/graphql/deleteGame.graphql';
     import deleteStage from '@/graphql/deleteStage.graphql';
+    import getCompetition from '@/graphql/getCompetition.graphql';
     import { getUserId, getUserData } from '@/scripts/getUserId.ts';
 
     export default {
@@ -85,8 +86,17 @@
                     let competitionId: number;
                     let containerId: number;
                     let stageId: number;
+                    let errorText = '';
 
-                    this.insertCompetition()
+                    this.isRouteNameAvailable(this.competition.routeName)
+                        .then((res: any) => {
+                            if (!res) {
+                                errorText = 'Wybrany link jest już zajęty.'
+                                throw new Error();
+                            }
+
+                            return this.insertCompetition();
+                        })
                         .then((res: any) => {
                             competitionId = res.data.insertCompetition.returning[0].id;
                             return this.insertStage(competitionId);
@@ -109,7 +119,7 @@
                                 .then(() => this.deleteStage(competitionId))
                                 .then(() => this.deleteCompetition(competitionId));
 
-                            this.onSaveSuccess(false);
+                            this.onSaveSuccess(false, errorText);
                         });
 
                     return;
@@ -377,17 +387,25 @@
                     }
                 });
             },
-            onSaveSuccess (success: Boolean) {
+            isRouteNameAvailable (routeName: string) {
+                return this.$apollo.query({
+                    query: getCompetition,
+                    variables: {
+                        route: routeName
+                    }
+                }).then((res: any) => res.data.getCompetition.length === 0);
+            },
+            onSaveSuccess (success: Boolean, additionalText: string = '') {
                 this.saving = false;
 
                 setTimeout(() => {
                     if (success) {
                         this.$store.dispatch('showSnackbar', {
-                            message: 'Zapisano pomyślnie!'
+                            message: 'Zapisano pomyślnie! ' + additionalText
                         });
                     } else {
                         this.$store.dispatch('showSnackbar', {
-                            message: 'Wystąpił błąd podczas zapisu.',
+                            message: 'Wystąpił błąd podczas zapisu. ' + additionalText,
                             actionText: 'OK'
                         });
                     }
