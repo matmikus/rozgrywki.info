@@ -91,7 +91,8 @@
                     this.isRouteNameAvailable(this.competition.routeName)
                         .then((res: any) => {
                             if (!res) {
-                                errorText = 'Wybrany link jest już zajęty.'
+                                errorText = 'Wybrany link jest już zajęty.';
+
                                 throw new Error();
                             }
 
@@ -397,6 +398,10 @@
             },
             onSaveSuccess (success: Boolean, additionalText: string = '') {
                 this.saving = false;
+
+                if (success) {
+                    this.$router.push('/moje');
+                }
 
                 setTimeout(() => {
                     if (success) {

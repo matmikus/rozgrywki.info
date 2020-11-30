@@ -49,7 +49,7 @@
                     this.inputValue = null;
                 }
 
-                this.error = !this.validationFunc(newValue);
+                this.error = this.validationFunc && !this.validationFunc(newValue);
             }
         }
     };

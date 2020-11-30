@@ -1,0 +1,11 @@
+mutation ($id: Int, $token: String) {
+    updateGame: update_games(
+        where: {
+            id: {_eq: $id}
+        },
+        _set: {
+            updateToken: $token
+        }){
+        affected_rows
+    }
+}

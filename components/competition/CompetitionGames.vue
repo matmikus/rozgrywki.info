@@ -76,6 +76,23 @@
                                     </div>
                                 </template>
                             </td>
+                            <template v-if="mode === 'edit' && game.aResult == null && game.bResult == null">
+                                <td>
+                                    <div class="game-token-icon" v-if="!game.updateToken">
+                                        <connect-icon @click="() => onGenerateTokenClicked(game.id)"
+                                                      :game-id="game.id"
+                                                      v-tooltip.bottom="{ content: 'Generuj link dodania wyniku', delay: { show: 500, hide: 0, trigger: 'hover' } }"></connect-icon>
+                                    </div>
+                                    <div class="game-token-input" v-if="game.updateToken">
+                                        <edit-input-text :info="'Jednorazowy link dodania wyniku'"
+                                                         :default-value="`www.rozgrywki.info/dodaj-wynik/${game.updateToken}`"
+                                                         disabled></edit-input-text>
+                                    </div>
+                                </td>
+                            </template>
+                            <template v-else>
+                                <td></td>
+                            </template>
                         </tr>
                     </table>
                 </div>
@@ -85,17 +102,20 @@
 </template>
 
 <script lang="ts">
+    import connectIcon from '@/assets/icons/connect.svg';
     import EditInputText from '@/components/competition/EditInputText.vue';
     import EditDatePicker from '@/components/competition/EditDatePicker.vue';
     import {
         gameResultValidatorFunction,
         gameResultDetailsValidatorFunction
     } from '@/scripts/competitionFormValidator';
+    import { uid } from 'rand-token';
+    import setGameToken from '@/graphql/setGameToken.graphql';
 
     export default {
         props: ['mode'],
         components: {
-            EditInputText, EditDatePicker
+            connectIcon, EditInputText, EditDatePicker
         },
         data () {
             return {
@@ -134,6 +154,21 @@
                 this.$store.dispatch('setCompetitionResultData', {
                     id: gameId,
                     details: value
+                });
+            },
+            onGenerateTokenClicked (gameId: number) {
+                const token = uid(16);
+
+                this.$apollo.mutate({
+                    mutation: setGameToken,
+                    variables: {
+                        id: gameId,
+                        token: token
+                    }
+                }).then(() => {
+                    this.$store.dispatch('updateGameToken', { gameId: gameId, updateToken: token });
+                }).catch(() => {
+                    this.$store.dispatch('showSnackbar', { message: 'Wystąpił błąd podczas generowania linku.' });
                 });
             }
         }
@@ -234,6 +269,27 @@
         .game-date-edit {
             margin-top: -1px;
             padding: 16px 16px 4px 16px;
+        }
+
+        .game-token-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 16px;
+            margin-left: 16px;
+        }
+
+        .game-token-icon svg {
+            fill: var(--content1-color);
+            cursor: pointer;
+        }
+
+        .game-token-icon svg:hover {
+            fill: var(--content3-color);
+        }
+
+        .game-token-input {
+            padding: 16px 16px 4px 16px;
+            width: 300px;
         }
 
         @media (max-width: 1000px) {
