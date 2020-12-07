@@ -1,11 +1,11 @@
 export function getUserId (context: any) {
     const strategy = context.$auth ? context.$auth.strategy.name : null;
 
-    if (strategy === 'google') {
+    if (strategy === 'google' && context.$auth.user) {
         return `google-${context.$auth.user.sub}`;
     }
 
-    if (strategy === 'facebook') {
+    if (strategy === 'facebook' && context.$auth.user) {
         return `facebook-${context.$auth.user.id}`;
     }
 
@@ -18,4 +18,8 @@ export function getUserData (context: any) {
     }
 
     return '';
+}
+
+export function getUpdateToken (context: any) {
+    return context.$auth && context.$auth.updateToken ? context.$auth.updateToken : '';
 }

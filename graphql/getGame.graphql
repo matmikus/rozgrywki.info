@@ -1,0 +1,24 @@
+query ($token: String) {
+    getGame: games(where: {updateToken: {_eq: $token}}) {
+        id,
+        aCompetitor {
+            name
+            id
+        },
+        bCompetitor {
+            name
+            id
+        },
+        aResult,
+        bResult,
+        date,
+        details,
+        container {
+            stage {
+                competition {
+                    routeName
+                }
+            }
+        }
+    }
+}

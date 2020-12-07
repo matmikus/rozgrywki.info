@@ -64,7 +64,7 @@
     import getMyCompetitions from '@/graphql/getMyCompetitions.graphql';
     import loader from '@/components/Loader.vue';
     import listIcon from '@/assets/icons/list.svg';
-    import { getUserId } from '@/scripts/getUserId.ts';
+    import { getUserId } from '@/scripts/getContextData.ts';
 
     export default {
         layout: 'simple',

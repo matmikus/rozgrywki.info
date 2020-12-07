@@ -34,7 +34,7 @@
     import deleteGame from '@/graphql/deleteGame.graphql';
     import deleteStage from '@/graphql/deleteStage.graphql';
     import getCompetition from '@/graphql/getCompetition.graphql';
-    import { getUserId, getUserData } from '@/scripts/getUserId.ts';
+    import { getUserId, getUserData } from '@/scripts/getContextData.ts';
 
     export default {
         middleware: ['authenticated', 'resetCompetition'],
