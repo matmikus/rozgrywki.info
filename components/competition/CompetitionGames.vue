@@ -121,7 +121,7 @@
             return {
                 gameResultValidatorFunc: gameResultValidatorFunction,
                 gameResultDetailsValidatorFunc: gameResultDetailsValidatorFunction
-            }
+            };
         },
         computed: {
             competition () {
