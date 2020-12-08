@@ -81,7 +81,12 @@
 
     export default {
         layout: 'simple',
-        components: { SaveIcon, loader, EditInputText, EditDatePicker },
+        components: {
+            SaveIcon,
+            loader,
+            EditInputText,
+            EditDatePicker
+        },
         computed: {},
         data () {
             return {
@@ -90,7 +95,7 @@
                 game: {},
                 gameResultValidatorFunc: gameResultValidatorFunction,
                 gameResultDetailsValidatorFunc: gameResultDetailsValidatorFunction
-            }
+            };
         },
         methods: {
             onSaveClick () {
@@ -107,7 +112,7 @@
             },
             updateGame () {
                 this.loading = true;
-                const game = this.game;
+                const { game } = this;
 
                 this.$apollo.mutate({
                     mutation: updateGame,
@@ -156,7 +161,7 @@
                     && !result[0].bResult
                     && result[0].aCompetitor.name
                     && result[0].bCompetitor.name;
-                this.game = result[0];
+                [this.game] = result;
                 this.loading = false;
             }
         }

@@ -11,7 +11,6 @@ export default function (context) {
             fetch: (uri, options) => {
                 options.headers['x-hasura-user-id'] = getUserId(context);
                 options.headers['x-hasura-update-token'] = getUpdateToken(context);
-                
                 return fetch(uri, options);
             }
         })

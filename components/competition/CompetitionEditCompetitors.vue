@@ -84,7 +84,7 @@
                 });
 
                 for (const nameInput of this.$refs.competitorName) {
-                    //TODO tu jest chyba jakiś błąd z tymi ifami?
+                    //  TODO tu jest chyba jakiś błąd z tymi ifami?
                     if (!!nameInput.inputValue) {
                         continue;
                     }
