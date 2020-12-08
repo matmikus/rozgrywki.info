@@ -84,13 +84,14 @@
                 });
 
                 for (const nameInput of this.$refs.competitorName) {
-                    //  TODO tu jest chyba jakiś błąd z tymi ifami?
-                    if (!!nameInput.inputValue) {
+                    if (!nameInput.inputValue || nameInput.inputValue.length < 3) {
                         continue;
                     }
 
-                    if (!nameInput.inputValue && this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue).length > 1) {
-                        this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue).forEach((el: any) => {
+                    const sameNames = this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue);
+                    if (sameNames.length > 1) {
+                        sameNames.forEach((el: any) => {
+                            console.log(el.inputValue)
                             el.error = true;
                         });
                     }

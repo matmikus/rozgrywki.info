@@ -397,24 +397,22 @@
                 }).then((res: any) => res.data.getCompetition.length === 0);
             },
             onSaveSuccess (success: Boolean, additionalText: string = '') {
-                this.saving = false;
-
                 if (success) {
                     this.$router.push('/moje');
+                } else {
+                    this.saving = false;
                 }
 
-                setTimeout(() => {
-                    if (success) {
-                        this.$store.dispatch('showSnackbar', {
-                            message: `Zapisano pomyślnie! ${additionalText}`
-                        });
-                    } else {
-                        this.$store.dispatch('showSnackbar', {
-                            message: `Wystąpił błąd podczas zapisu. ${additionalText}`,
-                            actionText: 'OK'
-                        });
-                    }
-                }, 200);
+                if (success) {
+                    this.$store.dispatch('showSnackbar', {
+                        message: `Zapisano pomyślnie! ${additionalText}`
+                    });
+                } else {
+                    this.$store.dispatch('showSnackbar', {
+                        message: `Wystąpił błąd podczas zapisu. ${additionalText}`,
+                        actionText: 'OK'
+                    });
+                }
             }
         }
     };
