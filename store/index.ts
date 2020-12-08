@@ -344,6 +344,12 @@ export const mutations = {
     },
     createCompetitionGames (state: any, data: any) {
         state.competition.stages[0].containers[0].games = generateGamesForContainer(state.competition.stages[0].containers[0], data);
+    },
+    updateGameToken (state: any, data: { gameId: number, updateToken: string }) {
+        state.competition.stages[0].containers[0].games.find((el: any) => el.id === data.gameId).updateToken = data.updateToken;
+        const temp = [...state.competition.stages[0].containers[0].games];
+        state.competition.stages[0].containers[0].games = [];
+        state.competition.stages[0].containers[0].games = temp;
     }
 };
 
@@ -485,5 +491,8 @@ export const actions = {
     setCompetitionResultData (context: any, data: any) {
         context.commit('setCompetitionResultData', data);
         context.commit('setCompetitionGroupRanking');
+    },
+    updateGameToken (context: any, data: { gameId: number, updateToken: string }) {
+        context.commit('updateGameToken', data);
     }
 };

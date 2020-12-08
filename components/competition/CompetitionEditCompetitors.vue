@@ -20,7 +20,7 @@
                 Uczestnicy
             </div>
             <div class="data-row__value">
-                <div v-for="(item, index) in competitorsList" class="competitor">
+                <div v-for="(item, index) in competitorsList" class="competitor" v-bind:key="index">
                     <edit-input-text :validation-func="competitorNameValidatorFunc"
                                      :default-value="item.name"
                                      :info="'3-40 znaków i nie może się powtarzać'"
@@ -39,7 +39,7 @@
 
     export default {
         components: {
-            editInputText, competitorNameValidator, competitorsCountValidator
+            editInputText
         },
         data () {
             return {
@@ -78,23 +78,24 @@
             },
             checkDuplicates () {
                 this.$refs.competitorName.forEach((el: any) => {
-                    if (el.inputValue != undefined && el.inputValue.length > 2) {
+                    if (el.inputValue && el.inputValue.length > 2) {
                         el.error = false;
                     }
                 });
 
-                for (let nameInput of this.$refs.competitorName) {
-                    if (nameInput.inputValue == undefined || nameInput.inputValue.length === 0) {
+                for (const nameInput of this.$refs.competitorName) {
+                    if (!nameInput.inputValue || nameInput.inputValue.length < 3) {
                         continue;
                     }
 
-                    if (this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue).length > 1) {
-                        this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue).forEach((el: any) => {
+                    const sameNames = this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue);
+                    if (sameNames.length > 1) {
+                        sameNames.forEach((el: any) => {
+                            console.log(el.inputValue)
                             el.error = true;
                         });
                     }
                 }
-
             }
         }
     };

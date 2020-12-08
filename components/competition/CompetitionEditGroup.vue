@@ -172,13 +172,15 @@
             }
         },
         mounted () {
-            const rankPointsOrder = this.$store.state.competition.stages[0].containers[0].rankPointsOrder;
-            const rankGamesRatioOrder = this.$store.state.competition.stages[0].containers[0].rankGamesRatioOrder;
-            const rankResultsRatioOrder = this.$store.state.competition.stages[0].containers[0].rankResultsRatioOrder;
-            const rankGamesAmountOrder = this.$store.state.competition.stages[0].containers[0].rankGamesAmountOrder;
-            const rankDirectGameOrder = this.$store.state.competition.stages[0].containers[0].rankDirectGameOrder;
+            const {
+                rankPointsOrder,
+                rankGamesRatioOrder,
+                rankResultsRatioOrder,
+                rankGamesAmountOrder,
+                rankDirectGameOrder
+            } = this.$store.state.competition.stages[0].containers[0];
 
-            let order = new Array(5);
+            const order = new Array(5);
             order[rankPointsOrder - 1] = {
                 property: 'rankPointsOrder',
                 name: 'Liczba punktów'

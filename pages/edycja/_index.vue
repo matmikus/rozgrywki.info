@@ -33,7 +33,8 @@
     import deleteContainer from '@/graphql/deleteContainer.graphql';
     import deleteGame from '@/graphql/deleteGame.graphql';
     import deleteStage from '@/graphql/deleteStage.graphql';
-    import { getUserId, getUserData } from '@/scripts/getUserId.ts';
+    import getCompetition from '@/graphql/getCompetition.graphql';
+    import { getUserId, getUserData } from '@/scripts/getContextData.ts';
 
     export default {
         middleware: ['authenticated', 'resetCompetition'],
@@ -54,7 +55,7 @@
             return {
                 saving: false,
                 gamesCopy: []
-            }
+            };
         },
         methods: {
             async onSaveClick () {
@@ -85,8 +86,18 @@
                     let competitionId: number;
                     let containerId: number;
                     let stageId: number;
+                    let errorText = '';
 
-                    this.insertCompetition()
+                    this.isRouteNameAvailable(this.competition.routeName)
+                        .then((res: any) => {
+                            if (!res) {
+                                errorText = 'Wybrany link jest już zajęty.';
+
+                                throw new Error();
+                            }
+
+                            return this.insertCompetition();
+                        })
                         .then((res: any) => {
                             competitionId = res.data.insertCompetition.returning[0].id;
                             return this.insertStage(competitionId);
@@ -109,7 +120,7 @@
                                 .then(() => this.deleteStage(competitionId))
                                 .then(() => this.deleteCompetition(competitionId));
 
-                            this.onSaveSuccess(false);
+                            this.onSaveSuccess(false, errorText);
                         });
 
                     return;
@@ -126,11 +137,11 @@
                 const getErrors = (component: any) => {
                     if (component.$children === undefined || component.$children.length === 0) {
                         return [component.error];
-                    } else {
-                        const arr = component.$children;
-
-                        return arr.map((el: any) => getErrors(el));
                     }
+
+                    const arr = component.$children;
+
+                    return arr.map((el: any) => getErrors(el));
                 };
 
                 return getErrors(this.$refs.competitionContainer).flat(999).includes(true);
@@ -139,17 +150,17 @@
                 const getValues = (component: any) => {
                     if (component.$children === undefined || component.$children.length === 0) {
                         return [component.inputValue === '' || component.newValue === '' || component.selected === ''];
-                    } else {
-                        const arr = component.$children;
-
-                        return arr.map((el: any) => getValues(el));
                     }
+
+                    const arr = component.$children;
+
+                    return arr.map((el: any) => getValues(el));
                 };
 
                 return getValues(this.$refs.competitionContainer).flat(999).includes(true);
             },
             updateCompetition () {
-                const competition = this.competition;
+                const { competition } = this;
 
                 return this.$apollo.mutate({
                     mutation: updateCompetition,
@@ -187,7 +198,7 @@
             updateCompetitors () {
                 const arr = [];
 
-                for (let competitor of this.competition.stages[0].containers[0].competitors) {
+                for (const competitor of this.competition.stages[0].containers[0].competitors) {
                     arr.push(this.$apollo.mutate({
                         mutation: updateCompetitor,
                         variables: {
@@ -202,7 +213,7 @@
             updateGames () {
                 const arr = [];
 
-                for (let game of this.competition.stages[0].containers[0].games) {
+                for (const game of this.competition.stages[0].containers[0].games) {
                     arr.push(this.$apollo.mutate({
                         mutation: updateGame,
                         variables: {
@@ -220,7 +231,7 @@
                 return Promise.all(arr);
             },
             insertCompetition () {
-                const competition = this.competition;
+                const { competition } = this;
 
                 return this.$apollo.mutate({
                     mutation: insertCompetition,
@@ -271,7 +282,7 @@
                 this.gamesCopy = JSON.parse(JSON.stringify(this.competition.stages[0].containers[0].games));
                 const arr = [];
 
-                for (let competitor of this.competition.stages[0].containers[0].competitors) {
+                for (const competitor of this.competition.stages[0].containers[0].competitors) {
                     arr.push(this.$apollo.mutate({
                         mutation: insertCompetitor,
                         variables: {
@@ -299,7 +310,7 @@
             insertGames (containerId: number) {
                 const arr = [];
 
-                for (let game of this.gamesCopy) {
+                for (const game of this.gamesCopy) {
                     arr.push(this.$apollo.mutate({
                         mutation: insertGame,
                         variables: {
@@ -377,21 +388,31 @@
                     }
                 });
             },
-            onSaveSuccess (success: Boolean) {
-                this.saving = false;
-
-                setTimeout(() => {
-                    if (success) {
-                        this.$store.dispatch('showSnackbar', {
-                            message: 'Zapisano pomyślnie!'
-                        });
-                    } else {
-                        this.$store.dispatch('showSnackbar', {
-                            message: 'Wystąpił błąd podczas zapisu.',
-                            actionText: 'OK'
-                        });
+            isRouteNameAvailable (routeName: string) {
+                return this.$apollo.query({
+                    query: getCompetition,
+                    variables: {
+                        route: routeName
                     }
-                }, 200);
+                }).then((res: any) => res.data.getCompetition.length === 0);
+            },
+            onSaveSuccess (success: Boolean, additionalText: string = '') {
+                if (success) {
+                    this.$router.push('/moje');
+                } else {
+                    this.saving = false;
+                }
+
+                if (success) {
+                    this.$store.dispatch('showSnackbar', {
+                        message: `Zapisano pomyślnie! ${additionalText}`
+                    });
+                } else {
+                    this.$store.dispatch('showSnackbar', {
+                        message: `Wystąpił błąd podczas zapisu. ${additionalText}`,
+                        actionText: 'OK'
+                    });
+                }
             }
         }
     };

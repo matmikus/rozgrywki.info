@@ -11,12 +11,12 @@
         data () {
             return {
                 inputValue: undefined
-            }
+            };
         },
         mounted () {
             this.inputValue = this.defaultValue;
         }
-    }
+    };
 </script>
 
 <style lang="scss">

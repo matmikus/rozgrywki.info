@@ -51,12 +51,9 @@
 </template>
 
 <script lang="ts">
-    import cupIcon from '@/assets/icons/graph.svg';
-    import rankingIcon from '@/assets/icons/format_list_numbered.svg';
     import { getCupHtmlVisualization } from '@/scripts/getCupHtmlVisualization';
 
     export default {
-        components: { cupIcon, rankingIcon },
         computed: {
             competition () {
                 return this.$store.state.competition;
@@ -68,7 +65,7 @@
         data () {
             return {
                 getCupHtmlVisualization: getCupHtmlVisualization
-            }
+            };
         },
         watch: {
             competition: {
