@@ -76,7 +76,7 @@
                                     </div>
                                 </template>
                             </td>
-                            <template v-if="mode === 'edit' && game.aResult == null && game.bResult == null">
+                            <template v-if="mode === 'edit' && isExistingCompetition && game.aResult == null && game.bResult == null">
                                 <td>
                                     <div class="game-token-icon" v-if="!game.updateToken">
                                         <connect-icon @click="() => onGenerateTokenClicked(game.id)"
@@ -129,6 +129,9 @@
             },
             isEmpty () {
                 return this.$store.state.competition.stages[0].containers[0].games.length === 0;
+            },
+            isExistingCompetition () {
+                return this.$store.state.competitionEditLock;
             }
         },
         methods: {
