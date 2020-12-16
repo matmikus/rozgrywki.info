@@ -99,7 +99,6 @@
         },
         methods: {
             onSaveClick () {
-                console.log(this.game.aResult)
                 if (this.game.aResult === null || this.game.bResult === null) {
                     this.$store.dispatch('showSnackbar', { message: 'Nie uzupełniono pól z wynikiem.' });
                 } else if (this.$refs.aResult.error || this.$refs.bResult.error || this.$refs.date.error || this.$refs.details.error) {

@@ -84,11 +84,11 @@
                 });
 
                 for (const nameInput of this.$refs.competitorName) {
-                    if (!nameInput.inputValue || nameInput.inputValue.length < 3) {
+                    if (!nameInput.inputValue || nameInput.inputValue.trim().length < 3) {
                         continue;
                     }
 
-                    const sameNames = this.$refs.competitorName.filter((el: any) => el.inputValue === nameInput.inputValue);
+                    const sameNames = this.$refs.competitorName.filter((el: any) => el.inputValue && (el.inputValue.trim() === nameInput.inputValue.trim()));
                     if (sameNames.length > 1) {
                         sameNames.forEach((el: any) => {
                             console.log(el.inputValue)
