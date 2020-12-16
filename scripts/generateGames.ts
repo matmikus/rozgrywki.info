@@ -86,11 +86,21 @@ function getBergerTable (competitors: any[]) {
     let counter = 0;
 
     for (let j = 0; j < teams.length; j++) {
-        if (separate !== null) games.push({
-            aCompetitor: teams[0],
-            bCompetitor: separate,
-            number: ++counter
-        });
+        if (separate !== null) {
+            if (j % 2 === 0) {
+                games.push({
+                    aCompetitor: teams[0],
+                    bCompetitor: separate,
+                    number: ++counter
+                });
+            } else {
+                games.push({
+                    aCompetitor: separate,
+                    bCompetitor: teams[0],
+                    number: ++counter
+                });
+            }
+        }
 
         for (let i = 1; i <= Math.floor(teams.length / 2); i++) {
             games.push({
