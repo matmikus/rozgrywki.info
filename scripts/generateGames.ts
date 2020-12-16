@@ -80,7 +80,10 @@ export function generateGamesForContainer (container: any, data: any) {
 }
 
 function getBergerTable (competitors: any[]) {
+    // https://pl.wikipedia.org/wiki/System_ko%C5%82owy
     let teams = [...competitors];
+    const lastTeam = teams[teams.length - 1];
+    const teamsLength = teams.length;
     const separate = teams.length % 2 === 0 ? teams.pop() : null;
     let games = [];
     let counter = 0;
@@ -113,6 +116,18 @@ function getBergerTable (competitors: any[]) {
         const gap = Math.floor((teams.length - 1) / 2);
         for (let i = 0; i < gap; i++) {
             teams.unshift(teams.pop());
+        }
+    }
+
+    // https://pl.wikipedia.org/wiki/System_ko%C5%82owy#Polska_tabela
+    const arr = games.filter((el: any) => el.aCompetitor === lastTeam || el.bCompetitor === lastTeam);
+    for (let k = 0; k < Math.floor(teamsLength / 2 - 1); k++) {
+        const gameToSwitch = games.find((el: any) => el.number === arr[k].number);
+
+        if (gameToSwitch) {
+            const temp = gameToSwitch.aCompetitor;
+            gameToSwitch.aCompetitor = gameToSwitch.bCompetitor;
+            gameToSwitch.bCompetitor = temp;
         }
     }
 
