@@ -100,8 +100,10 @@ function getBergerTable (competitors: any[]) {
             });
         }
 
-        teams.unshift(teams.pop());
-        teams.unshift(teams.pop());
+        const gap = Math.floor((teams.length - 1) / 2);
+        for (let i = 0; i < gap; i++) {
+            teams.unshift(teams.pop());
+        }
     }
 
     return games.map((el: any) => {
