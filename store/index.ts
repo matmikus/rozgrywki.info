@@ -202,6 +202,10 @@ export const mutations = {
         state.competition.stages[0].containers[0].size = size;
     },
     setCompetitorName (state: any, data: any) {
+        if (data.name != null) {
+            data.name = data.name.trim();
+        }
+
         state.competition.stages[0].containers[0].competitors[data.index].name = data.name;
 
         const id = state.competition.stages[0].containers[0].competitors[data.index].id;
@@ -224,12 +228,24 @@ export const mutations = {
         state.competition.stages[0].containers[0].competitors = arr;
     },
     setCompetitionName (state: any, value: string) {
+        if (value != null) {
+            value = value.trim();
+        }
+
         state.competition.name = value;
     },
     setCompetitionRouteName (state: any, value: string) {
+        if (value != null) {
+            value = value.trim();
+        }
+
         state.competition.routeName = value;
     },
     setCompetitionDescription (state: any, value: string) {
+        if (value != null) {
+            value = value.trim();
+        }
+
         state.competition.description = value;
     },
     setCompetitionStartDate (state: any, value: string) {

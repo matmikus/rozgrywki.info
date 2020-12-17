@@ -80,17 +80,30 @@ export function generateGamesForContainer (container: any, data: any) {
 }
 
 function getBergerTable (competitors: any[]) {
+    // https://pl.wikipedia.org/wiki/System_ko%C5%82owy
     let teams = [...competitors];
+    const lastTeam = teams[teams.length - 1];
+    const teamsLength = teams.length;
     const separate = teams.length % 2 === 0 ? teams.pop() : null;
     let games = [];
     let counter = 0;
 
     for (let j = 0; j < teams.length; j++) {
-        if (separate !== null) games.push({
-            aCompetitor: teams[0],
-            bCompetitor: separate,
-            number: ++counter
-        });
+        if (separate !== null) {
+            if (j % 2 === 0) {
+                games.push({
+                    aCompetitor: teams[0],
+                    bCompetitor: separate,
+                    number: ++counter
+                });
+            } else {
+                games.push({
+                    aCompetitor: separate,
+                    bCompetitor: teams[0],
+                    number: ++counter
+                });
+            }
+        }
 
         for (let i = 1; i <= Math.floor(teams.length / 2); i++) {
             games.push({
@@ -100,8 +113,22 @@ function getBergerTable (competitors: any[]) {
             });
         }
 
-        teams.unshift(teams.pop());
-        teams.unshift(teams.pop());
+        const gap = Math.floor((teams.length - 1) / 2);
+        for (let i = 0; i < gap; i++) {
+            teams.unshift(teams.pop());
+        }
+    }
+
+    // https://pl.wikipedia.org/wiki/System_ko%C5%82owy#Polska_tabela
+    const arr = games.filter((el: any) => el.aCompetitor === lastTeam || el.bCompetitor === lastTeam);
+    for (let k = 0; k < Math.floor(teamsLength / 2 - 1); k++) {
+        const gameToSwitch = games.find((el: any) => el.number === arr[k].number);
+
+        if (gameToSwitch) {
+            const temp = gameToSwitch.aCompetitor;
+            gameToSwitch.aCompetitor = gameToSwitch.bCompetitor;
+            gameToSwitch.bCompetitor = temp;
+        }
     }
 
     return games.map((el: any) => {
