@@ -76,10 +76,20 @@ export function getGroupRanking (container: any) {
             }
 
             if (competitorResult > opponentResult) {
-                accumulator.points += container.winnerPoints;
+                if (competitorResult - opponentResult === 1) {
+                    accumulator.points += container.onePointWinnerPoints;
+                } else {
+                    accumulator.points += container.winnerPoints;
+                }
+
                 accumulator.wins += 1;
             } else if (competitorResult < opponentResult) {
-                accumulator.points += container.loserPoints;
+                if (opponentResult - competitorResult === 1) {
+                    accumulator.points += container.onePointLoserPoints;
+                } else {
+                    accumulator.points += container.loserPoints;
+                }
+
                 accumulator.losts += 1;
             } else {
                 if (container.isDrawEnabled) {
