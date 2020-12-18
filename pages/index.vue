@@ -136,8 +136,7 @@
             complexIcon
         },
         mounted () {
-            console.log(this.$i18n.locale);// TODO to delete
-            console.log(this.$t('greeting'));// TODO to delete
+            console.log(`${this.$t('greeting')} (${this.$i18n.locale})`);
         }
     };
 </script>
