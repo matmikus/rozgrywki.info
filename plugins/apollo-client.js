@@ -9,8 +9,16 @@ export default function (context) {
             uri: process.env.GRAPHQL_ENDPOINT,
             credentials: 'include',
             fetch: (uri, options) => {
-                options.headers['x-hasura-user-id'] = getUserId(context);
-                options.headers['x-hasura-update-token'] = getUpdateToken(context);
+                const userId = getUserId(context);
+                if (userId) {
+                    options.headers['x-hasura-user-id'] = userId;
+                }
+                
+                const updateToken = getUpdateToken(context);
+                if (updateToken) {
+                    options.headers['x-hasura-update-token'] = getUpdateToken(context);
+                }
+                
                 return fetch(uri, options);
             }
         })

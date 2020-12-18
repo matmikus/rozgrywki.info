@@ -9,7 +9,7 @@ export function getUserId (context: any) {
         return `facebook-${context.$auth.user.id}`;
     }
 
-    return '';
+    return undefined;
 }
 
 export function getUserData (context: any) {
@@ -17,9 +17,9 @@ export function getUserData (context: any) {
         return `email: ${context.$auth.user.email}, name: ${context.$auth.user.name}, locale: ${context.$auth.user.locale}`;
     }
 
-    return '';
+    return undefined;
 }
 
 export function getUpdateToken (context: any) {
-    return context.$auth && context.$auth.updateToken ? context.$auth.updateToken : '';
+    return context.$auth && context.$auth.updateToken ? context.$auth.updateToken : undefined;
 }

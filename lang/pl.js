@@ -1,3 +1,3 @@
 export default {
-    greeting: 'Siema!'
+    greeting: 'Witaj w polskiej wersji serwisu!'
 };
