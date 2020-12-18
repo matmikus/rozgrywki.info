@@ -21,5 +21,5 @@ export function getUserData (context: any) {
 }
 
 export function getUpdateToken (context: any) {
-    return context.$auth && context.$auth.updateToken ? context.$auth.updateToken : undefined;
+    return context.$auth && context.$auth.updateToken ? context.$auth.updateToken : '';
 }
