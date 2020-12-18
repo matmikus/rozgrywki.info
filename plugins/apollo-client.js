@@ -14,10 +14,7 @@ export default function (context) {
                     options.headers['x-hasura-user-id'] = userId;
                 }
                 
-                const updateToken = getUpdateToken(context);
-                if (updateToken) {
-                    options.headers['x-hasura-update-token'] = getUpdateToken(context);
-                }
+                options.headers['x-hasura-update-token'] = getUpdateToken(context);
                 
                 return fetch(uri, options);
             }
