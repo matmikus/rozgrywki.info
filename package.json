@@ -49,7 +49,7 @@
         "@nuxt/typescript-build": "^1.0.1",
         "@nuxtjs/eslint-config-typescript": "^1.0.0",
         "@nuxtjs/eslint-module": "^1.0.0",
-        "@stryker-mutator/core": "^3.1.0",
+        "@stryker-mutator/core": "^6.4.2",
         "@stryker-mutator/jest-runner": "^3.1.0",
         "@stryker-mutator/typescript": "^3.1.0",
         "@stryker-mutator/vue-mutator": "^3.1.0",
